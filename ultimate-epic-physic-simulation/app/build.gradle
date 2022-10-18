@@ -1,0 +1,38 @@
+plugins {
+    // Apply the application plugin to add support for building a CLI application in Java.
+    id 'application'
+    // Load and apply the required JavaFX plugin.
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+}
+
+repositories {
+    // Use Maven Central for resolving dependencies.
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    // The following .jars are pulled from:
+    // https://repo.maven.apache.org/maven2/org/openjfx/    
+    compileOnly  "org.openjfx:javafx-base:18.0.2:sources"
+    compileOnly  "org.openjfx:javafx-controls:18.0.2:sources"
+    compileOnly  "org.openjfx:javafx-fxml:18.0.2:sources"
+    compileOnly  "org.openjfx:javafx-graphics:18.0.2:sources"
+    
+    // Load the Javadoc for the specified JavaFX modules.
+    compileOnly  "org.openjfx:javafx-base:18.0.2:javadoc"
+    compileOnly  "org.openjfx:javafx-controls:18.0.2:javadoc"
+    compileOnly  "org.openjfx:javafx-fxml:18.0.2:javadoc"
+    compileOnly  "org.openjfx:javafx-graphics:18.0.2:javadoc"
+}
+
+javafx {    
+    version = "18.0.2"
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media' ]
+}
+
+application {
+    // Define the main class for the application.
+    mainClass = 'edu.vanier.ueps.ui.App'
+}
+
