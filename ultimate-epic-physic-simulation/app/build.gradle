@@ -33,6 +33,6 @@ javafx {
 
 application {
     // Define the main class for the application.
-    mainClass = 'edu.vanier.ueps.ui.App'
+    mainClass = 'edu.vanier.ueps.ui.MainApp'
 }
 
