@@ -3,13 +3,28 @@
  */
 package edu.vanier.ueps.ui;
 
-public class MainApp {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import edu.vanier.ueps.simulations.controller.Controller;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
+public class MainApp extends Application {
+    
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/fxml.mainApp_1.fxml"));
+        loader.setController(new Controller());
+        
+        Pane root = loader.load();
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.sizeToScene();
+        primaryStage.show();    
+    }
+    
     public static void main(String[] args) {
-        System.out.println(new MainApp().getGreeting());
-        System.out.println("sub to leskayoff");
+        launch(args);
     }
 }
