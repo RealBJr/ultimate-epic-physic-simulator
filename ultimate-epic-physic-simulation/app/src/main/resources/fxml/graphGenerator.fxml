@@ -7,10 +7,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.Pane?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="635.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="632.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <LineChart layoutX="68.0" layoutY="116.0">
+      <LineChart layoutX="-2.0" layoutY="78.0" prefHeight="389.0" prefWidth="638.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
         </xAxis>
@@ -18,7 +17,7 @@
           <NumberAxis side="LEFT" />
         </yAxis>
       </LineChart>
-      <Label layoutX="2.0" layoutY="23.0" prefHeight="86.0" prefWidth="615.0" text="GENERATED GRAPH OF " textAlignment="CENTER">
+      <Label layoutX="11.0" layoutY="11.0" prefHeight="86.0" prefWidth="615.0" text="GENERATED GRAPH OF " textAlignment="CENTER">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -26,6 +25,6 @@
             <Insets left="170.0" />
          </padding>
       </Label>
-      <Label layoutX="310.0" layoutY="54.0" prefHeight="25.0" prefWidth="140.0" text="SIMULATION NAME" />
+      <Label layoutX="309.0" layoutY="42.0" prefHeight="25.0" prefWidth="140.0" text="SIMULATION NAME" />
    </children>
 </Pane>
