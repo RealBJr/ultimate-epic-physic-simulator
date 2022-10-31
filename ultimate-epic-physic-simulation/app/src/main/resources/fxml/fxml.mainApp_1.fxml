@@ -6,22 +6,21 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox alignment="CENTER" layoutX="1.0" layoutY="150.0" prefHeight="100.0" prefWidth="600.0" spacing="50.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="115.0" text="Parachute" textFill="RED">
+            <Button fx:id="parachutebtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="115.0" text="Parachute" textFill="RED">
                <font>
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="115.0" text="Pendulum" textFill="RED">
+            <Button fx:id="pendulumbtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="115.0" text="Pendulum" textFill="RED">
                <font>
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="115.0" text="SHM" textFill="RED">
+            <Button fx:id="shmbtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="115.0" text="SHM" textFill="RED">
                <font>
                   <Font size="15.0" />
                </font>
