@@ -15,12 +15,16 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/fxml.mainApp_1.fxml"));
+        
         loader.setController(new Controller());
         
         Pane root = loader.load();
+        
         Scene scene = new Scene(root);
+        
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
+        primaryStage.setResizable(false);
         primaryStage.show();    
     }
     
