@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -9,9 +10,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <bottom>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -36,16 +39,18 @@
    <right>
       <VBox prefHeight="300.0" prefWidth="160.0" BorderPane.alignment="CENTER">
          <children>
-            <Slider fx:id="applitude">
-               <VBox.margin>
-                  <Insets top="50.0" />
-               </VBox.margin>
-            </Slider>
-            <Slider fx:id="frictionslider" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" showTickLabels="true" showTickMarks="true">
-               <VBox.margin>
-                  <Insets top="50.0" />
-               </VBox.margin>
-            </Slider>
+            <Pane prefHeight="302.0" prefWidth="160.0">
+               <children>
+                  <Slider fx:id="frictionslider" layoutX="1.0" layoutY="58.0" majorTickUnit="1.0" max="10.0" minorTickCount="10" prefHeight="14.0" prefWidth="159.0" showTickLabels="true" showTickMarks="true" />
+                  <Text layoutX="56.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Settings" />
+                  <ColorPicker fx:id="colorPicker" layoutX="3.0" layoutY="111.0">
+                     <value>
+                        <Color red="0.11764705926179886" green="0.5647059082984924" blue="1.0" />
+                     </value></ColorPicker>
+                  <Text layoutX="1.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Damping" />
+                  <Text layoutX="3.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color" />
+               </children>
+            </Pane>
          </children>
       </VBox>
    </right>

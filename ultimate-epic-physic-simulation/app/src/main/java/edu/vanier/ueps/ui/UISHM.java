@@ -27,17 +27,19 @@ public class UISHM extends Stage{
             makeComponenets(); //e.printStackTrace();
         } catch (Exception ex) {
             System.out.println(ex);
+            System.out.println("Problem with makecomponents");
         }
         //this.setResizable(false);
     }
 
-    private void makeComponenets() throws Exception{
-       
+    private void makeComponenets() throws IOException{
+        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/shmsim.fxml"));
        
        loader.setController(new SimulationSHMController());
        
        Pane root = loader.load();
+       System.out.println("makecomponents works");
        
        Scene sc = new Scene(root);
        

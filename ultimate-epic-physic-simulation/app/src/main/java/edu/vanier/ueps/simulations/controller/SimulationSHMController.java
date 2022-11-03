@@ -16,7 +16,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
@@ -36,12 +38,34 @@ public class SimulationSHMController implements Initializable{
     
     @FXML
     Slider frictionslider;
-
+    
+    @FXML
+    ColorPicker colorPicker;        
+           
+    
+    
+    
     Duration duration = Duration.seconds(2);
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //TODO: The spring extends on both sides, it should be only extending on the right hand side, to fix
+        
+        colorPicker.setOnAction((e)->{
+           Color newColor = colorPicker.getValue();
+           rect.setFill(newColor);
+       });
+        
+         frictionslider.valueProperty().addListener(new ChangeListener<Number>() {
+         public void changed(ObservableValue <?extends Number>observable, Number oldValue, Number newValue){
+             duration = duration * frictionslider.getValue();
+         }
+      });
+        
+        
+        
+        
+        
         
         TranslateTransition tran = new TranslateTransition(duration, rect);
         tran.setByX(300f);
@@ -55,6 +79,8 @@ public class SimulationSHMController implements Initializable{
         tran2.setCycleCount(Animation.INDEFINITE);
         tran2.setAutoReverse(true);
         tran2.setInterpolator(Interpolator.LINEAR);
+        
+        System.out.println(tran.getDuration()+"here we are in initialize of controller");
         
         playbtn.setOnAction((e)->{
             if(pausebtn.isDisable() == true){
@@ -92,6 +118,7 @@ public class SimulationSHMController implements Initializable{
             }
         });
     }
+   
 
    
     
