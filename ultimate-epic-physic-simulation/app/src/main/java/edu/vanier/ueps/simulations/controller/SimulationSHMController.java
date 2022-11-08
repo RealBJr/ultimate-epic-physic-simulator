@@ -58,7 +58,7 @@ public class SimulationSHMController implements Initializable{
         
          frictionslider.valueProperty().addListener(new ChangeListener<Number>() {
          public void changed(ObservableValue <?extends Number>observable, Number oldValue, Number newValue){
-             duration = duration * frictionslider.getValue();
+            duration = Duration.seconds(duration.toSeconds()* frictionslider.getValue());
          }
       });
         
