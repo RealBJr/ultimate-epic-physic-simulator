@@ -4,6 +4,7 @@
  */
 package edu.vanier.ueps.simulations.controller;
 
+import edu.vanier.ueps.graphs.GraphGenerator;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.Animation;
@@ -34,7 +35,7 @@ public class SimulationSHMController implements Initializable{
     Node spring;
     
     @FXML
-    Button playbtn, stopbtn, pausebtn;
+    Button playbtn, stopbtn, pausebtn, graphbtn;
     
     @FXML
     Slider frictionslider;
@@ -105,6 +106,10 @@ public class SimulationSHMController implements Initializable{
             tran2.pause();
             pausebtn.setDisable(true);
             frictionslider.setDisable(false);
+        });
+        
+        graphbtn.setOnAction((e)->{
+            GraphGenerator graph = new GraphGenerator();
         });
         
         frictionslider.valueProperty().addListener(new ChangeListener<Number>(){
