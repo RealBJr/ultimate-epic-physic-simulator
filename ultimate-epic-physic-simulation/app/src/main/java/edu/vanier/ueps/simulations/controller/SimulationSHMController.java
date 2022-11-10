@@ -13,12 +13,15 @@ import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -47,15 +50,26 @@ public class SimulationSHMController implements Initializable {
     Duration originalDuration = Duration.seconds(2);
     Duration duration;
 
+    /**
+     * 
+     * @param location
+     * @param resources 
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //TODO: The spring extends on both sides, it should be only extending on the right hand side, to fix
 
+        /**
+         * Change color of rectangle
+         */
         colorPicker.setOnAction((e) -> {
             Color newColor = colorPicker.getValue();
             rect.setFill(newColor);
         });
-
+        
+        /**
+         * Change speed of animation
+         */
         frictionslider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 if (frictionslider.getValue() >= 1) {
@@ -66,7 +80,10 @@ public class SimulationSHMController implements Initializable {
                 
             }
         });
-
+        
+        /**
+         * Start of animation
+         */
         TranslateTransition tran = new TranslateTransition(originalDuration, rect);
         tran.setByX(300f);
         tran.setCycleCount(Animation.INDEFINITE);
@@ -82,6 +99,9 @@ public class SimulationSHMController implements Initializable {
 
         System.out.println(tran.getDuration() + "here we are in initialize of controller");
 
+        /**
+         * Play btn action
+         */
         playbtn.setOnAction((e) -> {
             if (pausebtn.isDisable() == true) {
                 tran.playFrom(Duration.ONE);
@@ -95,11 +115,17 @@ public class SimulationSHMController implements Initializable {
             frictionslider.setDisable(true);
         });
 
+        /**
+         * Pause btn action
+         */
         pausebtn.setOnAction((e) -> {
             tran.pause();
             tran2.pause();
         });
 
+        /**
+         * Stop btn action
+         */
         stopbtn.setOnAction((e) -> {
             tran.pause();
             tran2.pause();
@@ -107,9 +133,28 @@ public class SimulationSHMController implements Initializable {
             frictionslider.setDisable(false);
         });
         
+        /**
+         * Graph btn action
+         */
         graphbtn.setOnAction((e)->{
             GraphGenerator graph = new GraphGenerator();
         });
+        
+        /**
+         * When rectangle is clicked and moved, we change its position
+         */
+        rect.setCursor(Cursor.OPEN_HAND);
+        rect.addEventHandler(MouseEvent.MOUSE_PRESSED, (e)->{
+            rect.setCursor(Cursor.CLOSED_HAND);
+           
+        }
+        );
+        rect.addEventHandler(MouseEvent.MOUSE_RELEASED, (e)->{
+            rect.setCursor(Cursor.OPEN_HAND); 
+        //Set the position of the rectangle to the position of the mouse when re;eased
+            rect.setX(MouseEvent);
+        }
+        );
         
         frictionslider.valueProperty().addListener(new ChangeListener<Number>(){
             
