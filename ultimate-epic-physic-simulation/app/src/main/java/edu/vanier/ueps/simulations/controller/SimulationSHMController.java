@@ -147,32 +147,20 @@ public class SimulationSHMController implements Initializable {
         /**
          * When rectangle is clicked and moved, we change its position
          */
-        Timeline animationOfDragging = new Timeline();
 
         rect.setCursor(Cursor.OPEN_HAND);
 
         rect.addEventHandler(MouseEvent.MOUSE_PRESSED, (eventMousePressed) -> {
             rect.setCursor(Cursor.CLOSED_HAND);
 
-            //When its closed pressed and now dragged
+            //When its closed and pressed make it drags
             rect.addEventHandler(MouseEvent.MOUSE_DRAGGED, (eventMouseDragged) -> {
-                System.out.println("mouse X = " + eventMouseDragged.getSceneX());
-                KeyFrame kfAnimationOfDragging = new KeyFrame(Duration.INDEFINITE,
-                    new KeyValue(rect.layoutXProperty(), eventMouseDragged.getSceneX(), Interpolator.LINEAR)
-                );
-                
-                System.out.println("Created Keyframe");
-                animationOfDragging.getKeyFrames().add(kfAnimationOfDragging);
-                System.out.println("Added Keyframe");
-                animationOfDragging.play();    
-                
-                
+                rect.setLayoutX(eventMouseDragged.getSceneX());
             });
         });
 
         rect.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
             rect.setCursor(Cursor.OPEN_HAND);
-            animationOfDragging.stop();
             //Animate the position of the rectangle to the position of the mouse when released
 
         }
