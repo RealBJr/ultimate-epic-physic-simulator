@@ -9,10 +9,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.ScaleTransition;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -40,7 +44,7 @@ public class SimulationSHMController implements Initializable {
 
     @FXML
     Button playbtn, stopbtn, pausebtn, graphbtn;
-    
+
     @FXML
     Slider frictionslider;
 
@@ -51,9 +55,9 @@ public class SimulationSHMController implements Initializable {
     Duration duration;
 
     /**
-     * 
+     *
      * @param location
-     * @param resources 
+     * @param resources
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -66,7 +70,7 @@ public class SimulationSHMController implements Initializable {
             Color newColor = colorPicker.getValue();
             rect.setFill(newColor);
         });
-        
+
         /**
          * Change speed of animation
          */
@@ -77,10 +81,10 @@ public class SimulationSHMController implements Initializable {
                     System.out.println(duration);
 
                 }
-                
+
             }
         });
-        
+
         /**
          * Start of animation
          */
@@ -132,32 +136,50 @@ public class SimulationSHMController implements Initializable {
             pausebtn.setDisable(true);
             frictionslider.setDisable(false);
         });
-        
+
         /**
          * Graph btn action
          */
-        graphbtn.setOnAction((e)->{
+        graphbtn.setOnAction((e) -> {
             GraphGenerator graph = new GraphGenerator();
         });
-        
+
         /**
          * When rectangle is clicked and moved, we change its position
          */
+        Timeline animationOfDragging = new Timeline();
+
         rect.setCursor(Cursor.OPEN_HAND);
-        rect.addEventHandler(MouseEvent.MOUSE_PRESSED, (e)->{
+
+        rect.addEventHandler(MouseEvent.MOUSE_PRESSED, (eventMousePressed) -> {
             rect.setCursor(Cursor.CLOSED_HAND);
-           
+
+            //When its closed pressed and now dragged
+            rect.addEventHandler(MouseEvent.MOUSE_DRAGGED, (eventMouseDragged) -> {
+                System.out.println("mouse X = " + eventMouseDragged.getSceneX());
+                KeyFrame kfAnimationOfDragging = new KeyFrame(Duration.INDEFINITE,
+                    new KeyValue(rect.layoutXProperty(), eventMouseDragged.getSceneX(), Interpolator.LINEAR)
+                );
+                
+                System.out.println("Created Keyframe");
+                animationOfDragging.getKeyFrames().add(kfAnimationOfDragging);
+                System.out.println("Added Keyframe");
+                animationOfDragging.play();    
+                
+                
+            });
+        });
+
+        rect.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
+            rect.setCursor(Cursor.OPEN_HAND);
+            animationOfDragging.stop();
+            //Animate the position of the rectangle to the position of the mouse when released
+
         }
         );
-        rect.addEventHandler(MouseEvent.MOUSE_RELEASED, (e)->{
-            rect.setCursor(Cursor.OPEN_HAND); 
-        //Set the position of the rectangle to the position of the mouse when re;eased
-            rect.setX(MouseEvent);
-        }
-        );
-        
-        frictionslider.valueProperty().addListener(new ChangeListener<Number>(){
-            
+
+        frictionslider.valueProperty().addListener(new ChangeListener<Number>() {
+
             int myfriction;
 
             @Override
