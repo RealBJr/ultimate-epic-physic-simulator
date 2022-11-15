@@ -152,10 +152,11 @@ public class SimulationSHMController implements Initializable {
 
         rect.addEventHandler(MouseEvent.MOUSE_PRESSED, (eventMousePressed) -> {
             rect.setCursor(Cursor.CLOSED_HAND);
+            rect.setLayoutX(eventMousePressed.getSceneX()-(rect.getWidth()/2));
 
             //When its closed and pressed make it drags
             rect.addEventHandler(MouseEvent.MOUSE_DRAGGED, (eventMouseDragged) -> {
-                rect.setLayoutX(eventMouseDragged.getSceneX());
+                rect.setLayoutX(eventMouseDragged.getSceneX()-(rect.getWidth()/2));
             });
         });
 
@@ -165,7 +166,6 @@ public class SimulationSHMController implements Initializable {
 
         }
         );
-
         frictionslider.valueProperty().addListener(new ChangeListener<Number>() {
 
             int myfriction;
