@@ -16,7 +16,7 @@ public class GraphGenerator extends Stage{
         this.initModality(Modality.APPLICATION_MODAL);
         this.setTitle("Graph");
         try {
-            makeComponenets(); //e.printStackTrace();
+            makeComponents(); //e.printStackTrace();
         } catch (Exception ex) {
             System.out.println(ex);
             System.out.println("Problem with makecomponents");
@@ -25,9 +25,9 @@ public class GraphGenerator extends Stage{
     
     }
     
-    private void makeComponenets() throws IOException{
+    private void makeComponents() throws IOException{
         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/graphGenerator.fxml"));
+       FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/graphGenerator.fxml"));
        
        loader.setController(new Controller());
        
@@ -40,5 +40,6 @@ public class GraphGenerator extends Stage{
        
        this.show();
     }
+    
     
 }
