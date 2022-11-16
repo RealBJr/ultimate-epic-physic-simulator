@@ -1,5 +1,5 @@
 
-package edu.vanier.ueps.simulations;
+package edu.vanier.ueps.simulations.functions;
 
 import edu.vanier.ueps.simulations.controller.Controller;
 import java.io.File;
