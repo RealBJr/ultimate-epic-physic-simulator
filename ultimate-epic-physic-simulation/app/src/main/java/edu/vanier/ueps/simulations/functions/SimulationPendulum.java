@@ -1,10 +1,12 @@
 
-package edu.vanier.ueps.simulations;
+package edu.vanier.ueps.simulations.functions;
 
 import edu.vanier.ueps.simulations.controller.Controller;
 import java.io.File;
 import java.util.ArrayList;
+import javafx.animation.Timeline;
 import javafx.scene.shape.Shape;
+import javafx.util.Duration;
 
 /**
  *
@@ -23,17 +25,17 @@ public class SimulationPendulum extends Simulation{
     }
 
     @Override
-    public void playSim(ArrayList<Shape> shapes) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void stopSim(ArrayList<Shape> shapes) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public File saveSim(Controller simController) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Timeline sim(Shape targetedShape, Duration cycleTime) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Timeline stopSim(Shape targetedShape) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

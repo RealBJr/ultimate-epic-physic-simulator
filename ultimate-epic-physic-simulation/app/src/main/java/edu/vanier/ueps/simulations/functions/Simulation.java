@@ -1,14 +1,16 @@
-package edu.vanier.ueps.simulations;
+package edu.vanier.ueps.simulations.functions;
 
 import edu.vanier.ueps.simulations.controller.Controller;
 import java.io.File;
 import java.util.ArrayList;
+import javafx.animation.Timeline;
 import javafx.scene.shape.Shape;
+import javafx.util.Duration;
 
 public abstract class Simulation {
 
     //All shapes in the simulation's scene
-    private ArrayList<Shape> shapes;
+    //private ArrayList<Shape> shapes;
 
     /*
     All simulations instances have their unique controller that allow them to 
@@ -18,13 +20,13 @@ public abstract class Simulation {
     private Controller simController;
 
     //---Getters and setters
-    public ArrayList<Shape> getShapes() {
-        return shapes;
-    }
+//    public ArrayList<Shape> getShapes() {
+//        return shapes;
+//    }
 
-    public void setShapes(ArrayList<Shape> shapes) {
-        this.shapes = shapes;
-    }
+//    public void setShapes(ArrayList<Shape> shapes) {
+//        this.shapes = shapes;
+//    }
 
     public Controller getSimController() {
         return simController;
@@ -57,10 +59,10 @@ public abstract class Simulation {
     /*
     Triggers the initial timeline(animation) of the shapes within the scene
     @param ArrayList<Shape> shapes
-    @return none
+    @return Timeline
     @see 
      */
-    public abstract void playSim(ArrayList<Shape> shapes);
+    public abstract Timeline sim(Shape targetedShape, Duration cycleTime);
 
     /*
     Stops the initial timeline(animation) of the shapes within the scene
@@ -68,7 +70,7 @@ public abstract class Simulation {
     @return none
     @see 
      */
-    public abstract void stopSim(ArrayList<Shape> shapes);
+    public abstract Timeline stopSim(Shape targetedShape);
     
     /*
     Saves the parameters of the simulation (controller) of the shapes within 
