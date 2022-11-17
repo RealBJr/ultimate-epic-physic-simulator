@@ -19,23 +19,25 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.stage.Stage;
 
-public class Controller implements Initializable{
+public class GraphController implements Initializable{
     @FXML
     LineChart Graph;
     
     final int WINDOW_SIZE = 10;
     private ScheduledExecutorService scheduledExecutorService;
     
-    public static void main(String[] args) {
-        launch(args);
-    }
+    
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Stage primaryStage = new Stage();
         
     
-     //defining the axes
+    primaryStage.setTitle("JavaFX Realtime Chart Demo");
+
+        //defining the axes
         final CategoryAxis xAxis = new CategoryAxis(); // we are gonna plot against time
         final NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Time/s");
@@ -45,17 +47,23 @@ public class Controller implements Initializable{
 
         //creating the line chart with two axis created above
         final LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
-        lineChart.setTitle("Realtime JavaFX Charts");
-        lineChart.setAnimated(false); // disable animations
-        
+        Graph.setTitle("Realtime JavaFX Charts");
+        Graph.setAnimated(false); // disable animations
+
         //defining a series to display data
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Data Series");
 
         // add series to chart
-        lineChart.getData().add(series);
-        
-        
+        Graph.getData().add(series);
+
+        // setup scene
+        Scene scene = new Scene(Graph, 800, 600);
+        primaryStage.setScene(scene);
+
+        // show the stage
+        primaryStage.show();
+
         // this is used to display time in HH:mm:ss format
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
 
@@ -79,8 +87,6 @@ public class Controller implements Initializable{
             });
         }, 0, 1, TimeUnit.SECONDS);
     }
-   
-
 
     }
 

@@ -1,7 +1,7 @@
 
 package edu.vanier.ueps.graphs;
 
-import edu.vanier.ueps.graphs.controllers.Controller;
+import edu.vanier.ueps.graphs.controllers.GraphController;
 import edu.vanier.ueps.simulations.controller.SimulationSHMController;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +29,7 @@ public class GraphGenerator extends Stage{
         
        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/graphGenerator.fxml"));
        
-       loader.setController(new Controller());
+       loader.setController(new GraphController());
        
        Pane root = loader.load();
        System.out.println("makecomponents works");
