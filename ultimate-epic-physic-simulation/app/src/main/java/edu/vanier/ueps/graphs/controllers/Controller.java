@@ -14,6 +14,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -54,6 +55,7 @@ public class Controller implements Initializable{
         // add series to chart
         lineChart.getData().add(series);
         
+        
         // this is used to display time in HH:mm:ss format
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
 
@@ -77,7 +79,8 @@ public class Controller implements Initializable{
             });
         }, 0, 1, TimeUnit.SECONDS);
     }
-    
+   
+
 
     }
 
