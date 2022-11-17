@@ -21,19 +21,19 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
 
-public class GraphController implements Initializable{
-    @FXML
-    LineChart Graph;
+public class GraphController{
+    
     
     final int WINDOW_SIZE = 10;
     private ScheduledExecutorService scheduledExecutorService;
     
+    public GraphController(){
+        initialize();
+    }
     
-    
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize() {
         Stage primaryStage = new Stage();
-        
+
     
     primaryStage.setTitle("JavaFX Realtime Chart Demo");
 
@@ -47,18 +47,18 @@ public class GraphController implements Initializable{
 
         //creating the line chart with two axis created above
         final LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
-        Graph.setTitle("Realtime JavaFX Charts");
-        Graph.setAnimated(false); // disable animations
+        lineChart.setTitle("Realtime JavaFX Charts");
+        lineChart.setAnimated(false); // disable animations
 
         //defining a series to display data
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Data Series");
 
         // add series to chart
-        Graph.getData().add(series);
+        lineChart.getData().add(series);
 
         // setup scene
-        Scene scene = new Scene(Graph, 800, 600);
+        Scene scene = new Scene(lineChart, 800, 600);
         primaryStage.setScene(scene);
 
         // show the stage

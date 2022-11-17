@@ -27,18 +27,8 @@ public class GraphGenerator extends Stage{
     
     private void makeComponents() throws IOException{
         
-       FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/graphGenerator.fxml"));
+       GraphController graph = new GraphController();
        
-       loader.setController(new GraphController());
-       
-       Pane root = loader.load();
-       System.out.println("makecomponents works");
-       
-       Scene sc = new Scene(root);
-       
-       this.setScene(sc);
-       
-       this.show();
     }
     
     
