@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.vanier.ueps.simulations.functions;
 
 import edu.vanier.ueps.simulations.controller.Controller;
@@ -14,28 +10,50 @@ import javafx.animation.Timeline;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
-/**
- *
- * @author 2158914
- */
 public class SimulationSHM {
+
+    private Timeline shm;
+
+    public SimulationSHM(Shape targetedShape, double amplitude, Duration cycleTime, double phaseShift) {
+        shm(targetedShape, amplitude, cycleTime, phaseShift);
+    }
+
     /**
-     * Amplitude of movement
+     * Animation of SHM, from the function x(t) = Acos(wt+phi), a final position
+     * is calculated and added as a KeyFrame(KeyValue)
+     *
+     * @param targetedShape
+     * @param amplitude //should be the place where it should end
+     * @param cycleTime
+     * @param phaseShift
+     * @return Timeline
      */
-    private double a;
+    private Timeline shm(Shape targetedShape, double amplitude, Duration cycleTime, double phaseShift) {
+        //initial position of node in pixel
+        double x = targetedShape.getLayoutX();
 
-    public SimulationSHM(double a) {
-        this.a = a;
+        //Amplitude of movement in pixel
+        double a = amplitude;
+
+        //Angular frequency (kind of the speed of the node) in radians
+        double w = 2 * Math.PI / cycleTime.toSeconds();
+
+        //Phase shift
+        double phi = phaseShift;
+
+        double finalPosition = a * Math.cos(w * cycleTime.toSeconds());
+
+        Timeline SHM = new Timeline();
+        KeyFrame kf1 = new KeyFrame(cycleTime);
+        KeyValue kv1 = new KeyValue(targetedShape.layoutXProperty(), finalPosition, Interpolator.LINEAR);
+        kf1.getValues().add(kv1);
+
+        SHM.getKeyFrames().add(kf1);
+
+        shm = SHM;
+        return shm;
     }
 
-    public double getA() {
-        return a;
-    }
-
-    public void setA(double a) {
-        this.a = a;
-    }
-    
     public ArrayList<Shape> collisionDetect(Shape targetedShape, ArrayList<Shape> shapes) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
@@ -44,38 +62,15 @@ public class SimulationSHM {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public Timeline sim(Shape targetedShape, Duration cycleTime) {
-        //initial position of node in pixel
-        double x = targetedShape.getLayoutX();
-        
-        //Amplitude of movement in pixel
-        double a = getA();
-        
-        //Angular frequency (kind of the speed of the node) in radians
-        double w = 2*Math.PI/cycleTime.toSeconds();
-        
-        
-        //Phase shift
-        double phi;
-        
-        double finalPosition = a*Math.cos(w*cycleTime.toSeconds());
-        
-        Timeline SHM = new Timeline();
-        KeyFrame kf1 = new KeyFrame(cycleTime);
-        KeyValue kv1 = new KeyValue(targetedShape.layoutXProperty(), finalPosition, Interpolator.LINEAR);
-        kf1.getValues().add(kv1);
-        
-        SHM.getKeyFrames().add(kf1);
-        
-        return SHM;
-    }
-
     public File saveSim(Controller simController) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public Timeline stopSim(Shape targetedShape) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Timeline getShm() {
+        return shm;
     }
-    
+
+    public void setShm(Timeline shm) {
+        this.shm = shm;
+    }
 }

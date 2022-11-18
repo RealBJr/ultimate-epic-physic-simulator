@@ -18,32 +18,7 @@ import javafx.util.Duration;
  * @author 2158914
  * Trying out the simulations
  */
-public class Driver extends Application {
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-      
-        Pane root = new Pane();
-        Scene scene = new Scene(root, 30, 30);
-        Rectangle rct = new Rectangle(30,31);
-        SimulationSHM sim = new SimulationSHM(5);
-        
-        Timeline t = sim.sim(rct, Duration.seconds(45));
-        
-        t.setAutoReverse(true);
-        t.setCycleCount(5);
-        t.play();
-        
-        
-        root.getChildren().add(rct);
-        
-        primaryStage.setTitle("Driver test");
-        primaryStage.setScene(scene);
-        primaryStage.sizeToScene();
-        
-        primaryStage.show();
-    }
-
+public class Driver{
     public static void main(String[] args) {
         System.out.println("hi");
     }
