@@ -9,6 +9,7 @@ repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
     mavenLocal()
+    maven { url 'https://www.dcm4che.org/maven2/' }
 }
 
 dependencies {
@@ -24,6 +25,13 @@ dependencies {
     compileOnly  "org.openjfx:javafx-controls:18.0.2:javadoc"
     compileOnly  "org.openjfx:javafx-fxml:18.0.2:javadoc"
     compileOnly  "org.openjfx:javafx-graphics:18.0.2:javadoc"
+
+// https://mvnrepository.com/artifact/xuggle/xuggle-xuggler
+  implementation 'xuggle:xuggle-xuggler:5.4'
+
+  // https://mvnrepository.com/artifact/com.github.davidgutierrezrubio/JMathAnim
+  implementation group: 'com.github.davidgutierrezrubio', name: 'JMathAnim', version: '0.9.4'
+
 }
 
 javafx {    

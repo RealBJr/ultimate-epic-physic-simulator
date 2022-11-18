@@ -17,7 +17,6 @@ public class SimulationSHM {
     public SimulationSHM(Shape targetedShape, double amplitude, Duration cycleTime, double phaseShift) {
         shm(targetedShape, amplitude, cycleTime, phaseShift);
     }
-
     /**
      * Animation of SHM, from the function x(t) = Acos(wt+phi), a final position
      * is calculated and added as a KeyFrame(KeyValue)
@@ -53,7 +52,11 @@ public class SimulationSHM {
         shm = SHM;
         return shm;
     }
-
+    public Timeline damping(){
+        
+        return null;
+        
+    }
     public ArrayList<Shape> collisionDetect(Shape targetedShape, ArrayList<Shape> shapes) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
