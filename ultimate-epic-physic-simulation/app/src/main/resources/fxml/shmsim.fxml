@@ -58,6 +58,12 @@
                      </value></ColorPicker>
                   <Text layoutX="1.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Damping" />
                   <Text layoutX="3.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color" />
+                  <Slider fx:id="AmplitudeSlider" layoutY="159.0" majorTickUnit="1.0" max="10.0" minorTickCount="10" prefHeight="37.0" prefWidth="155.0" showTickLabels="true" showTickMarks="true" />
+                  <Text layoutX="6.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amplitude (a)" wrappingWidth="100.13671875" />
+                  <Text layoutX="5.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Angular frequency (w)" wrappingWidth="120.8033447265625" />
+                  <Slider fx:id="AngularSlider" layoutY="213.0" majorTickUnit="1.0" max="10.0" minorTickCount="10" prefHeight="37.0" prefWidth="152.0" showTickLabels="true" showTickMarks="true" />
+                  <Text layoutX="-1.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Period (T)" wrappingWidth="113.4700927734375" />
+                  <Slider fx:id="PeriodSlider" layoutX="-1.0" layoutY="267.0" majorTickUnit="1.0" max="10.0" minorTickCount="10" prefHeight="37.0" prefWidth="154.0" showTickLabels="true" showTickMarks="true" />
                </children>
             </Pane>
          </children>
