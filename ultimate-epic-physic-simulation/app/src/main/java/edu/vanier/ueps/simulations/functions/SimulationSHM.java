@@ -18,7 +18,7 @@ import javafx.util.Duration;
  *
  * @author 2158914
  */
-public class SimulationSHM extends Simulation{
+public class SimulationSHM {
     /**
      * Amplitude of movement
      */
@@ -36,17 +36,14 @@ public class SimulationSHM extends Simulation{
         this.a = a;
     }
     
-    @Override
     public ArrayList<Shape> collisionDetect(Shape targetedShape, ArrayList<Shape> shapes) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
     public void collisionReaction(Shape collidingShape) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
     public Timeline sim(Shape targetedShape, Duration cycleTime) {
         //initial position of node in pixel
         double x = targetedShape.getLayoutX();
@@ -73,12 +70,10 @@ public class SimulationSHM extends Simulation{
         return SHM;
     }
 
-    @Override
     public File saveSim(Controller simController) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
     public Timeline stopSim(Shape targetedShape) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }

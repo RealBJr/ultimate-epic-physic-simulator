@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package edu.vanier.ueps.ui;
+package edu.vanier.ueps.driver;
 
 import edu.vanier.ueps.simulations.functions.SimulationSHM;
 import javafx.animation.Timeline;
@@ -22,9 +22,9 @@ public class Driver extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-       
+      
         Pane root = new Pane();
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 30, 30);
         Rectangle rct = new Rectangle(30,31);
         SimulationSHM sim = new SimulationSHM(5);
         
@@ -37,13 +37,14 @@ public class Driver extends Application {
         
         root.getChildren().add(rct);
         
+        primaryStage.setTitle("Driver test");
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
-        primaryStage.setResizable(false);
+        
         primaryStage.show();
     }
 
-    public static void main2(String[] args) {
-        launch(args);
+    public static void main(String[] args) {
+        System.out.println("hi");
     }
 }
