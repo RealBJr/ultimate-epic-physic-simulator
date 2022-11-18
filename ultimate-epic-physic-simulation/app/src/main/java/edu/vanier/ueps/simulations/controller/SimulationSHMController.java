@@ -46,7 +46,7 @@ public class SimulationSHMController implements Initializable {
     Button playbtn, stopbtn, pausebtn, graphbtn;
 
     @FXML
-    Slider frictionslider;
+    Slider frictionslider, AmplitudeSlider, AngularSlider, PeriodSlider;
 
     @FXML
     ColorPicker colorPicker;
