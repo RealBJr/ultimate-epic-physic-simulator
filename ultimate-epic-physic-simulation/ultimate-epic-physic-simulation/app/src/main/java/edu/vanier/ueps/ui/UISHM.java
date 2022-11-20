@@ -29,7 +29,7 @@ public class UISHM extends Stage{
             System.out.println(ex);
             System.out.println("Problem with makecomponents");
         }
-        //this.setResizable(false);
+        this.setResizable(false);
     }
 
     private void makeComponenets() throws IOException{
