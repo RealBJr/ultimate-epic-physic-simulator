@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
@@ -78,6 +79,7 @@
                   <Image url="@../image/2099873-200.png" />
                </image>
             </ImageView>
+            <Line fx:id="linePath" endX="169.0" endY="-1.52587890625E-5" layoutX="271.0" layoutY="256.0" startX="-100.0" />
          </children>
       </Pane>
    </center>

@@ -5,6 +5,7 @@
 package edu.vanier.ueps.simulations.controller;
 
 import edu.vanier.ueps.graphs.GraphGenerator;
+import edu.vanier.ueps.simulations.functions.SimulationSHM;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.Animation;
@@ -27,6 +28,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
@@ -43,14 +45,18 @@ public class SimulationSHMController implements Initializable {
     Node spring;
 
     @FXML
+    Line linePath;
+
+    @FXML
     Button playbtn, stopbtn, pausebtn, graphbtn;
 
     @FXML
-    Slider frictionslider, AmplitudeSlider, AngularSlider, PeriodSlider;
+    Slider frictionslider, AmplitudeSlider, PeriodSlider;
 
     @FXML
     ColorPicker colorPicker;
 
+    
     Duration originalDuration = Duration.seconds(2);
     Duration duration;
 
@@ -88,32 +94,17 @@ public class SimulationSHMController implements Initializable {
         /**
          * Start of animation
          */
-        TranslateTransition tran = new TranslateTransition(originalDuration, rect);
-        tran.setByX(300f);
-        tran.setCycleCount(Animation.INDEFINITE);
-        tran.setAutoReverse(true);
-        tran.setInterpolator(Interpolator.LINEAR);
-
-        ScaleTransition tran2 = new ScaleTransition(originalDuration, spring);
-        tran2.setByX(5.5);
-
-        tran2.setCycleCount(Animation.INDEFINITE);
-        tran2.setAutoReverse(true);
-        tran2.setInterpolator(Interpolator.LINEAR);
-
-        System.out.println(tran.getDuration() + "here we are in initialize of controller");
+        SimulationSHM shm = new SimulationSHM(rect, linePath, 120, originalDuration);
 
         /**
          * Play btn action
          */
         playbtn.setOnAction((e) -> {
             if (pausebtn.isDisable() == true) {
-                tran.playFrom(Duration.ONE);
-                tran2.playFrom(Duration.ONE);
+                shm.getShm().playFrom(Duration.ONE);
                 pausebtn.setDisable(false);
             } else {
-                tran.play();
-                tran2.play();
+                shm.getShm().play();
             }
             pausebtn.setDisable(false);
             frictionslider.setDisable(true);
@@ -123,16 +114,15 @@ public class SimulationSHMController implements Initializable {
          * Pause btn action
          */
         pausebtn.setOnAction((e) -> {
-            tran.pause();
-            tran2.pause();
+            shm.getShm().play();
+
         });
 
         /**
          * Stop btn action
          */
         stopbtn.setOnAction((e) -> {
-            tran.pause();
-            tran2.pause();
+              shm.getShm().play();
             pausebtn.setDisable(true);
             frictionslider.setDisable(false);
         });
@@ -147,16 +137,15 @@ public class SimulationSHMController implements Initializable {
         /**
          * When rectangle is clicked and moved, we change its position
          */
-
         rect.setCursor(Cursor.OPEN_HAND);
 
         rect.addEventHandler(MouseEvent.MOUSE_PRESSED, (eventMousePressed) -> {
             rect.setCursor(Cursor.CLOSED_HAND);
-            rect.setLayoutX(eventMousePressed.getSceneX()-(rect.getWidth()/2));
+            rect.setLayoutX(eventMousePressed.getSceneX() - (rect.getWidth() / 2));
 
             //When its closed and pressed make it drags
             rect.addEventHandler(MouseEvent.MOUSE_DRAGGED, (eventMouseDragged) -> {
-                rect.setLayoutX(eventMouseDragged.getSceneX()-(rect.getWidth()/2));
+                rect.setLayoutX(eventMouseDragged.getSceneX() - (rect.getWidth() / 2));
             });
         });
 

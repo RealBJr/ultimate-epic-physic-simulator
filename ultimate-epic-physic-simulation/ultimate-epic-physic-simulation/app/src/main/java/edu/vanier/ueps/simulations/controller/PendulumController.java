@@ -41,7 +41,8 @@ public class PendulumController implements Initializable{
         string.getTransforms().add(rotate);
         
         final Timeline secondTime = new Timeline(
-                  new KeyFrame(Duration.seconds(1.0), new KeyValue(rotate.angleProperty(),-90, Interpolator.EASE_BOTH))
+            new KeyFrame(Duration.seconds(1.0), 
+            new KeyValue(rotate.angleProperty(),-90, Interpolator.EASE_BOTH))
         );
 
         secondTime.setAutoReverse(true);
