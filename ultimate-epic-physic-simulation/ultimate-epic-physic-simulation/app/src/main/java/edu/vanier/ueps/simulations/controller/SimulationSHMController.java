@@ -1,24 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.vanier.ueps.simulations.controller;
 
 import edu.vanier.ueps.graphs.GraphGenerator;
 import edu.vanier.ueps.simulations.functions.SimulationSHM;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.animation.Animation;
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.ScaleTransition;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -28,7 +15,6 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
@@ -45,9 +31,6 @@ public class SimulationSHMController implements Initializable {
     Node spring;
 
     @FXML
-    Line linePath;
-
-    @FXML
     Button playbtn, stopbtn, pausebtn, graphbtn;
 
     @FXML
@@ -56,9 +39,10 @@ public class SimulationSHMController implements Initializable {
     @FXML
     ColorPicker colorPicker;
 
-    
     Duration originalDuration = Duration.seconds(2);
     Duration duration;
+
+    double amplitude = 100;
 
     /**
      *
@@ -69,6 +53,8 @@ public class SimulationSHMController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         //TODO: The spring extends on both sides, it should be only extending on the right hand side, to fix
 
+        amplitude = AmplitudeSlider.getValue();
+        
         /**
          * Change color of rectangle
          */
@@ -94,7 +80,7 @@ public class SimulationSHMController implements Initializable {
         /**
          * Start of animation
          */
-        SimulationSHM shm = new SimulationSHM(rect, linePath, 120, originalDuration);
+        SimulationSHM shm = new SimulationSHM(rect, amplitude, originalDuration);
 
         /**
          * Play btn action
@@ -114,7 +100,7 @@ public class SimulationSHMController implements Initializable {
          * Pause btn action
          */
         pausebtn.setOnAction((e) -> {
-            shm.getShm().play();
+            shm.getShm().pause();
 
         });
 
@@ -122,7 +108,7 @@ public class SimulationSHMController implements Initializable {
          * Stop btn action
          */
         stopbtn.setOnAction((e) -> {
-              shm.getShm().play();
+            shm.getShm().stop();
             pausebtn.setDisable(true);
             frictionslider.setDisable(false);
         });
@@ -141,18 +127,21 @@ public class SimulationSHMController implements Initializable {
 
         rect.addEventHandler(MouseEvent.MOUSE_PRESSED, (eventMousePressed) -> {
             rect.setCursor(Cursor.CLOSED_HAND);
-            rect.setLayoutX(eventMousePressed.getSceneX() - (rect.getWidth() / 2));
+            amplitude = eventMousePressed.getSceneX() - rect.getWidth()/2;
+            rect.setLayoutX(amplitude);
 
             //When its closed and pressed make it drags
+            //It has to change the Amplitude of the path : the LineTo i believe
             rect.addEventHandler(MouseEvent.MOUSE_DRAGGED, (eventMouseDragged) -> {
-                rect.setLayoutX(eventMouseDragged.getSceneX() - (rect.getWidth() / 2));
+                amplitude = eventMouseDragged.getSceneX() - rect.getWidth()/2;
+                rect.setLayoutX(amplitude);
+                AmplitudeSlider.setDisable(true);
             });
         });
 
         rect.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
             rect.setCursor(Cursor.OPEN_HAND);
             //Animate the position of the rectangle to the position of the mouse when released
-
         }
         );
         frictionslider.valueProperty().addListener(new ChangeListener<Number>() {

@@ -3,12 +3,11 @@ package edu.vanier.ueps.simulations.functions;
 import edu.vanier.ueps.simulations.controller.Controller;
 import java.io.File;
 import java.util.ArrayList;
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
-import javafx.scene.shape.Line;
+import javafx.scene.shape.HLineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
@@ -17,8 +16,8 @@ public class SimulationSHM {
 
     private PathTransition shm;
 
-    public SimulationSHM(Rectangle targetedShape, Line linePath, double amplitude, Duration cycleTime) {
-        shm(targetedShape, linePath, amplitude,  cycleTime);
+    public SimulationSHM(Rectangle targetedShape, double amplitude, Duration cycleTime) {
+        shm(targetedShape, amplitude,  cycleTime);
     }
     /**
      * Animation of SHM, from the function x(t) = Acos(wt+phi), a final position
@@ -30,19 +29,17 @@ public class SimulationSHM {
      * @param phaseShift
      * @return Timeline
      */
-    private PathTransition shm(Rectangle targetedShape, Line linePath, double amplitude, Duration cycleTime) {
+    private PathTransition shm(Rectangle targetedShape, double amplitude, Duration cycleTime) {
+        Path path = new Path();
         
-        linePath.setEndX(targetedShape.getLayoutX()+(targetedShape.getWidth()/2)+amplitude);
-//        final Timeline secondTime = new Timeline(
-//            new KeyFrame(cycleTime, 
-//            new KeyValue(targetedShape.layoutXProperty(),linePath.getEndX(), Interpolator.EASE_BOTH))
-//        );
-//        secondTime.setAutoReverse(true);
-//        secondTime.setCycleCount(Timeline.INDEFINITE);
+        path.getElements().add(new MoveTo(targetedShape.getWidth()/2, targetedShape.getHeight()/2));
+        path.getElements().add(new HLineTo(amplitude));
+        //linePath.setEndX(targetedShape.getLayoutX()+(targetedShape.getWidth()/2)+amplitude);
         
         shm = new PathTransition();
         shm.setDuration(cycleTime);
-        shm.setPath(linePath);
+        
+        shm.setPath(path);
         shm.setNode(targetedShape);
         shm.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         shm.setCycleCount(Timeline.INDEFINITE);
