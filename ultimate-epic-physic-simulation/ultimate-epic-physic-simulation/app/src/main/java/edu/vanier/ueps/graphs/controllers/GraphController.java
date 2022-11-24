@@ -1,6 +1,7 @@
 
 package edu.vanier.ueps.graphs.controllers;
 
+import edu.vanier.ueps.simulations.controller.SimulationSHMController;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,7 +48,7 @@ public class GraphController{
 
         //creating the line chart with two axis created above
         final LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
-        lineChart.setTitle("Realtime JavaFX Charts");
+        lineChart.setTitle("SHM Graph");
         lineChart.setAnimated(false); // disable animations
 
         //defining a series to display data
@@ -88,6 +89,11 @@ public class GraphController{
         }, 0, 1, TimeUnit.SECONDS);
     }
 
+    public void takeComponents(){
+        SimulationSHMController controller = new SimulationSHMController();
+        
+    }
+            
     }
 
 
