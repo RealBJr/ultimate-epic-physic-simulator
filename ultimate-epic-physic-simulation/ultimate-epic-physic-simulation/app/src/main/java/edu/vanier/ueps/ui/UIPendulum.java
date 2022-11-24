@@ -29,7 +29,7 @@ public class UIPendulum extends Stage{
     }
 
     private void makeComponents() throws IOException {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/pendulumdemo.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/pendulumsim.fxml"));
        
     PendulumController controller = new PendulumController();
        
