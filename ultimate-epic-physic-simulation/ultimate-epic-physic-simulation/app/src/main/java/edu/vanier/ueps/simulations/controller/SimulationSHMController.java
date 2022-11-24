@@ -15,6 +15,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
@@ -35,7 +36,10 @@ public class SimulationSHMController implements Initializable {
 
     @FXML
     Slider frictionslider, AmplitudeSlider, PeriodSlider;
-
+    
+    @FXML
+    Line linePath;
+    
     @FXML
     ColorPicker colorPicker;
 
@@ -53,8 +57,11 @@ public class SimulationSHMController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         //TODO: The spring extends on both sides, it should be only extending on the right hand side, to fix
 
-        amplitude = AmplitudeSlider.getValue();
+        //TODO: make that when you start, it has a neutral Amplitude (preset), when you drag: you cant change the amplitude with slider,
+        //when you stop, you can change with slider if you want (basically, one can happen with the other)
         
+        amplitude = AmplitudeSlider.getValue();
+        linePath.setVisible(false);
         /**
          * Change color of rectangle
          */
@@ -80,7 +87,7 @@ public class SimulationSHMController implements Initializable {
         /**
          * Start of animation
          */
-        SimulationSHM shm = new SimulationSHM(rect, amplitude, originalDuration);
+        SimulationSHM shm = new SimulationSHM(rect, linePath, amplitude, originalDuration);
 
         /**
          * Play btn action
@@ -101,7 +108,6 @@ public class SimulationSHMController implements Initializable {
          */
         pausebtn.setOnAction((e) -> {
             shm.getShm().pause();
-
         });
 
         /**
