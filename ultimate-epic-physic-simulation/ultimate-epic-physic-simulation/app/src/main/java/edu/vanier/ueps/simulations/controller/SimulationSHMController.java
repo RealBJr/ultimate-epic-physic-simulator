@@ -35,7 +35,7 @@ public class SimulationSHMController implements Initializable {
     Button playbtn, stopbtn, pausebtn, graphbtn;
 
     @FXML
-    Slider frictionslider, AmplitudeSlider, PeriodSlider;
+    Slider frictionslider, AmplitudeSlider, PeriodSlider, PhaseSlider;
     
     @FXML
     Line linePath;
@@ -48,11 +48,47 @@ public class SimulationSHMController implements Initializable {
 
     double amplitude = 100;
 
+    
+    public void getTime(){
+        SimulationSHM simulation = new SimulationSHM( rect,  linePath,  amplitude, originalDuration);
+    }
+    public Slider getFrictionslider() {
+        return frictionslider;
+    }
+
+    public void setFrictionslider(Slider frictionslider) {
+        this.frictionslider = frictionslider;
+    }
+
+    public Slider getAmplitudeSlider() {
+        return AmplitudeSlider;
+    }
+
+    public void setAmplitudeSlider(Slider AmplitudeSlider) {
+        this.AmplitudeSlider = AmplitudeSlider;
+    }
+
+    public Slider getPeriodSlider() {
+        return PeriodSlider;
+    }
+
+    public void setPeriodSlider(Slider PeriodSlider) {
+        this.PeriodSlider = PeriodSlider;
+    }
+
+    public Slider getPhaseSlider() {
+        return PhaseSlider;
+    }
+
     /**
      *
      * @param location
      * @param resources
      */
+    public void setPhaseSlider(Slider PhaseSlider) {    
+        this.PhaseSlider = PhaseSlider;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //TODO: The spring extends on both sides, it should be only extending on the right hand side, to fix

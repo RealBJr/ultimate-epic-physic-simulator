@@ -2,6 +2,7 @@
 package edu.vanier.ueps.graphs.controllers;
 
 import edu.vanier.ueps.simulations.controller.SimulationSHMController;
+import edu.vanier.ueps.simulations.functions.SimulationSHM;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,7 +21,10 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class GraphController{
     
@@ -92,6 +96,11 @@ public class GraphController{
     public void takeComponents(){
         SimulationSHMController controller = new SimulationSHMController();
         
+        double Amplitude = controller.getAmplitudeSlider().getValue();
+        double Period = controller.getPeriodSlider().getValue();
+        double Phi = controller.getPhaseSlider().getValue();
+        double Angular = 2 * Math.PI / Period;
+        double Xposition = Amplitude*Math.cos(Angular+Phi); //missing time
     }
             
     }
