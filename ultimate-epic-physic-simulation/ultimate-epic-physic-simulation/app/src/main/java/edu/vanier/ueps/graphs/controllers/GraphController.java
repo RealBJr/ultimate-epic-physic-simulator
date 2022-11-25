@@ -75,13 +75,15 @@ public class GraphController{
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             // get a random integer between 0-10
             Integer random = ThreadLocalRandom.current().nextInt(10);
+            int test = 5;
+            
 
             // Update the chart
             Platform.runLater(() -> {
                 // get current time
                 Date now = new Date();
                 // put random number with current time
-                series.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), random));
+                series.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), test));
 
                 if (series.getData().size() > WINDOW_SIZE)
                     series.getData().remove(0);

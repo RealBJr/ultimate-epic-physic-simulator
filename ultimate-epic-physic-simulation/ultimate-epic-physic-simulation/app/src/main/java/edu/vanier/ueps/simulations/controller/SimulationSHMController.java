@@ -83,6 +83,7 @@ public class SimulationSHMController implements Initializable {
 
             }
         });
+        
 
         /**
          * Start of animation

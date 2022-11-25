@@ -7,10 +7,13 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -37,7 +40,10 @@ public class PendulumController implements Initializable {
     ColorPicker colorPicker;
 
     @FXML
-    Button playBtn, pauseBtn, stopBtn;
+    Button  pauseBtn, stopBtn;
+    
+    @FXML
+    Slider lenghtSlider, massSlider , dampingSlider;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -66,6 +72,18 @@ public class PendulumController implements Initializable {
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setCycleCount(Timeline.INDEFINITE);
         pathTransition.setAutoReverse(true);
+        
+        secondTime.play();
+        pathTransition.play();
+        
+         lenghtSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                
+                string.setEndY(lenghtSlider.getValue());
+                System.out.println(string.getEndY());
+
+            }
+        });
 
         
 
