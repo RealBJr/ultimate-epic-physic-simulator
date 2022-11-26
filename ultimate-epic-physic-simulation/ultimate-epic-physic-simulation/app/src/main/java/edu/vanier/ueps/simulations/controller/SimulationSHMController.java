@@ -6,6 +6,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -36,10 +39,10 @@ public class SimulationSHMController implements Initializable {
 
     @FXML
     Slider frictionslider, AmplitudeSlider, PeriodSlider, PhaseSlider;
-    
+
     @FXML
     Line linePath;
-    
+
     @FXML
     ColorPicker colorPicker;
 
@@ -48,12 +51,13 @@ public class SimulationSHMController implements Initializable {
 
     double amplitude = 100;
 
-    
-    public Duration getTime(){
-        SimulationSHM simulation = new SimulationSHM( rect,  linePath,  amplitude, originalDuration);
+    //boolean enableClickAndDrag = true;
+    public Duration getTime() {
+        SimulationSHM simulation = new SimulationSHM(rect, linePath, amplitude, originalDuration);
         Duration Time = simulation.getShm().getCurrentTime();
         return Time;
     }
+
     public Slider getFrictionslider() {
         return frictionslider;
     }
@@ -87,17 +91,44 @@ public class SimulationSHMController implements Initializable {
      * @param location
      * @param resources
      */
-    public void setPhaseSlider(Slider PhaseSlider) {    
+    public void setPhaseSlider(Slider PhaseSlider) {
         this.PhaseSlider = PhaseSlider;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        frictionslider.valueProperty().addListener(new ChangeListener<Number>() {
+            int myfriction;
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                myfriction = (int) frictionslider.getValue();
+                //TODO: impliment the logic required to the animation when there is friction
+            }
+        });
+
+        /**
+         * Change speed of animation
+         */
+        frictionslider.valueProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (frictionslider.getValue() >= 1) {
+                    duration = Duration.seconds(originalDuration.toSeconds() * frictionslider.getValue());
+                    System.out.println(duration);
+                }
+            }
+        });
+
         //TODO: The spring extends on both sides, it should be only extending on the right hand side, to fix
+        playbtn.setDisable(false);
+        pausebtn.setDisable(true);
+        stopbtn.setDisable(true);
+
+        System.out.println("playbtn is " + playbtn.isDisable() + " pausebtn is " + pausebtn.isDisable() + " stopbtn is " + stopbtn.isDisable());
 
         //TODO: make that when you start, it has a neutral Amplitude (preset), when you drag: you cant change the amplitude with slider,
         //when you stop, you can change with slider if you want (basically, one can happen with the other)
-        
         amplitude = AmplitudeSlider.getValue();
         linePath.setVisible(false);
         /**
@@ -109,27 +140,14 @@ public class SimulationSHMController implements Initializable {
         });
 
         /**
-         * Change speed of animation
-         */
-        frictionslider.valueProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if (frictionslider.getValue() >= 1) {
-                    duration = Duration.seconds(originalDuration.toSeconds() * frictionslider.getValue());
-                    System.out.println(duration);
-
-                }
-
-            }
-        });
-        
-
-        /**
          * Start of animation
          */
         SimulationSHM shm = new SimulationSHM(rect, linePath, amplitude, originalDuration);
 
+        //SO when initialized, clickanddrag should be working
+        clickAndDrag();
         /**
-         * Play btn action
+         * Play btn action, when u play, click and drag should not be available
          */
         playbtn.setOnAction((e) -> {
             if (pausebtn.isDisable() == true) {
@@ -138,8 +156,11 @@ public class SimulationSHMController implements Initializable {
             } else {
                 shm.getShm().play();
             }
+            playbtn.setDisable(true);
             pausebtn.setDisable(false);
+            stopbtn.setDisable(false);
             frictionslider.setDisable(true);
+            System.out.println("When play is clicked playbtn is " + playbtn.isDisable() + " pausebtn is " + pausebtn.isDisable() + " stopbtn is " + stopbtn.isDisable());
         });
 
         /**
@@ -147,6 +168,10 @@ public class SimulationSHMController implements Initializable {
          */
         pausebtn.setOnAction((e) -> {
             shm.getShm().pause();
+            playbtn.setDisable(false);
+            pausebtn.setDisable(true);
+            stopbtn.setDisable(false);
+            System.out.println("When pause is clicked playbtn is " + playbtn.isDisable() + " pausebtn is " + pausebtn.isDisable() + " stopbtn is " + stopbtn.isDisable());
         });
 
         /**
@@ -154,8 +179,12 @@ public class SimulationSHMController implements Initializable {
          */
         stopbtn.setOnAction((e) -> {
             shm.getShm().stop();
+            playbtn.setDisable(false);
             pausebtn.setDisable(true);
+            stopbtn.setDisable(true);
             frictionslider.setDisable(false);
+            System.out.println("When stop is clicked playbtn is " + playbtn.isDisable() + " pausebtn is " + pausebtn.isDisable() + " stopbtn is " + stopbtn.isDisable());
+            clickAndDrag();
         });
 
         /**
@@ -164,42 +193,47 @@ public class SimulationSHMController implements Initializable {
         graphbtn.setOnAction((e) -> {
             GraphGenerator graph = new GraphGenerator();
         });
-
-        /**
-         * When rectangle is clicked and moved, we change its position
-         */
-        rect.setCursor(Cursor.OPEN_HAND);
-
-        rect.addEventHandler(MouseEvent.MOUSE_PRESSED, (eventMousePressed) -> {
-            rect.setCursor(Cursor.CLOSED_HAND);
-            amplitude = eventMousePressed.getSceneX() - rect.getWidth()/2;
-            rect.setLayoutX(amplitude);
-
-            //When its closed and pressed make it drags
-            //It has to change the Amplitude of the path : the LineTo i believe
-            rect.addEventHandler(MouseEvent.MOUSE_DRAGGED, (eventMouseDragged) -> {
-                amplitude = eventMouseDragged.getSceneX() - rect.getWidth()/2;
-                rect.setLayoutX(amplitude);
-                AmplitudeSlider.setDisable(true);
-            });
-        });
-
-        rect.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
-            rect.setCursor(Cursor.OPEN_HAND);
-            //Animate the position of the rectangle to the position of the mouse when released
-        }
-        );
-        frictionslider.valueProperty().addListener(new ChangeListener<Number>() {
-
-            int myfriction;
-
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                myfriction = (int) frictionslider.getValue();
-                //TODO: impliment the logic required to the animation when there is friction
-
-            }
-        });
     }
 
-}
+    private void clickAndDrag() {
+    EventHandler<MouseEvent> eventMousePressed = new EventHandler<MouseEvent>() {
+
+        @Override
+        public void handle(MouseEvent event) {
+            rect.setCursor(Cursor.CLOSED_HAND);
+            rect.setLayoutX(amplitude);
+
+        }
+    };
+    EventHandler<MouseEvent> eventMouseDragged = new EventHandler<MouseEvent>() {
+
+        @Override
+        public void handle(MouseEvent event) {
+            amplitude = event.getSceneX() - rect.getWidth() / 2;
+                rect.setLayoutX(amplitude);
+
+        }
+    };
+    
+        
+            rect.setCursor(Cursor.OPEN_HAND);
+            
+            //When its closed and pressed make it drags
+            //Adding 2 eventHandlers here
+            rect.addEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
+            
+            rect.addEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
+            
+            //Animate the position of the rectangle to the position of the mouse when released
+            rect.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
+                
+                    rect.removeEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
+                    rect.removeEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
+                
+                rect.setCursor(Cursor.DEFAULT);
+                
+                //if playbtn is still of playable tho, don't remove yet
+            });
+    }
+} 
+
