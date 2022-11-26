@@ -40,10 +40,25 @@ public class PendulumController implements Initializable {
     ColorPicker colorPicker;
 
     @FXML
-    Button  pauseBtn, stopBtn;
-    
+    Button pauseBtn, stopBtn;
+
     @FXML
-    Slider lenghtSlider, massSlider , dampingSlider;
+    Slider lenghtSlider, massSlider, dampingSlider;
+
+    double mass, lenght, damping;
+
+    public double getLenght() {
+        return lenghtSlider.getValue();
+
+    }
+
+    public double getMass() {
+        return massSlider.getValue();
+    }
+
+    public double getDamping() {
+        return dampingSlider.getValue();
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -72,20 +87,22 @@ public class PendulumController implements Initializable {
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setCycleCount(Timeline.INDEFINITE);
         pathTransition.setAutoReverse(true);
-        
+
         secondTime.play();
         pathTransition.play();
-        
-         lenghtSlider.valueProperty().addListener(new ChangeListener<Number>() {
+
+        lenghtSlider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                
+
                 string.setEndY(lenghtSlider.getValue());
-                System.out.println(string.getEndY());
 
             }
         });
 
-        
+        pauseBtn.setOnAction((e) -> {
+            secondTime.pause();
+            pathTransition.pause();
+        });
 
     }
 }

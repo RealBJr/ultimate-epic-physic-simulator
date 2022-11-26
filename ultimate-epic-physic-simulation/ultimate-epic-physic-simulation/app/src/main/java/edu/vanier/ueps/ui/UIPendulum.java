@@ -17,30 +17,31 @@ import javafx.stage.Stage;
  *
  * @author Youssif
  */
-public class UIPendulum extends Stage{
+public class UIPendulum extends Stage {
+
     public UIPendulum() {
         this.initModality(Modality.APPLICATION_MODAL);
-        this.setTitle("Simple Harmonic Motion simulator");
-        try{
-        makeComponents();
-        }catch(IOException e){
+        this.setTitle("Pendulum Simulator");
+        try {
+            makeComponents();
+        } catch (IOException e) {
             System.out.println(e);
         }
     }
 
     private void makeComponents() throws IOException {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/pendulumsimui.fxml"));
-       
-    PendulumController controller = new PendulumController();
-       
-    loader.setController(controller);
-       
-    Pane root = loader.load();
-    
-    Scene sc = new Scene(root);
-    
-    this.setScene(sc);
-    
-    this.show();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/pendulumsimui.fxml"));
+
+        PendulumController controller = new PendulumController();
+
+        loader.setController(controller);
+
+        Pane root = loader.load();
+
+        Scene sc = new Scene(root);
+
+        this.setScene(sc);
+
+        this.show();
     }
 }

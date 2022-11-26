@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Path?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="playBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="playBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Path fx:id="arcPath" fill="WHITE" layoutX="200.0" layoutY="200.0" rotate="315.0" scaleX="2.0" scaleY="2.0" scaleZ="0.0" stroke="BLACK" strokeType="INSIDE">
           <elements>
@@ -29,7 +29,7 @@
       <Text layoutX="645.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color" />
       <Slider fx:id="massSlider" blockIncrement="5.0" layoutX="645.0" layoutY="90.0" majorTickUnit="1.0" max="20.0" min="1.0" minorTickCount="25" showTickLabels="true" showTickMarks="true" />
       <Slider fx:id="dampingSlider" layoutX="645.0" layoutY="154.0" max="10.0" minorTickCount="25" showTickLabels="true" showTickMarks="true" />
-      <Slider fx:id="lenghtSlider" layoutX="645.0" layoutY="230.0" max="20.0" minorTickCount="25" showTickLabels="true" showTickMarks="true" />
+      <Slider fx:id="lenghtSlider" layoutX="645.0" layoutY="230.0" majorTickUnit="5.0" max="200.0" min="140.0" minorTickCount="25" showTickLabels="true" showTickMarks="true" />
       <ColorPicker fx:id="colorPicker" layoutX="645.0" layoutY="300.0">
          <value>
             <Color />
