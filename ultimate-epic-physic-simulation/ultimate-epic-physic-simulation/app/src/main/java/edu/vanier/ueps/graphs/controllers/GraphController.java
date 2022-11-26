@@ -40,14 +40,14 @@ public class GraphController{
         Stage primaryStage = new Stage();
 
     
-    primaryStage.setTitle("JavaFX Realtime Chart Demo");
+    primaryStage.setTitle("SHM Graph");
 
         //defining the axes
         final CategoryAxis xAxis = new CategoryAxis(); // we are gonna plot against time
         final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Time/s");
+        xAxis.setLabel("Time(s)");
         xAxis.setAnimated(false); // axis animations are removed
-        yAxis.setLabel("Value");
+        yAxis.setLabel("X position");
         yAxis.setAnimated(false); // axis animations are removed
 
         //creating the line chart with two axis created above
@@ -95,14 +95,17 @@ public class GraphController{
         }, 0, 1, TimeUnit.SECONDS);
     }
 
+    //SHM formula x=Acos(wt+phi)
     public void takeComponents(){
         SimulationSHMController controller = new SimulationSHMController();
         
         double Amplitude = controller.getAmplitudeSlider().getValue();
         double Period = controller.getPeriodSlider().getValue();
         double Phi = controller.getPhaseSlider().getValue();
+        Duration duration = controller.getTime();
+        Double Time = (double)duration.toSeconds();
         double Angular = 2 * Math.PI / Period;
-        double Xposition = Amplitude*Math.cos(Angular+Phi); //missing time
+        double Xposition = Amplitude*Math.cos(Angular*Time+Phi);
     }
             
     }

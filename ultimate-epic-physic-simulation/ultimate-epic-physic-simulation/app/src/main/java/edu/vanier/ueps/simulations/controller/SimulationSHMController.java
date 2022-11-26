@@ -49,8 +49,10 @@ public class SimulationSHMController implements Initializable {
     double amplitude = 100;
 
     
-    public void getTime(){
+    public Duration getTime(){
         SimulationSHM simulation = new SimulationSHM( rect,  linePath,  amplitude, originalDuration);
+        Duration Time = simulation.getShm().getCurrentTime();
+        return Time;
     }
     public Slider getFrictionslider() {
         return frictionslider;
