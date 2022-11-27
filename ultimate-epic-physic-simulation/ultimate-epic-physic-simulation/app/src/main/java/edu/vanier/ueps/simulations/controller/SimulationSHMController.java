@@ -41,9 +41,6 @@ public class SimulationSHMController implements Initializable {
     Slider frictionslider, AmplitudeSlider, PeriodSlider, PhaseSlider;
 
     @FXML
-    Line linePath;
-
-    @FXML
     ColorPicker colorPicker;
 
     Duration originalDuration = Duration.seconds(2);
@@ -51,62 +48,15 @@ public class SimulationSHMController implements Initializable {
 
     double amplitude = 100;
 
-    //boolean enableClickAndDrag = true;
-    public Duration getTime() {
-        SimulationSHM simulation = new SimulationSHM(rect, linePath, amplitude, originalDuration);
-        Duration Time = simulation.getShm().getCurrentTime();
-        return Time;
-    }
-
-    public Slider getFrictionslider() {
-        return frictionslider;
-    }
-
-    public void setFrictionslider(Slider frictionslider) {
-        this.frictionslider = frictionslider;
-    }
-
-    public Slider getAmplitudeSlider() {
-        return AmplitudeSlider;
-    }
-
-    public void setAmplitudeSlider(Slider AmplitudeSlider) {
-        this.AmplitudeSlider = AmplitudeSlider;
-    }
-
-    public Slider getPeriodSlider() {
-        return PeriodSlider;
-    }
-
-    public void setPeriodSlider(Slider PeriodSlider) {
-        this.PeriodSlider = PeriodSlider;
-    }
-
-    public Slider getPhaseSlider() {
-        return PhaseSlider;
-    }
-
+   
     /**
      *
      * @param location
      * @param resources
      */
-    public void setPhaseSlider(Slider PhaseSlider) {
-        this.PhaseSlider = PhaseSlider;
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        frictionslider.valueProperty().addListener(new ChangeListener<Number>() {
-            int myfriction;
-
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                myfriction = (int) frictionslider.getValue();
-                //TODO: impliment the logic required to the animation when there is friction
-            }
-        });
 
         /**
          * Change speed of animation
@@ -130,7 +80,6 @@ public class SimulationSHMController implements Initializable {
         //TODO: make that when you start, it has a neutral Amplitude (preset), when you drag: you cant change the amplitude with slider,
         //when you stop, you can change with slider if you want (basically, one can happen with the other)
         amplitude = AmplitudeSlider.getValue();
-        linePath.setVisible(false);
         /**
          * Change color of rectangle
          */
@@ -142,7 +91,7 @@ public class SimulationSHMController implements Initializable {
         /**
          * Start of animation
          */
-        SimulationSHM shm = new SimulationSHM(rect, linePath, amplitude, originalDuration);
+        SimulationSHM shm = new SimulationSHM(rect, amplitude, originalDuration);
 
         //SO when initialized, clickanddrag should be working
         clickAndDrag();
@@ -234,6 +183,44 @@ public class SimulationSHMController implements Initializable {
                 
                 //if playbtn is still of playable tho, don't remove yet
             });
+    }
+     //boolean enableClickAndDrag = true;
+    public Duration getTime() {
+        SimulationSHM simulation = new SimulationSHM(rect, amplitude, originalDuration);
+        Duration Time = simulation.getShm().getCurrentTime();
+        return Time;
+    }
+
+    public Slider getFrictionslider() {
+        return frictionslider;
+    }
+
+    public void setFrictionslider(Slider frictionslider) {
+        this.frictionslider = frictionslider;
+    }
+
+    public Slider getAmplitudeSlider() {
+        return AmplitudeSlider;
+    }
+
+    public void setAmplitudeSlider(Slider AmplitudeSlider) {
+        this.AmplitudeSlider = AmplitudeSlider;
+    }
+
+    public Slider getPeriodSlider() {
+        return PeriodSlider;
+    }
+
+    public void setPeriodSlider(Slider PeriodSlider) {
+        this.PeriodSlider = PeriodSlider;
+    }
+
+    public Slider getPhaseSlider() {
+        return PhaseSlider;
+    }
+
+    public void setPhaseSlider(Slider PhaseSlider) {
+        this.PhaseSlider = PhaseSlider;
     }
 } 
 
