@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Separator?>
@@ -8,7 +7,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
@@ -41,30 +39,8 @@
          </children>
       </VBox>
    </right>
-   <bottom>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="playbtn" mnemonicParsing="false" text="Play">
-               <HBox.margin>
-                  <Insets left="200.0" />
-               </HBox.margin></Button>
-            <Button fx:id="pausebtn" mnemonicParsing="false" text="Pause">
-               <HBox.margin>
-                  <Insets left="50.0" />
-               </HBox.margin></Button>
-            <Button fx:id="stopbtn" mnemonicParsing="false" text="Stop">
-               <HBox.margin>
-                  <Insets left="50.0" />
-               </HBox.margin></Button>
-            <Button fx:id="graphbtn" mnemonicParsing="false" text="Graph">
-               <HBox.margin>
-                  <Insets left="50.0" />
-               </HBox.margin></Button>
-         </children>
-      </HBox>
-   </bottom>
    <left>
-      <Pane prefHeight="300.0" prefWidth="488.0" BorderPane.alignment="CENTER">
+      <Pane prefHeight="600.0" prefWidth="736.0" BorderPane.alignment="CENTER">
          <children>
             <Rectangle fx:id="rect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="300.0" layoutY="111.0" stroke="BLACK" strokeType="INSIDE" width="140.0" />
             <ImageView fx:id="spring" fitHeight="100.0" fitWidth="200.0" layoutX="105.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true" scaleX="3.1">
@@ -73,9 +49,14 @@
                </image>
             </ImageView>
             <Separator layoutX="737.0" orientation="VERTICAL" prefHeight="600.0" prefWidth="1.0" />
-            <Line endX="200.0" layoutX="471.0" layoutY="161.0" startX="-100.0" />
-            <Line endX="100.0" layoutX="268.0" layoutY="160.0" startX="-200.0" />
-            <Line endX="-100.00001525878906" endY="77.99998474121094" layoutX="470.0" layoutY="122.0" startX="-100.0" />
+            <Line fx:id="linePathPositive" endX="200.0" layoutX="471.0" layoutY="161.0" startX="-100.0" />
+            <Line fx:id="linePathNegative" endX="100.0" layoutX="268.0" layoutY="160.0" startX="-200.0" />
+            <Line fx:id="lineMiddle" endX="-100.00001525878906" endY="77.99998474121094" layoutX="470.0" layoutY="122.0" startX="-100.0" />
+            <Button fx:id="playbtn" layoutX="141.0" layoutY="506.0" mnemonicParsing="false" text="Play" />
+            <Button fx:id="pausebtn" layoutX="237.0" layoutY="506.0" mnemonicParsing="false" text="Pause" />
+            <Button fx:id="stopbtn" layoutX="343.0" layoutY="506.0" mnemonicParsing="false" text="Stop" />
+            <Button fx:id="graphbtn" layoutX="448.0" layoutY="506.0" mnemonicParsing="false" text="Graph" />
+            <Button fx:id="resetbtn" layoutX="552.0" layoutY="506.0" mnemonicParsing="false" text="Reset" />
          </children>
       </Pane>
    </left>
