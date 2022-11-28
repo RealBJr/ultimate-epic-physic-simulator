@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <right>
+      <VBox prefHeight="300.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="415.0" prefWidth="160.0">
+               <children>
+                  <Slider fx:id="frictionslider" layoutX="1.0" layoutY="58.0" majorTickUnit="1.0" max="10.0" minorTickCount="10" prefHeight="14.0" prefWidth="159.0" showTickLabels="true" showTickMarks="true" />
+                  <Text layoutX="56.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Settings" />
+                  <Text layoutX="1.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Damping" />
+                  <Slider fx:id="AmplitudeSlider" layoutY="112.0" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="10" prefHeight="37.0" prefWidth="155.0" showTickLabels="true" showTickMarks="true" />
+                  <Text layoutX="-1.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amplitude" wrappingWidth="100.13671875" />
+                  <Text layoutX="1.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Spring stiffness" wrappingWidth="120.8033447265625" />
+                  <Slider fx:id="SpringStiffnessSlider" layoutY="168.0" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="10" prefHeight="37.0" prefWidth="152.0" showTickLabels="true" showTickMarks="true" />
+                  <Text layoutX="-1.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mass" wrappingWidth="113.4700927734375" />
+                  <Slider fx:id="MassSlider" layoutY="221.0" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="10" prefHeight="37.0" prefWidth="155.0" showTickLabels="true" showTickMarks="true" />
+                  <Text layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color" />
+                  <ColorPicker fx:id="colorPicker" layoutX="11.0" layoutY="297.0">
+                     <value>
+                        <Color red="0.11764705926179886" green="0.5647059082984924" blue="1.0" />
+                     </value>
+                  </ColorPicker>
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+   </right>
+   <bottom>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="playbtn" mnemonicParsing="false" text="Play">
+               <HBox.margin>
+                  <Insets left="200.0" />
+               </HBox.margin></Button>
+            <Button fx:id="pausebtn" mnemonicParsing="false" text="Pause">
+               <HBox.margin>
+                  <Insets left="50.0" />
+               </HBox.margin></Button>
+            <Button fx:id="stopbtn" mnemonicParsing="false" text="Stop">
+               <HBox.margin>
+                  <Insets left="50.0" />
+               </HBox.margin></Button>
+            <Button fx:id="graphbtn" mnemonicParsing="false" text="Graph">
+               <HBox.margin>
+                  <Insets left="50.0" />
+               </HBox.margin></Button>
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <Pane prefHeight="500.0" prefWidth="630.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="spring" fitHeight="90.0" fitWidth="90.0" layoutX="-45.0" layoutY="235.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/2099873-200.png" />
+               </image>
+            </ImageView>
+            <Rectangle fx:id="rect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="315.0" layoutY="235.0" stroke="BLACK" strokeType="INSIDE" width="110.0" />
+         </children>
+      </Pane>
+   </center>
+<<<<<<<< HEAD:ultimate-epic-physic-simulation/ultimate-epic-physic-simulation/app/src/main/resources/fxml/shmsim.fxml
+</BorderPane>
+========
+</BorderPane>
+>>>>>>>> b52a72931b780e8fa85584f96ac9dea29317840a:ultimate-epic-physic-simulation/app/src/main/resources/fxml/shmsim.fxml
