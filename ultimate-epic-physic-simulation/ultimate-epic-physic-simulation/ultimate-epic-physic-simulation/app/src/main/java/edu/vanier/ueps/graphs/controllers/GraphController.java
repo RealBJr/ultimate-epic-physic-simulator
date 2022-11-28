@@ -100,12 +100,12 @@ public class GraphController{
         SimulationSHMController controller = new SimulationSHMController();
         
         double Amplitude = controller.getAmplitudeSlider().getValue();
-        double Period = controller.getPeriodSlider().getValue();
-        double Phi = controller.getPhaseSlider().getValue();
+        //double Period = controller.getPeriodSlider().getValue();
+        //double Phi = controller.getPhaseSlider().getValue();
         Duration duration = controller.getTime();
         Double Time = (double)duration.toSeconds();
-        double Angular = 2 * Math.PI / Period;
-        double Xposition = Amplitude*Math.cos(Angular*Time+Phi);
+        //double Angular = 2 * Math.PI / Period;
+        //double Xposition = Amplitude*Math.cos(Angular*Time+Phi);
     }
             
     }

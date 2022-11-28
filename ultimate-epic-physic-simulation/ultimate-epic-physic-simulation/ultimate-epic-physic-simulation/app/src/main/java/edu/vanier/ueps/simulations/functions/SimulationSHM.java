@@ -20,9 +20,9 @@ import javafx.util.Duration;
 public class SimulationSHM {
 
     private Animation shm;
-
-    public SimulationSHM(Rectangle targetedShape, double amplitude, Duration cycleTime) {
-        shm(targetedShape, amplitude, cycleTime);
+    
+    public SimulationSHM(Rectangle targetedShape, double amplitude, double mass, double damping, double springStiffness) {
+        shm(targetedShape, amplitude, mass, damping, springStiffness);
     }
     /**
      * Animation of SHM, from the function x(t) = Acos(wt+phi), a final position
@@ -34,21 +34,25 @@ public class SimulationSHM {
      * @param phaseShift
      * @return Timeline
      */
-    private Animation shm(Rectangle targetedShape, double amplitude, Duration cycleTime) {
+    private Animation shm(Rectangle targetedShape, double amplitude, double mass, double damping, double springStiffness) {
+        System.out.println(amplitude);
+        double period =  2 * Math.PI*Math.sqrt((mass/springStiffness));
+        Duration cycleTime = Duration.seconds(period/4);
+        
         Line path1 = new Line();
         path1.setStartX(0);
-        path1.setEndX(300);
+        path1.setEndX(amplitude);
         path1.setLayoutX(targetedShape.getWidth()/2);
         path1.setLayoutY(targetedShape.getHeight()/2);
         
         Line path2 = new Line();
         path2.setStartX(0);
-        path2.setEndX(-300);
+        path2.setEndX(-amplitude);
         path2.setLayoutX(targetedShape.getWidth()/2);
         path2.setLayoutY(targetedShape.getHeight()/2);
         
         PathTransition pathTransition1 = new PathTransition();
-        pathTransition1.setDuration(Duration.millis(750));
+        pathTransition1.setDuration(cycleTime);
         pathTransition1.setPath(path1);
         pathTransition1.setNode(targetedShape);
         pathTransition1.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
@@ -57,7 +61,7 @@ public class SimulationSHM {
         pathTransition1.setInterpolator(Interpolator.EASE_OUT);
         
         PathTransition pathTransition2 = new PathTransition();
-        pathTransition2.setDuration(Duration.millis(750));
+        pathTransition2.setDuration(cycleTime);
         pathTransition2.setPath(path2);
         pathTransition2.setNode(targetedShape);
         pathTransition2.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
@@ -69,8 +73,8 @@ public class SimulationSHM {
         SequentialTransition seqT = new SequentialTransition(pathTransition1,pathTransition2);       
         seqT.setCycleCount(Animation.INDEFINITE);
         shm = seqT;
-        
         return shm;
+    
     }
     public Timeline damping(){
         

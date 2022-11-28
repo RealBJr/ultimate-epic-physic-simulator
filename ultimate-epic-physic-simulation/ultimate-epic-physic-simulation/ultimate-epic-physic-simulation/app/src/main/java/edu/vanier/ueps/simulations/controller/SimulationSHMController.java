@@ -4,6 +4,10 @@ import edu.vanier.ueps.graphs.GraphGenerator;
 import edu.vanier.ueps.simulations.functions.SimulationSHM;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
@@ -38,7 +42,7 @@ public class SimulationSHMController implements Initializable {
     Button playbtn, stopbtn, pausebtn, graphbtn;
 
     @FXML
-    Slider frictionslider, AmplitudeSlider, PeriodSlider, PhaseSlider;
+    Slider frictionslider, AmplitudeSlider, SpringStiffnessSlider,MassSlider ;
 
     @FXML
     ColorPicker colorPicker;
@@ -46,7 +50,12 @@ public class SimulationSHMController implements Initializable {
     Duration originalDuration = Duration.seconds(2);
     Duration duration;
 
-    double amplitude = 100;
+    //variables needed to run the animation
+    double amplitude;
+    double defaultAmplitude = 250;
+    double mass = 0.5;
+    double springStiffness = 2;
+    double damping;
 
    
     /**
@@ -57,16 +66,10 @@ public class SimulationSHMController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        /**
-         * Change speed of animation
-         */
-        frictionslider.valueProperty().addListener(new ChangeListener<Number>() {
+        AmplitudeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if (frictionslider.getValue() >= 1) {
-                    duration = Duration.seconds(originalDuration.toSeconds() * frictionslider.getValue());
-                    System.out.println(duration);
-                }
+                amplitude = 50 * AmplitudeSlider.getValue();
+                //System.out.println(amplitude);
             }
         });
 
@@ -74,27 +77,19 @@ public class SimulationSHMController implements Initializable {
         playbtn.setDisable(false);
         pausebtn.setDisable(true);
         stopbtn.setDisable(true);
-
-        System.out.println("playbtn is " + playbtn.isDisable() + " pausebtn is " + pausebtn.isDisable() + " stopbtn is " + stopbtn.isDisable());
-
+        
         //TODO: make that when you start, it has a neutral Amplitude (preset), when you drag: you cant change the amplitude with slider,
         //when you stop, you can change with slider if you want (basically, one can happen with the other)
-        amplitude = AmplitudeSlider.getValue();
-        /**
-         * Change color of rectangle
-         */
-        colorPicker.setOnAction((e) -> {
-            Color newColor = colorPicker.getValue();
-            rect.setFill(newColor);
-        });
-
+        //amplitude = AmplitudeSlider.getValue();
+        
         /**
          * Start of animation
          */
-        SimulationSHM shm = new SimulationSHM(rect, amplitude, originalDuration);
-
+        SimulationSHM shm = new SimulationSHM(rect, defaultAmplitude, mass, damping, springStiffness);
+        
         //SO when initialized, clickanddrag should be working
         clickAndDrag();
+        
         /**
          * Play btn action, when u play, click and drag should not be available
          */
@@ -109,7 +104,10 @@ public class SimulationSHMController implements Initializable {
             pausebtn.setDisable(false);
             stopbtn.setDisable(false);
             frictionslider.setDisable(true);
-            System.out.println("When play is clicked playbtn is " + playbtn.isDisable() + " pausebtn is " + pausebtn.isDisable() + " stopbtn is " + stopbtn.isDisable());
+            AmplitudeSlider.setDisable(true);
+            SpringStiffnessSlider.setDisable(true);
+            MassSlider.setDisable(true);
+            //System.out.println("When play is clicked playbtn is " + playbtn.isDisable() + " pausebtn is " + pausebtn.isDisable() + " stopbtn is " + stopbtn.isDisable());
         });
 
         /**
@@ -120,7 +118,7 @@ public class SimulationSHMController implements Initializable {
             playbtn.setDisable(false);
             pausebtn.setDisable(true);
             stopbtn.setDisable(false);
-            System.out.println("When pause is clicked playbtn is " + playbtn.isDisable() + " pausebtn is " + pausebtn.isDisable() + " stopbtn is " + stopbtn.isDisable());
+            //System.out.println("When pause is clicked playbtn is " + playbtn.isDisable() + " pausebtn is " + pausebtn.isDisable() + " stopbtn is " + stopbtn.isDisable());
         });
 
         /**
@@ -132,7 +130,10 @@ public class SimulationSHMController implements Initializable {
             pausebtn.setDisable(true);
             stopbtn.setDisable(true);
             frictionslider.setDisable(false);
-            System.out.println("When stop is clicked playbtn is " + playbtn.isDisable() + " pausebtn is " + pausebtn.isDisable() + " stopbtn is " + stopbtn.isDisable());
+            AmplitudeSlider.setDisable(false);
+            SpringStiffnessSlider.setDisable(false);
+            MassSlider.setDisable(false);
+            //System.out.println("When stop is clicked playbtn is " + playbtn.isDisable() + " pausebtn is " + pausebtn.isDisable() + " stopbtn is " + stopbtn.isDisable());
             clickAndDrag();
         });
 
@@ -142,6 +143,27 @@ public class SimulationSHMController implements Initializable {
         graphbtn.setOnAction((e) -> {
             GraphGenerator graph = new GraphGenerator();
         });
+        
+        /**
+         * Change color of rectangle
+         */
+        colorPicker.setOnAction((e) -> {
+            Color newColor = colorPicker.getValue();
+            rect.setFill(newColor);
+        });
+        
+        /**
+         * Change speed of animation
+         */
+        frictionslider.valueProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (frictionslider.getValue() >= 1) {
+                    duration = Duration.seconds(originalDuration.toSeconds() * frictionslider.getValue());
+                    System.out.println(duration);
+                }
+            }
+        });
+
     }
 
     private void clickAndDrag() {
@@ -186,7 +208,7 @@ public class SimulationSHMController implements Initializable {
     }
      //boolean enableClickAndDrag = true;
     public Duration getTime() {
-        SimulationSHM simulation = new SimulationSHM(rect, amplitude, originalDuration);
+        SimulationSHM simulation = new SimulationSHM(rect, amplitude, mass, damping, springStiffness);
         Duration Time = simulation.getShm().getCurrentTime();
         return Time;
     }
@@ -206,21 +228,14 @@ public class SimulationSHMController implements Initializable {
     public void setAmplitudeSlider(Slider AmplitudeSlider) {
         this.AmplitudeSlider = AmplitudeSlider;
     }
-
-    public Slider getPeriodSlider() {
-        return PeriodSlider;
-    }
-
-    public void setPeriodSlider(Slider PeriodSlider) {
-        this.PeriodSlider = PeriodSlider;
-    }
-
-    public Slider getPhaseSlider() {
-        return PhaseSlider;
-    }
-
-    public void setPhaseSlider(Slider PhaseSlider) {
-        this.PhaseSlider = PhaseSlider;
-    }
 } 
 
+/*double period =  2 * Math.PI*Math.sqrt((mass/springStiffness));
+        Duration cycleTime = Duration.seconds(period/4);
+        
+        spring.setLayoutX(-45);
+        KeyValue kv = new KeyValue(spring.scaleXProperty(),7);
+        KeyFrame kf = new KeyFrame(cycleTime, kv);
+        Timeline timeline = new Timeline(kf);
+        timeline.setAutoReverse(true);
+        timeline.setCycleCount(Animation.INDEFINITE);*/
