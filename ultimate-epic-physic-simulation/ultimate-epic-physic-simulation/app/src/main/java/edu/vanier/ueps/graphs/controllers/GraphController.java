@@ -101,9 +101,11 @@ public class GraphController{
         
         double Amplitude = controller.getAmplitudeSlider().getValue();
         //double Period = controller.getPeriodSlider().getValue();
+<<<<<<<< HEAD:ultimate-epic-physic-simulation/ultimate-epic-physic-simulation/app/src/main/java/edu/vanier/ueps/graphs/controllers/GraphController.java
         //double Phi = controller.getPhaseSlider().getValue();
-
+========
        // double Phi = controller.getPhaseSlider().getValue();
+>>>>>>>> b52a72931b780e8fa85584f96ac9dea29317840a:ultimate-epic-physic-simulation/app/src/main/java/edu/vanier/ueps/graphs/controllers/GraphController.java
         Duration duration = controller.getTime();
         Double Time = (double)duration.toSeconds();
         //double Angular = 2 * Math.PI / Period;

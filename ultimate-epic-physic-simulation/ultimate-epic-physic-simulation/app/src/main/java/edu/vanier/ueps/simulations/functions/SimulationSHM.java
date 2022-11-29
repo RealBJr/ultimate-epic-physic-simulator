@@ -35,9 +35,7 @@ public class SimulationSHM {
      * @return Timeline
      */
     private Animation shm(Rectangle targetedShape, double amplitude, double mass, double damping, double springStiffness) {
-        amplitude = amplitude *50;
-        mass = mass * 0.1;
-        
+        System.out.println(amplitude);
         double period =  2 * Math.PI*Math.sqrt((mass/springStiffness));
         Duration cycleTime = Duration.seconds(period/4);
         

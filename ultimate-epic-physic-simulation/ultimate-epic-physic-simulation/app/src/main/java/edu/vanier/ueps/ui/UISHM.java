@@ -39,8 +39,9 @@ public class UISHM extends Stage{
        loader.setController(new SimulationSHMController());
        
        Pane root = loader.load();
+       System.out.println("makecomponents works");
        
-       Scene sc = new Scene(root,900,650);
+       Scene sc = new Scene(root);
        
        this.setScene(sc);
        

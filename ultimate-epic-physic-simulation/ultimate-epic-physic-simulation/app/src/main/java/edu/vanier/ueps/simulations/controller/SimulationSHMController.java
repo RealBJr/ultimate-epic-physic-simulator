@@ -31,11 +31,6 @@ import javafx.util.Duration;
  */
 public class SimulationSHMController implements Initializable {
 
-    /**
-     *
-     * @param location
-     * @param resources
-     */
     @FXML
     Rectangle rect;
 
@@ -43,10 +38,10 @@ public class SimulationSHMController implements Initializable {
     Node spring;
 
     @FXML
-    Button playbtn, stopbtn, pausebtn, graphbtn, savebtn;
+    Button playbtn, stopbtn, pausebtn, graphbtn, resetbtn;
 
     @FXML
-    Slider dampingSlider, AmplitudeSlider, SpringStiffnessSlider,MassSlider ;
+    Slider frictionslider, AmplitudeSlider, SpringStiffnessSlider,MassSlider ;
 
     @FXML
     ColorPicker colorPicker;
@@ -55,9 +50,10 @@ public class SimulationSHMController implements Initializable {
     Duration duration;
 
     //variables needed to run the animation
-    double amplitude = 1;
-    double mass = 0.1;
-    double springStiffness = 1;
+    double amplitude;
+    double defaultAmplitude = 250;
+    double mass = 0.5;
+    double springStiffness = 2;
     double damping;
 
    EventHandler<MouseEvent> eventMousePressed = new EventHandler<MouseEvent>() {
@@ -92,10 +88,25 @@ public class SimulationSHMController implements Initializable {
            rect.setCursor(Cursor.OPEN_HAND);
         }
     };
-    
+    /**
+     *
+     * @param location
+     * @param resources
+     */
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-     
+<<<<<<<< HEAD:ultimate-epic-physic-simulation/ultimate-epic-physic-simulation/app/src/main/java/edu/vanier/ueps/simulations/controller/SimulationSHMController.java
+        AmplitudeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+========
+         AmplitudeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+>>>>>>>> b52a72931b780e8fa85584f96ac9dea29317840a:ultimate-epic-physic-simulation/app/src/main/java/edu/vanier/ueps/simulations/controller/SimulationSHMController.java
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                amplitude = 50 * AmplitudeSlider.getValue();
+                //System.out.println(amplitude);
+            }
+        });
+
         //TODO: The spring extends on both sides, it should be only extending on the right hand side, to fix
         playbtn.setDisable(false);
         pausebtn.setDisable(true);
@@ -104,39 +115,19 @@ public class SimulationSHMController implements Initializable {
         //TODO: make that when you start, it has a neutral Amplitude (preset), when you drag: you cant change the amplitude with slider,
         //when you stop, you can change with slider if you want (basically, one can happen with the other)
         //amplitude = AmplitudeSlider.getValue();
-      
+        
+        /**
+         * Start of animation
+         */
+        SimulationSHM shm = new SimulationSHM(rect, defaultAmplitude, mass, damping, springStiffness);
+        
         //SO when initialized, clickanddrag should be working
         clickAndDrag();
         
-        /*
-        If the user has made changes to the settings the save button will allow him to run the simulation with all the information 
-        that he put
-        */
-        savebtn.setOnAction((e)->{
-        SimulationSHM shm = new SimulationSHM(rect, AmplitudeSlider.getValue(), MassSlider.getValue(), dampingSlider.getValue(), SpringStiffnessSlider.getValue());
-        animating(shm);
-        });
-        
-        /*
-        If the user didn't decide to press the savebtn the animation will start with its default settings
-        */
-        SimulationSHM shm = new SimulationSHM(rect, amplitude, mass, damping, springStiffness);
-        animating(shm);
         /**
-         * Change color of rectangle
-         */
-        colorPicker.setOnAction((e) -> {
-            Color newColor = colorPicker.getValue();
-            rect.setFill(newColor);
-        });
-    }
-    
-    public void animating(SimulationSHM shm){
-         /**
          * Play btn action, when u play, click and drag should not be available
          */
         playbtn.setOnAction((e) -> {
-           //System.out.println(amplitude);
             if (pausebtn.isDisable() == true) {
                 shm.getShm().playFrom(Duration.ONE);
                 pausebtn.setDisable(false);
@@ -146,8 +137,7 @@ public class SimulationSHMController implements Initializable {
             playbtn.setDisable(true);
             pausebtn.setDisable(false);
             stopbtn.setDisable(false);
-            savebtn.setDisable(true);
-            dampingSlider.setDisable(true);
+            frictionslider.setDisable(true);
             AmplitudeSlider.setDisable(true);
             SpringStiffnessSlider.setDisable(true);
             MassSlider.setDisable(true);
@@ -173,8 +163,7 @@ public class SimulationSHMController implements Initializable {
             playbtn.setDisable(false);
             pausebtn.setDisable(true);
             stopbtn.setDisable(true);
-            savebtn.setDisable(false);
-            dampingSlider.setDisable(false);
+            frictionslider.setDisable(false);
             AmplitudeSlider.setDisable(false);
             SpringStiffnessSlider.setDisable(false);
             MassSlider.setDisable(false);
@@ -189,6 +178,26 @@ public class SimulationSHMController implements Initializable {
             GraphGenerator graph = new GraphGenerator();
         });
         
+        /**
+         * Change color of rectangle
+         */
+        colorPicker.setOnAction((e) -> {
+            Color newColor = colorPicker.getValue();
+            rect.setFill(newColor);
+        });
+        
+        /**
+         * Change speed of animation
+         */
+        frictionslider.valueProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (frictionslider.getValue() >= 1) {
+                    duration = Duration.seconds(originalDuration.toSeconds() * frictionslider.getValue());
+                    System.out.println(duration);
+                }
+            }
+        });
+
     }
 
     private void clickAndDrag() {
@@ -211,24 +220,25 @@ public class SimulationSHMController implements Initializable {
         }
     };
     
-    rect.setCursor(Cursor.OPEN_HAND);
+        
+            rect.setCursor(Cursor.OPEN_HAND);
             
-    //When its closed and pressed make it drags
-    //Adding 2 eventHandlers here
-    rect.addEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
+            //When its closed and pressed make it drags
+            //Adding 2 eventHandlers here
+            rect.addEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
             
-    rect.addEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
+            rect.addEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
             
-    //Animate the position of the rectangle to the position of the mouse when released
-    rect.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
+            //Animate the position of the rectangle to the position of the mouse when released
+            rect.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
                 
-        rect.removeEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
-        rect.removeEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
+                    rect.removeEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
+                    rect.removeEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
                 
-        rect.setCursor(Cursor.DEFAULT);
+                rect.setCursor(Cursor.DEFAULT);
                 
-        //if playbtn is still of playable tho, don't remove yet
-    });
+                //if playbtn is still of playable tho, don't remove yet
+            });
     }
      //boolean enableClickAndDrag = true;
     public Duration getTime() {
@@ -238,11 +248,11 @@ public class SimulationSHMController implements Initializable {
     }
 
     public Slider getFrictionslider() {
-        return dampingSlider;
+        return frictionslider;
     }
 
-    public void setFrictionslider(Slider dampingSlider) {
-        this.dampingSlider = dampingSlider;
+    public void setFrictionslider(Slider frictionslider) {
+        this.frictionslider = frictionslider;
     }
 
     public Slider getAmplitudeSlider() {
@@ -252,51 +262,19 @@ public class SimulationSHMController implements Initializable {
     public void setAmplitudeSlider(Slider AmplitudeSlider) {
         this.AmplitudeSlider = AmplitudeSlider;
     }
-
-    public double getAmplitude() {
-        return amplitude;
-    }
-
-    public void setAmplitude(double amplitude) {
-        this.amplitude = amplitude;
-    }
-
-    public double getMass() {
-        return mass;
-    }
-
-    public void setMass(double mass) {
-        this.mass = mass;
-    }
-
-    public double getDamping() {
-        return damping;
-    }
-
-    public void setDamping(double damping) {
-        this.damping = damping;
-    }
-    
-    
 } 
 
+<<<<<<<< HEAD:ultimate-epic-physic-simulation/ultimate-epic-physic-simulation/app/src/main/java/edu/vanier/ueps/simulations/controller/SimulationSHMController.java
+/*double period =  2 * Math.PI*Math.sqrt((mass/springStiffness));
+        Duration cycleTime = Duration.seconds(period/4);
+        
+        spring.setLayoutX(-45);
+        KeyValue kv = new KeyValue(spring.scaleXProperty(),7);
+        KeyFrame kf = new KeyFrame(cycleTime, kv);
+        Timeline timeline = new Timeline(kf);
+        timeline.setAutoReverse(true);
+        timeline.setCycleCount(Animation.INDEFINITE);*/
+========
 
 
-/* 
-        AmplitudeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                SimulationSHMController.this.setAmplitude(50 * AmplitudeSlider.getValue());
-                
-            }
-        });
-        
-        
-        dampingSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if (dampingSlider.getValue() >= 1) {
-                   // duration = Duration.seconds(originalDuration.toSeconds() * frictionslider.getValue());
-                    //System.out.println(duration);
-                }
-            }
-        });*/
+>>>>>>>> b52a72931b780e8fa85584f96ac9dea29317840a:ultimate-epic-physic-simulation/app/src/main/java/edu/vanier/ueps/simulations/controller/SimulationSHMController.java

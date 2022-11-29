@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="632.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <LineChart layoutX="-2.0" layoutY="78.0" prefHeight="389.0" prefWidth="638.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+      <Label layoutX="11.0" layoutY="11.0" prefHeight="86.0" prefWidth="615.0" text="GENERATED GRAPH OF " textAlignment="CENTER">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="170.0" />
+         </padding>
+      </Label>
+      <Label layoutX="309.0" layoutY="42.0" prefHeight="25.0" prefWidth="140.0" text="SIMULATION NAME" />
+   </children>
+</Pane>
