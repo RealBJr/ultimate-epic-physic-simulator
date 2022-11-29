@@ -19,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -40,7 +41,7 @@ public class SimulationSHMController implements Initializable {
     Rectangle rect;
 
     @FXML
-    Node spring;
+    ImageView spring;
 
     @FXML
     Button playbtn, stopbtn, pausebtn, graphbtn, savebtn;
@@ -93,6 +94,25 @@ public class SimulationSHMController implements Initializable {
         }
     };
     
+    /*public SimulationSHM amplitudeDetecter(SimulationSHM shm){
+        SimulationSHM shm2;
+        AmplitudeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if(shm.getShm().getStatus() == Animation.Status.RUNNING){
+                    shm.getShm().pause();
+                    shm2= new SimulationSHM(rect, AmplitudeSlider.getValue(), mass, damping, springStiffness);
+                    shm.getShm().play();
+                }else{
+                     shm2 = new SimulationSHM(rect, AmplitudeSlider.getValue(), mass, damping, springStiffness);
+                }
+                
+            }
+        });
+        return shm2;
+    }*/
+    
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
      
@@ -113,15 +133,18 @@ public class SimulationSHMController implements Initializable {
         that he put
         */
         savebtn.setOnAction((e)->{
-        SimulationSHM shm = new SimulationSHM(rect, AmplitudeSlider.getValue(), MassSlider.getValue(), dampingSlider.getValue(), SpringStiffnessSlider.getValue());
+        SimulationSHM shm = new SimulationSHM(rect, AmplitudeSlider.getValue(), MassSlider.getValue(), dampingSlider.getValue(), SpringStiffnessSlider.getValue(), spring);
         animating(shm);
         });
         
         /*
         If the user didn't decide to press the savebtn the animation will start with its default settings
         */
-        SimulationSHM shm = new SimulationSHM(rect, amplitude, mass, damping, springStiffness);
+        SimulationSHM shm = new SimulationSHM(rect, amplitude, mass, damping, springStiffness, spring);
         animating(shm);
+        
+         
+        
         /**
          * Change color of rectangle
          */
@@ -148,7 +171,7 @@ public class SimulationSHMController implements Initializable {
             stopbtn.setDisable(false);
             savebtn.setDisable(true);
             dampingSlider.setDisable(true);
-            AmplitudeSlider.setDisable(true);
+            //AmplitudeSlider.setDisable(true);
             SpringStiffnessSlider.setDisable(true);
             MassSlider.setDisable(true);
             //System.out.println("When play is clicked playbtn is " + playbtn.isDisable() + " pausebtn is " + pausebtn.isDisable() + " stopbtn is " + stopbtn.isDisable());
@@ -175,7 +198,7 @@ public class SimulationSHMController implements Initializable {
             stopbtn.setDisable(true);
             savebtn.setDisable(false);
             dampingSlider.setDisable(false);
-            AmplitudeSlider.setDisable(false);
+           // AmplitudeSlider.setDisable(false);
             SpringStiffnessSlider.setDisable(false);
             MassSlider.setDisable(false);
             //System.out.println("When stop is clicked playbtn is " + playbtn.isDisable() + " pausebtn is " + pausebtn.isDisable() + " stopbtn is " + stopbtn.isDisable());
@@ -232,7 +255,7 @@ public class SimulationSHMController implements Initializable {
     }
      //boolean enableClickAndDrag = true;
     public Duration getTime() {
-        SimulationSHM simulation = new SimulationSHM(rect, amplitude, mass, damping, springStiffness);
+        SimulationSHM simulation = new SimulationSHM(rect, amplitude, mass, damping, springStiffness, spring);
         Duration Time = simulation.getShm().getCurrentTime();
         return Time;
     }

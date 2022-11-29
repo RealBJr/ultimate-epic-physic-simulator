@@ -5,10 +5,14 @@ import java.io.File;
 import java.util.ArrayList;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
+import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.animation.Transition;
+import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.HLineTo;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.MoveTo;
@@ -21,8 +25,8 @@ public class SimulationSHM {
 
     private Animation shm;
     
-    public SimulationSHM(Rectangle targetedShape, double amplitude, double mass, double damping, double springStiffness) {
-        shm(targetedShape, amplitude, mass, damping, springStiffness);
+    public SimulationSHM(Rectangle targetedShape, double amplitude, double mass, double damping, double springStiffness, ImageView spring) {
+        shm(targetedShape, amplitude, mass, damping, springStiffness, spring);
     }
     /**
      * Animation of SHM, from the function x(t) = Acos(wt+phi), a final position
@@ -34,7 +38,7 @@ public class SimulationSHM {
      * @param phaseShift
      * @return Timeline
      */
-    private Animation shm(Rectangle targetedShape, double amplitude, double mass, double damping, double springStiffness) {
+    private Animation shm(Rectangle targetedShape, double amplitude, double mass, double damping, double springStiffness, ImageView spring) {
         amplitude = amplitude *50;
         mass = mass * 0.1;
         
@@ -74,6 +78,16 @@ public class SimulationSHM {
         
         SequentialTransition seqT = new SequentialTransition(pathTransition1,pathTransition2);       
         seqT.setCycleCount(Animation.INDEFINITE);
+        
+        Duration cycleTimeSpring = Duration.seconds(period/2);
+        
+        ScaleTransition st = new ScaleTransition(cycleTimeSpring,spring);
+        st.setByX(1+(amplitude/spring.getFitWidth()));
+        st.setAutoReverse(true);
+        st.setCycleCount(Animation.INDEFINITE);
+        
+        //ParallelTransition pt = new ParallelTransition(seqT,st);
+                
         shm = seqT;
         return shm;
     
@@ -99,7 +113,7 @@ public class SimulationSHM {
         return shm;
     }
 
-    public void setShm(PathTransition shm) {
+    public void setShm(Animation shm) {
         this.shm = shm;
     }
 }
