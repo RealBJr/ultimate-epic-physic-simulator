@@ -66,7 +66,7 @@
    <center>
       <Pane prefHeight="500.0" prefWidth="630.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="spring" fitHeight="90.0" fitWidth="90.0" layoutX="-45.0" layoutY="235.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="spring" fitHeight="90.0" fitWidth="90.0" layoutX="-45.0" layoutY="235.0" pickOnBounds="true" preserveRatio="true" scaleX="7.2">
                <image>
                   <Image url="@../image/2099873-200.png" />
                </image>
