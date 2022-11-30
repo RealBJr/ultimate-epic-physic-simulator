@@ -4,6 +4,7 @@
  */
 package edu.vanier.ueps.driver;
 
+import edu.vanier.ueps.simulations.functions.SimulationProjectileMotion;
 import edu.vanier.ueps.simulations.functions.SimulationSHM;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -38,24 +39,31 @@ public class Driver extends Application{
 
         b.setLayoutX(220);
         b.setLayoutY(220);
-        
+//        
         b1.setLayoutX(20);
         b1.setLayoutY(220);
-        
-        clickAndDrag();
-            b.setOnMousePressed((e)->{
-            clickAndDrag();
-            System.out.println("clcik and drag = true");
-            });
-            b1.setOnMousePressed((e)->{
-            System.out.println("clcik and drag = false");
-            });
+//        
+//        clickAndDrag();
+//            b.setOnMousePressed((e)->{
+//            clickAndDrag();
+//            System.out.println("clcik and drag = true");
+//            });
+            
 
-        
+        SimulationProjectileMotion pm = new SimulationProjectileMotion(5000,10,Math.PI/2);
         Scene scene = new Scene(root, 300, 300);
-        root.getChildren().addAll(rect,b,b1);
+        root.getChildren().addAll(pm.getCanvas(),b1,b);
+        
+        b1.setOnMousePressed((e)->{
+            pm.animation().play();        
+        });
+        
+        b.setOnMousePressed((e)->{
+            pm.animation().stop();        
+        });        
         stage.setScene(scene);
         stage.show();
+         
         //playDamping(rect, Duration.INDEFINITE, 3000, Duration.seconds(2), Math.PI, 5, 5, 5);
     }
     public static void main(String[] args) {
@@ -64,47 +72,47 @@ public class Driver extends Application{
     }
     //TODO: COPY THIS CODE INTO CONTROLLER SHM; PROBABLY MAKE A RESET BUTTON TO PUT THE THING BACK IN POSITION
     //TODO: FIX THE PARAMETERS AND THE SLIDERS TO IMPACT ANIMATION --> DEPENDS ON YOUSIF IMPLEMENTATION OF SHM
-    private void clickAndDrag() {
-    EventHandler<MouseEvent> eventMousePressed = new EventHandler<MouseEvent>() {
-
-        @Override
-        public void handle(MouseEvent event) {
-            rect.setCursor(Cursor.CLOSED_HAND);
-            rect.setLayoutX(amplitude);
-
-        }
-    };
-    EventHandler<MouseEvent> eventMouseDragged = new EventHandler<MouseEvent>() {
-
-        @Override
-        public void handle(MouseEvent event) {
-            amplitude = event.getSceneX() - rect.getWidth() / 2;
-                rect.setLayoutX(amplitude);
-
-        }
-    };
-    
-        
-            rect.setCursor(Cursor.OPEN_HAND);
-            
-            //When its closed and pressed make it drags
-            //Adding 2 eventHandlers here
-            rect.addEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
-            
-            rect.addEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
-            
-            //Animate the position of the rectangle to the position of the mouse when released
-            rect.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
-                
-                    rect.removeEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
-                    rect.removeEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
-                
-                rect.setCursor(Cursor.DEFAULT);
-                
-                //if playbtn is still of playable tho, don't remove yet
-            });
-
-    System.out.println ("click and drag is enabled? " + b);
-    }
+//    private void clickAndDrag() {
+//    EventHandler<MouseEvent> eventMousePressed = new EventHandler<MouseEvent>() {
+//
+//        @Override
+//        public void handle(MouseEvent event) {
+//            rect.setCursor(Cursor.CLOSED_HAND);
+//            rect.setLayoutX(amplitude);
+//
+//        }
+//    };
+//    EventHandler<MouseEvent> eventMouseDragged = new EventHandler<MouseEvent>() {
+//
+//        @Override
+//        public void handle(MouseEvent event) {
+//            amplitude = event.getSceneX() - rect.getWidth() / 2;
+//                rect.setLayoutX(amplitude);
+//
+//        }
+//    };
+//    
+//        
+//            rect.setCursor(Cursor.OPEN_HAND);
+//            
+//            //When its closed and pressed make it drags
+//            //Adding 2 eventHandlers here
+//            rect.addEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
+//            
+//            rect.addEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
+//            
+//            //Animate the position of the rectangle to the position of the mouse when released
+//            rect.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
+//                
+//                    rect.removeEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
+//                    rect.removeEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
+//                
+//                rect.setCursor(Cursor.DEFAULT);
+//                
+//                //if playbtn is still of playable tho, don't remove yet
+//            });
+//
+//    System.out.println ("click and drag is enabled? " + b);
+//    }
     
 }
