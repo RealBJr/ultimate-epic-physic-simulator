@@ -55,6 +55,7 @@ public class SimulationSHMController implements Initializable {
     Duration originalDuration = Duration.seconds(2);
     Duration duration;
 
+    
     //variables needed to run the animation
     double amplitude = 1;
     double mass = 0.1;
@@ -174,7 +175,13 @@ public class SimulationSHMController implements Initializable {
             //AmplitudeSlider.setDisable(true);
             SpringStiffnessSlider.setDisable(true);
             MassSlider.setDisable(true);
-            //System.out.println("When play is clicked playbtn is " + playbtn.isDisable() + " pausebtn is " + pausebtn.isDisable() + " stopbtn is " + stopbtn.isDisable());
+            
+            rect.cursorProperty().set(Cursor.DEFAULT);
+            rect.removeEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, eventMouseEnteredTarget);
+            rect.removeEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
+            rect.removeEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
+            rect.removeEventHandler(MouseEvent.MOUSE_RELEASED, eventMouseReleased);
+
         });
 
         /**
@@ -185,7 +192,6 @@ public class SimulationSHMController implements Initializable {
             playbtn.setDisable(false);
             pausebtn.setDisable(true);
             stopbtn.setDisable(false);
-            //System.out.println("When pause is clicked playbtn is " + playbtn.isDisable() + " pausebtn is " + pausebtn.isDisable() + " stopbtn is " + stopbtn.isDisable());
         });
 
         /**
@@ -214,46 +220,22 @@ public class SimulationSHMController implements Initializable {
         
     }
 
-    private void clickAndDrag() {
-    EventHandler<MouseEvent> eventMousePressed = new EventHandler<MouseEvent>() {
-
-        @Override
-        public void handle(MouseEvent event) {
-            rect.setCursor(Cursor.CLOSED_HAND);
-            rect.setLayoutX(amplitude);
-
-        }
-    };
-    EventHandler<MouseEvent> eventMouseDragged = new EventHandler<MouseEvent>() {
-
-        @Override
-        public void handle(MouseEvent event) {
-            amplitude = event.getSceneX() - rect.getWidth() / 2;
-                rect.setLayoutX(amplitude);
-
-        }
-    };
-    
-    rect.setCursor(Cursor.OPEN_HAND);
+        private void clickAndDrag() {
             
-    //When its closed and pressed make it drags
-    //Adding 2 eventHandlers here
-    rect.addEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
+            rect.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, eventMouseEnteredTarget);
             
-    rect.addEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
+            //When its closed and pressed make it drags
+            //Adding 2 eventHandlers here
+            rect.addEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
             
-    //Animate the position of the rectangle to the position of the mouse when released
-    rect.addEventHandler(MouseEvent.MOUSE_RELEASED, (e) -> {
-                
-        rect.removeEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
-        rect.removeEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
-                
-        rect.setCursor(Cursor.DEFAULT);
-                
-        //if playbtn is still of playable tho, don't remove yet
-    });
+            rect.addEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
+            
+            //Animate the position of the rectangle to the position of the mouse when released
+            rect.addEventHandler(MouseEvent.MOUSE_RELEASED, eventMouseReleased);
+            
+            
     }
-     //boolean enableClickAndDrag = true;
+
     public Duration getTime() {
         SimulationSHM simulation = new SimulationSHM(rect, amplitude, mass, damping, springStiffness, spring);
         Duration Time = simulation.getShm().getCurrentTime();
