@@ -34,6 +34,9 @@ public class SimulationProjectileMotion{
         //time passed b4 Modification("update")
         double time;
         
+         //time passed b4 Modification("update")
+        double timeInSeconds;
+        
         //norm of the velocity vector; more like speed
         double speed;
         
