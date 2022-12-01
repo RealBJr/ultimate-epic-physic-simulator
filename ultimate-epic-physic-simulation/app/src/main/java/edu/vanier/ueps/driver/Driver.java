@@ -52,14 +52,16 @@ public class Driver extends Application{
 
         SimulationProjectileMotion pm = new SimulationProjectileMotion(1,120,0);
         Scene scene = new Scene(root, 300, 300);
-        root.getChildren().addAll(pm.getCanvas(),b1,b);
+        root.getChildren().addAll(pm.getCanvas(),pm.getOnTop(),b1,b);
         
+        pm.displayCanvas();
         b1.setOnMousePressed((e)->{
             pm.animation().play();        
         });
         
         b.setOnMousePressed((e)->{
-            pm.animation().stop();        
+            pm.animation().stop();
+            pm.animation().getKeyFrames().removeAll(pm.animation().getKeyFrames());
         });        
         stage.setScene(scene);
         stage.show();
