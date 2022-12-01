@@ -93,15 +93,7 @@ public class SimulationProjectileMotion {
         this.gc = this.canvas.getGraphicsContext2D();
     }
 
-    public void draw(GraphicsContext gc) {
-        this.gc.setFill(Color.BLUE);
-
-        gc.fillRect(this.initialPosX, this.initialPosY, this.rectHeight, this.rectWidth);
-
-        this.vector = new Line(this.rectCenterX, this.rectCenterY, getEndVectorX(), getEndVectorY());
-        this.vector.setStrokeWidth(3);
-        this.onTop.getChildren().add(this.vector);
-    }
+    
 
     private double getEndVectorX(){
         double endX = this.nextPositionX + this.rectCenterX;
@@ -109,12 +101,15 @@ public class SimulationProjectileMotion {
     }
     
     /**
+     * TODO: Check logic here,
      * Every time we create a new vector, we change the velocity of y
+     * how to draw line now
      * @return 
      */
     private double getEndVectorY(){
         timer+=this.time;
-        double endY = this.nextPositionY + this.rectCenterY;
+        double endY;
+        endY = this.nextPositionY + this.rectCenterY;
         //Vy = Voy - gt, unless its already at 0
         if (velocityY(initialSpeed) == 0) {
             
@@ -125,20 +120,9 @@ public class SimulationProjectileMotion {
         }
         return endY;
     }
-    public void update() {
-        this.initialPosX = projectileMotionX(this.time, this.initialPosX, velocityX(this.initialSpeed));
-        this.nextPositionX = this.initialPosX;
-        this.rectCenterX = this.initialPosX + this.rectWidth / 2;
-        
+    
 
-        this.initialPosY = projectileMotionY(this.time, this.initialPosY, velocityY(this.initialSpeed));
-        this.nextPositionY = this.initialPosY;
-        this.rectCenterY = this.initialPosY + this.rectHeight / 2;
-    }
-
-    private void updateVector() {
-        this.onTop.getChildren().remove(0);
-    }
+    
 
     private double velocityX(double speed) {
         //use the fact that cos(direction) = x/v -> x = cos(direction)*v)
@@ -167,7 +151,7 @@ public class SimulationProjectileMotion {
         //yo + voy t ? 4.9 t^2
         //TODO: fix position Y
         //Make that it depends on the vector of the projectile; 2 timing: when it goes up, and when it goes down
-        double derivedNextY = 0;
+        double derivedNextY = initialPosY;
         //Calculate next Y if its non-zero velocity in Y initially; if its zero
         if (velocityY(initialSpeed) == 0) {
             System.out.println("position Y update = " + derivedNextY);
@@ -182,6 +166,18 @@ public class SimulationProjectileMotion {
 
     public void displayCanvas() {
         draw(this.gc);
+    }
+    
+    public void draw(GraphicsContext gc) {
+        this.gc.setFill(Color.BLUE);
+        System.out.println("nxtPositionY = " + nextPositionY);
+        
+        gc.fillRect(this.initialPosX, this.initialPosY, this.rectHeight, this.rectWidth);
+
+        //TODO: Check line drawing after the initial call
+        this.vector = new Line(this.rectCenterX, this.rectCenterY, getEndVectorX(), getEndVectorY());
+        this.vector.setStrokeWidth(3);
+        this.onTop.getChildren().add(this.vector);
     }
 
     public Timeline animation() {
@@ -207,5 +203,19 @@ public class SimulationProjectileMotion {
         this.gc.clearRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
         draw(gc);
     }
+    
+    public void update() {
+        this.initialPosX = projectileMotionX(this.time, this.initialPosX, velocityX(this.initialSpeed));
+        this.nextPositionX = this.initialPosX;
+        this.rectCenterX = this.initialPosX + this.rectWidth / 2;
+        
 
+        this.initialPosY = projectileMotionY(this.time, this.initialPosY, velocityY(this.initialSpeed));
+        this.nextPositionY = this.initialPosY;
+        this.rectCenterY = this.initialPosY + this.rectHeight / 2;
+    }
+    
+    private void updateVector() {
+            this.onTop.getChildren().remove(0);
+    }
 }
