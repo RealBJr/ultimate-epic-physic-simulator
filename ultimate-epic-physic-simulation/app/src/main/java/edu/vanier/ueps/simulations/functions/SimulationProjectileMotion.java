@@ -57,6 +57,8 @@ public class SimulationProjectileMotion {
     //Velocity(initialSpeed) vector
     Line vector;
     
+    double rate;
+    
     //direction in radians
     double direction;
 
@@ -68,8 +70,6 @@ public class SimulationProjectileMotion {
     //Center coordinates
     double rectCenterX = initialPosX + rectWidth / 2;
     double rectCenterY = initialPosY + rectHeight / 2;
-
-    
 
     
     public Canvas getCanvas() {
@@ -86,14 +86,14 @@ public class SimulationProjectileMotion {
      * @param speed
      * @param direction
      */
-    public SimulationProjectileMotion(double time, double speed, double direction) {
-        this.time = time;
-        this.initialSpeed = speed * Math.pow(10, -3);
+    public SimulationProjectileMotion(double speed, double direction) {
+        //by default best fps
+        this.time = 1;
+        this.initialSpeed = speed;
         this.direction = direction;
         this.gc = this.canvas.getGraphicsContext2D();
+        this.rate = speed;
     }
-
-    
 
     private double getEndVectorX(){
         double endX = this.nextPositionX + this.rectCenterX;
@@ -107,16 +107,16 @@ public class SimulationProjectileMotion {
      * @return 
      */
     private double getEndVectorY(){
-        timer+=this.time;
+        timer += this.time;
         double endY;
         endY = this.nextPositionY + this.rectCenterY;
         //Vy = Voy - gt, unless its already at 0
         if (velocityY(initialSpeed) == 0) {
             
         } else{
-            this.velocityY -= 9.8 * this.timer * Math.pow(10, -3);
+            this.velocityY -= 9.8 * this.time * Math.pow(10, -3);
             this.initialSpeed = Math.sqrt(velocityY*velocityY + velocityX*velocityX)* Math.pow(10, -3);
-            System.out.println("At time "+ timer + " Velocity in Y = " + velocityY);
+            System.out.println("At time "+ time + " Velocity in Y = " + velocityY);
         }
         return endY;
     }
@@ -187,6 +187,7 @@ public class SimulationProjectileMotion {
         );
         animation.setCycleCount(Animation.INDEFINITE);
         animation.setAutoReverse(true);
+        animation.setRate(this.rate);
         return animation;
     }
 
@@ -208,7 +209,6 @@ public class SimulationProjectileMotion {
         this.initialPosX = projectileMotionX(this.time, this.initialPosX, velocityX(this.initialSpeed));
         this.nextPositionX = this.initialPosX;
         this.rectCenterX = this.initialPosX + this.rectWidth / 2;
-        
 
         this.initialPosY = projectileMotionY(this.time, this.initialPosY, velocityY(this.initialSpeed));
         this.nextPositionY = this.initialPosY;

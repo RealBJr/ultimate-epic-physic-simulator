@@ -50,7 +50,7 @@ public class Driver extends Application{
 //            });
             
 
-        SimulationProjectileMotion pm = new SimulationProjectileMotion(1,120,0);
+        SimulationProjectileMotion pm = new SimulationProjectileMotion(4,0/*Math.PI/2*/);
         Scene scene = new Scene(root, 300, 300);
         root.getChildren().addAll(pm.getCanvas(),pm.getOnTop(),b1,b);
         
@@ -62,6 +62,7 @@ public class Driver extends Application{
         b.setOnMousePressed((e)->{
             pm.animation().stop();
             pm.animation().getKeyFrames().removeAll(pm.animation().getKeyFrames());
+            pm.animation().setRate(0);
         });        
         stage.setScene(scene);
         stage.show();
