@@ -50,7 +50,7 @@ public class Driver extends Application{
 //            });
             
 
-        SimulationProjectileMotion pm = new SimulationProjectileMotion(1,120,0);
+        SimulationProjectileMotion pm = new SimulationProjectileMotion(1,120,Math.PI/2);
         Scene scene = new Scene(root, 300, 300);
         root.getChildren().addAll(pm.getCanvas(),pm.getOnTop(),b1,b);
         
