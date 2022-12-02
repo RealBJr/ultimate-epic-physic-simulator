@@ -30,7 +30,7 @@ import javafx.util.Duration;
 public class Driver extends Application{
         Rectangle rect = new Rectangle(200,200);
         double amplitude =0;
-        Button b = new Button("stop/pause");
+        Button b = new Button("reset");
         Button b1 = new Button("Play");
 
     @Override
@@ -50,19 +50,27 @@ public class Driver extends Application{
 //            });
             
 
-        SimulationProjectileMotion pm = new SimulationProjectileMotion(1,Math.PI/2/*Math.PI/2*/);
+        SimulationProjectileMotion pm = new SimulationProjectileMotion(10,Math.PI/4/*Math.PI/2*/);
         Scene scene = new Scene(root, 300, 300);
         root.getChildren().addAll(pm.getCanvas(),pm.getOnTop(),b1,b);
         
         pm.displayCanvas();
         b1.setOnMousePressed((e)->{
-            pm.animation().play();        
+            pm.getAnimation().start();        
         });
         
         b.setOnMousePressed((e)->{
-            pm.animation().stop();
-            pm.animation().getKeyFrames().removeAll(pm.animation().getKeyFrames());
-            pm.animation().setRate(0);
+//            pm.getAnimation().stop();
+//            pm.getAnimation().getKeyFrames().removeAll(pm.getAnimation().getKeyFrames());
+//            pm.getAnimation().setRate(0);
+//            stage.close();
+            //
+            //root.getChildren().removeAll(pm.getCanvas(),pm.getOnTop());
+            //pm = new SimulationProjectileMotion(3,Math.PI/4/*Math.PI/2*/);
+//            stage.show();
+//            root.getChildren().addAll();
+            pm.getAnimation().stop();
+            
         });        
         stage.setScene(scene);
         stage.show();
