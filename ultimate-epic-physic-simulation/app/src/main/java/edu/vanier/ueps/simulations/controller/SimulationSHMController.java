@@ -1,6 +1,7 @@
 package edu.vanier.ueps.simulations.controller;
 
 import edu.vanier.ueps.graphs.GraphGenerator;
+import edu.vanier.ueps.graphs.controllers.GraphController;
 import edu.vanier.ueps.simulations.functions.SimulationSHM;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -215,7 +216,7 @@ public class SimulationSHMController implements Initializable {
          * Graph btn action
          */
         graphbtn.setOnAction((e) -> {
-            GraphGenerator graph = new GraphGenerator();
+            GraphController graph = new GraphController(AmplitudeSlider.getValue(),SpringStiffnessSlider.getValue(),MassSlider.getValue(), getTime().toSeconds());
         });
         
     }

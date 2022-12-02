@@ -5,6 +5,7 @@ import edu.vanier.ueps.simulations.controller.SimulationSHMController;
 import edu.vanier.ueps.simulations.functions.SimulationSHM;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
@@ -32,8 +33,20 @@ public class GraphController{
     final int WINDOW_SIZE = 10;
     private ScheduledExecutorService scheduledExecutorService;
     
-    public GraphController(){
+    double amplitude;
+    double SpringStiffness;
+    double mass;
+    double time;
+    
+    ArrayList values = new ArrayList();
+    double xPos;
+    
+    public GraphController(double amplitude,double SpringStiffness,double mass, double time){
         initialize();
+        this.amplitude = amplitude;
+        this.SpringStiffness = SpringStiffness;
+        this.mass = mass; 
+        this.time = time;
     }
     
     public void initialize() {
@@ -80,6 +93,7 @@ public class GraphController{
             // get a random integer between 0-10
             Integer random = ThreadLocalRandom.current().nextInt(10);
             int test = 5;
+            double test2 = takeComponents(1);
             
 
             // Update the chart
@@ -87,7 +101,7 @@ public class GraphController{
                 // get current time
                 Date now = new Date();
                 // put random number with current time
-                series.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), test));
+                series.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), test2));
 
                 if (series.getData().size() > WINDOW_SIZE)
                     series.getData().remove(0);
@@ -96,18 +110,22 @@ public class GraphController{
     }
 
     //SHM formula x=Acos(wt+phi)
-    public void takeComponents(){
-        SimulationSHMController controller = new SimulationSHMController();
+    public double takeComponents(double t){
+        //SimulationSHMController controller = new SimulationSHMController();
         
-        double Amplitude = controller.getAmplitudeSlider().getValue();
+        //double Amplitude = controller.getAmplitudeSlider().getValue();
         //double Period = controller.getPeriodSlider().getValue();
         //double Phi = controller.getPhaseSlider().getValue();
-
+        //double k = controller.getSpringStiffnessSlider().getValue();
+        //double m = controller.getMass();
+        //double Angular = Math.sqrt(k/m);
        // double Phi = controller.getPhaseSlider().getValue();
-        Duration duration = controller.getTime();
-        Double Time = (double)duration.toSeconds();
+        //Duration duration = controller.getTime();
+        //Double Time = (double)duration.toSeconds();
         //double Angular = 2 * Math.PI / Period;
-        //double Xposition = Amplitude*Math.cos(Angular*Time+Phi);
+        double angularVelocity = Math.sqrt(this.SpringStiffness/this.mass);
+        double xPosition = this.amplitude*Math.cos(angularVelocity*t);
+        return xPosition;
     }
             
     }

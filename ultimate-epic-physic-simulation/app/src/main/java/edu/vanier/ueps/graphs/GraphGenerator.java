@@ -27,7 +27,7 @@ public class GraphGenerator extends Stage{
     
     private void makeComponents() throws IOException{
         
-       GraphController graph = new GraphController();
+       
        
     }
     
