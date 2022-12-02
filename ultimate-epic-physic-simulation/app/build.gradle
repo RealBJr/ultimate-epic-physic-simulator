@@ -41,7 +41,7 @@ javafx {
 
 application {
     // Define the main class for the application.
-    mainClass = 'edu.vanier.ueps.ui.MainApp'
-    //mainClass = 'edu.vanier.ueps.driver.Driver'
+    //mainClass = 'edu.vanier.ueps.ui.MainApp'
+    mainClass = 'edu.vanier.ueps.driver.Driver'
 }
 
