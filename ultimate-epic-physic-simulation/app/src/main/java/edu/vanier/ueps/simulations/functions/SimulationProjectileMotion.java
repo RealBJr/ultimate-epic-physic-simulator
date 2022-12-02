@@ -113,8 +113,8 @@ public class SimulationProjectileMotion {
                     velocityX = 0;
                     posX = 0;
                 }
-                if (posX > 1300) {
-                    posX = 0;
+                if (posX > 1300 - rectWidth) {
+                    posX = 1300 - rectWidth;
                 }
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 draw(gc);
@@ -123,8 +123,10 @@ public class SimulationProjectileMotion {
     }
 
     private double getEndVectorX() {
-        double endX = this.nextPositionX + this.rectCenterX;
-        return endX;
+        //Changes the time to make the vector be more visible; it displays the next position that is/will be as tall as the rate vector
+        this.nextPositionX = projectileMotionX(rate*time, rectCenterX, velocityX);
+        //this is indeed the next position within the next given time
+        return this.nextPositionX;
     }
 
     /**
@@ -135,9 +137,12 @@ public class SimulationProjectileMotion {
      */
     private double getEndVectorY() {
         double endY;
-        this.nextPositionY = projectileMotionY(time, nextPositionY, velocityY);
+        //Changes the time to make the vector be more visible; it displays the next position that is/will be as tall as the rate vector
+        this.nextPositionY = projectileMotionY(rate*time, rectCenterY, velocityY);
+        //To offset velocity change made by projectileMotionY()
         this.velocityY += gravitationalConstant;
-        endY = this.nextPositionY + this.rectCenterY;
+        //this is indeed the next position within the next given time
+        endY = this.nextPositionY;
         //Vy = Voy - gt, unless its already at 0
         //if (velocityY(initialSpeed) == 0) {
 
@@ -211,15 +216,15 @@ public class SimulationProjectileMotion {
         this.vectorY.setStrokeWidth(3);
         this.vectorY.setStroke(Color.RED);
 
-//        this.vectorX = new Line(this.rectCenterX, this.rectCenterY, getEndVectorX(), this.rectCenterY);
-//        this.vectorX.setStrokeWidth(3);
-//        this.vectorX.setStroke(Color.GREEN);
-//
-//        this.vectorSpeed = new Line(this.rectCenterX, this.rectCenterY, getEndVectorX(), getEndVectorY());
-//        this.vectorSpeed.setStrokeWidth(3);
-//        this.vectorSpeed.setStroke(Color.BLACK);
+        this.vectorX = new Line(this.rectCenterX, this.rectCenterY, getEndVectorX(), this.rectCenterY);
+        this.vectorX.setStrokeWidth(3);
+        this.vectorX.setStroke(Color.GREEN);
 
-        this.onTop.getChildren().addAll(this.vectorY/*, this.vectorX, this.vectorSpeed*/);
+        this.vectorSpeed = new Line(this.rectCenterX, this.rectCenterY, getEndVectorX(), getEndVectorY());
+        this.vectorSpeed.setStrokeWidth(3);
+        this.vectorSpeed.setStroke(Color.BLACK);
+
+        this.onTop.getChildren().addAll(this.vectorY, this.vectorX, this.vectorSpeed);
     }
 
     public AnimationTimer getAnimation() {
@@ -237,6 +242,6 @@ public class SimulationProjectileMotion {
     }
 
     private void updateVector() {
-        this.onTop.getChildren().remove(0/*, 3*/);
+        this.onTop.getChildren().remove(0, 3);
     }
 }
