@@ -1,84 +1,64 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.vanier.ueps.simulations.functions;
 
 import javafx.animation.AnimationTimer;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-/**
- *
- * @author 2158914
- */
 public class SimulationProjectileMotion {
+    
     //canvas
-    final Canvas canvas = new Canvas(1300, 1300);
+    private final Canvas canvas = new Canvas(1300, 1300);
 
     //kind of scene onTop the canvas (overlay) where i can add lines and stuff
-    final Pane onTop = new Pane();
+    private final Pane onTop = new Pane();
 
     //initial position of rect/shape
-    double posX = 0;
-    double posY = 700;
+    private double posX = 0;
+    private double posY = 700;
 
     //following position after a certain time    
-    double nextPositionX;
-    double nextPositionY;
+    private double nextPositionX;
+    private double nextPositionY;
 
     //time passed b4 Modification("update")
-    double time;
-
-    //time passed b4 Modification("update")
-    double timeInSeconds = Math.pow(time, -3);
+    private final double time;
 
     //norm of the initial velocity vector; more like initialSpeed
-    double initialSpeed;
+    private final double initialSpeed;
 
     //Velocity in y direction is a variable; it will change
-    double velocityY;
-    final double initialVelocityY;
+    private double velocityY;
+    private final double initialVelocityY;
 
     //Velocity in x direction won't change; it is just to access it easily
-    double velocityX;
+    private double velocityX;
 
     //Velocity(initialSpeed) vector
-    Line vectorSpeed;
-    Line vectorY;
-    Line vectorX;
+    private Line vectorSpeed;
+    private Line vectorY;
+    private Line vectorX;
 
-    double rate;
+    private double rate;
 
     //direction in radians
-    double direction;
-    
-    //Gravitational acceleration
-    double gravitationalConstant = 0.01;
+    private double direction;
 
-    GraphicsContext gc;
+    //Gravitational acceleration
+    private double gravitationalConstant = 0.01;
+
+    private GraphicsContext gc;
     //Height and Width
-    double rectHeight = 150;
-    double rectWidth = 150;
+    private double rectHeight = 150;
+    private double rectWidth = 150;
 
     //Center coordinates
-    double rectCenterX = posX + rectWidth / 2;
-    double rectCenterY = posY + rectHeight / 2;
+    private double rectCenterX = posX + rectWidth / 2;
+    private double rectCenterY = posY + rectHeight / 2;
 
-    AnimationTimer animation;
-
-    public Canvas getCanvas() {
-        return this.canvas;
-    }
-
-    public Pane getOnTop() {
-        return onTop;
-    }
+    private AnimationTimer animation;
 
     /**
      *
@@ -124,7 +104,7 @@ public class SimulationProjectileMotion {
 
     private double getEndVectorX() {
         //Changes the time to make the vector be more visible; it displays the next position that is/will be as tall as the rate vector
-        this.nextPositionX = projectileMotionX(rate*time, rectCenterX, velocityX);
+        this.nextPositionX = projectileMotionX(rate * time, rectCenterX, velocityX);
         //this is indeed the next position within the next given time
         return this.nextPositionX;
     }
@@ -138,19 +118,12 @@ public class SimulationProjectileMotion {
     private double getEndVectorY() {
         double endY;
         //Changes the time to make the vector be more visible; it displays the next position that is/will be as tall as the rate vector
-        this.nextPositionY = projectileMotionY(rate*time, rectCenterY, velocityY);
+        this.nextPositionY = projectileMotionY(rate * time, rectCenterY, velocityY);
         //To offset velocity change made by projectileMotionY()
         this.velocityY += gravitationalConstant;
         //this is indeed the next position within the next given time
         endY = this.nextPositionY;
         //Vy = Voy - gt, unless its already at 0
-        //if (velocityY(initialSpeed) == 0) {
-
-//        } else{
-//            this.velocityY -= 9.8 * this.time * Math.pow(10, -3);
-//            this.initialSpeed = Math.sqrt(velocityY*velocityY + velocityX*velocityX)* Math.pow(10, -3);
-//            System.out.println("At time "+ timer + " Velocity in Y = " + velocityY*timer);
-//        }
         return endY;
     }
 
@@ -162,7 +135,6 @@ public class SimulationProjectileMotion {
     }
 
     private double velocityY(double speed) {
-        
         //use the fact that sin(direction) = y/v -> y = v*sin(direction) in pixel/ms
         this.velocityY = speed * Math.sin(this.direction);
         System.out.println("velocity Y = " + velocityY);
@@ -244,4 +216,87 @@ public class SimulationProjectileMotion {
     private void updateVector() {
         this.onTop.getChildren().remove(0, 3);
     }
+    
+    
+    //======GETTERS AND SETTERS=========
+    public Canvas getCanvas() {
+        return this.canvas;
+    }
+
+    public Pane getOnTop() {
+        return this.onTop;
+    }
+
+    public double getPosX() {
+        return this.posX;
+    }
+
+    public void setPosX(double posX) {
+        this.posX = posX;
+    }
+
+    public double getPosY() {
+        return this.posY;
+    }
+
+    public void setPosY(double posY) {
+        this.posY = posY;
+    }
+
+    public Line getVectorY() {
+        return this.vectorY;
+    }
+
+    public void setVectorY(Line vectorY) {
+        this.vectorY = vectorY;
+    }
+
+    public Line getVectorX() {
+        return this.vectorX;
+    }
+
+    public void setVectorX(Line vectorX) {
+        this.vectorX = vectorX;
+    }
+
+    public double getRate() {
+        return this.rate;
+    }
+
+    public void setRate(double rate) {
+        this.rate = rate;
+    }
+
+    public double getDirection() {
+        return this.direction;
+    }
+
+    public void setDirection(double direction) {
+        this.direction = direction;
+    }
+
+    public double getGravitationalConstant() {
+        return this.gravitationalConstant;
+    }
+
+    public void setGravitationalConstant(double gravitationalConstant) {
+        this.gravitationalConstant = gravitationalConstant;
+    }
+
+    public double getRectHeight() {
+        return this.rectHeight;
+    }
+
+    public void setRectHeight(double rectHeight) {
+        this.rectHeight = rectHeight;
+    }
+
+    public double getRectWidth() {
+        return this.rectWidth;
+    }
+
+    public void setRectWidth(double rectWidth) {
+        this.rectWidth = rectWidth;
+    }
+    //================================================
 }
