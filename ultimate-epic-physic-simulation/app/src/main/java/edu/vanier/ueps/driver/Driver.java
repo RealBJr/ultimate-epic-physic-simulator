@@ -50,13 +50,13 @@ public class Driver extends Application{
 //            });
             
 
-        SimulationProjectileMotion pm = new SimulationProjectileMotion(10,Math.PI/4/*Math.PI/2*/);
+        SimulationProjectileMotion pm = new SimulationProjectileMotion(12,0.5/*Math.PI/2*/);
         Scene scene = new Scene(root, 300, 300);
         root.getChildren().addAll(pm.getCanvas(),pm.getOnTop(),b1,b);
         
         pm.displayCanvas();
         b1.setOnMousePressed((e)->{
-            pm.getAnimation().start();        
+            pm.startAnimation();
         });
         
         b.setOnMousePressed((e)->{
@@ -69,7 +69,7 @@ public class Driver extends Application{
             //pm = new SimulationProjectileMotion(3,Math.PI/4/*Math.PI/2*/);
 //            stage.show();
 //            root.getChildren().addAll();
-            pm.getAnimation().stop();
+            pm.resetAnimation();
             
         });        
         stage.setScene(scene);

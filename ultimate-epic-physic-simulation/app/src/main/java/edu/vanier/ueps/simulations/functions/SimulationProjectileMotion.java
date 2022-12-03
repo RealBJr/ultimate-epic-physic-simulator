@@ -58,6 +58,7 @@ public class SimulationProjectileMotion {
     private double rectCenterX = posX + rectWidth / 2;
     private double rectCenterY = posY + rectHeight / 2;
 
+    
     private AnimationTimer animation;
 
     /**
@@ -79,25 +80,7 @@ public class SimulationProjectileMotion {
         this.animation = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                System.out.println("Drawing");
-                update();
-                updateVector();
-                if (posY > 700) {
-                    posY = 700;
-                }
-                if (posY < 0) {
-                    posY = 0;
-                }
-                //TODO: figure out how to effectively stop this
-                if (posY > 700) {
-                    velocityX = 0;
-                    posX = 0;
-                }
-                if (posX > 1300 - rectWidth) {
-                    posX = 1300 - rectWidth;
-                }
-                gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                draw(gc);
+                handleAnimation();
             }
         };
     }
@@ -199,10 +182,31 @@ public class SimulationProjectileMotion {
         this.onTop.getChildren().addAll(this.vectorY, this.vectorX, this.vectorSpeed);
     }
 
-    public AnimationTimer getAnimation() {
-        return this.animation;
-    }
+//    private AnimationTimer getAnimation() {
+//        return this.animation;
+//    }
 
+    public void pauseAnimation(){
+        this.animation.stop();
+    }
+    
+    public void resetAnimation(){
+        this.animation.stop();
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        getOnTop().getChildren().clear();
+            posX = 0;
+            posY = 700;
+            this.velocityX = velocityX(this.initialSpeed);
+            this.velocityY = velocityY(this.initialSpeed);
+            rectCenterX = posX + rectWidth / 2;
+            rectCenterY = posY + rectHeight / 2;
+        draw(gc);
+        System.out.println("I got to the end here");
+    }
+    
+    public void startAnimation(){
+        this.animation.start();
+    }
     public void update() {
         this.posX = projectileMotionX(this.time, this.posX, this.velocityX);
         this.nextPositionX = this.posX;
@@ -217,6 +221,28 @@ public class SimulationProjectileMotion {
         this.onTop.getChildren().remove(0, 3);
     }
     
+    
+    public void handleAnimation(){
+                System.out.println("Drawing");
+                update();
+                updateVector();
+                if (posY > 700) {
+                    posY = 700;
+                }
+                if (posY < 0) {
+                    posY = 0;
+                }
+                //TODO: figure out how to effectively stop this
+                if (posY > 700) {
+                    velocityX = 0;
+                    posX = 0;
+                }
+                if (posX > 1300 - rectWidth) {
+                    posX = 1300 - rectWidth;
+                }
+                gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                draw(gc);
+    }
     
     //======GETTERS AND SETTERS=========
     public Canvas getCanvas() {
@@ -298,5 +324,5 @@ public class SimulationProjectileMotion {
     public void setRectWidth(double rectWidth) {
         this.rectWidth = rectWidth;
     }
-    //================================================
+    //=============================================
 }
