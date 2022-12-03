@@ -228,6 +228,7 @@ public class SimulationProjectileMotion {
                 updateVector();
                 if (posY > 700) {
                     posY = 700;
+                    pauseAnimation();
                 }
                 if (posY < 0) {
                     posY = 0;
