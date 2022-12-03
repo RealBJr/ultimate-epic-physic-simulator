@@ -2,14 +2,26 @@
 
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="paneContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Canvas fx:id="canvas" height="400.0" width="600.0" />
-      <Text layoutX="523.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Settings" />
-      <Button layoutX="60.0" layoutY="317.0" mnemonicParsing="false" text="Button" />
-      <Button layoutX="180.0" layoutY="317.0" mnemonicParsing="false" text="Button" />
+      <Pane fx:id="paneAnimationArea" layoutX="-3.0" layoutY="1.0" prefHeight="600.0" prefWidth="720.0">
+         <children>
+            <Canvas fx:id="canvas" height="600.0" width="720.0" />
+         </children>
+      </Pane>
+      <Pane fx:id="paneSettings" layoutX="722.0" prefHeight="600.0" prefWidth="180.0">
+         <children>
+            <Text layoutX="69.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Settings" />
+            <Button layoutX="14.0" layoutY="550.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="14.0" layoutY="493.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="112.0" layoutY="493.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="112.0" layoutY="550.0" mnemonicParsing="false" text="Button" />
+            <Separator layoutX="-5.0" layoutY="-77.0" orientation="VERTICAL" prefHeight="678.0" prefWidth="0.0" />
+         </children>
+      </Pane>
    </children>
 </Pane>

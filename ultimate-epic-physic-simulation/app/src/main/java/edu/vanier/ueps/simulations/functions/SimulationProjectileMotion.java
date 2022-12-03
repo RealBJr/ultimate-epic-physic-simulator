@@ -16,8 +16,12 @@ public class SimulationProjectileMotion {
     private  Pane onTop = new Pane();
 
     //initial position of rect/shape
-    private double posX = 0;
-    private double posY = 700;
+    private double initialPosX = 0;
+    private double initialPosY;
+    
+    //progressive position of rectangle
+    private double posX;
+    private double posY;
 
     //following position after a certain time    
     private double nextPositionX;
@@ -68,8 +72,8 @@ public class SimulationProjectileMotion {
      * @param cv
      */
     public SimulationProjectileMotion(double speed, double direction, Canvas cv) {
+        setCanvas(cv);
         //by default best fps
-        this.canvas = cv;
         this.time = 1;
         this.initialSpeed = speed;
         this.direction = direction;
@@ -78,6 +82,7 @@ public class SimulationProjectileMotion {
         this.velocityX = velocityX(this.initialSpeed);
         this.velocityY = velocityY(this.initialSpeed);
         this.initialVelocityY = velocityY(this.initialSpeed);
+        this.initialPosY = this.canvas.getWidth() - 2*this.rectHeight;
 
         this.animation = new AnimationTimer() {
             @Override
@@ -115,14 +120,14 @@ public class SimulationProjectileMotion {
     private double velocityX(double speed) {
         //use the fact that cos(direction) = x/v -> x = cos(direction)*v) in pixel/ms
         this.velocityX = speed * Math.cos(this.direction);
-        System.out.println("velocity x = " + velocityX);
+        //System.out.println("velocity x = " + velocityX);
         return this.velocityX;
     }
 
     private double velocityY(double speed) {
         //use the fact that sin(direction) = y/v -> y = v*sin(direction) in pixel/ms
         this.velocityY = speed * Math.sin(this.direction);
-        System.out.println("velocity Y = " + velocityY);
+        //System.out.println("velocity Y = " + velocityY);
 
         //System.out.println("velocity y = " + velocityY);
         return this.velocityY;
@@ -131,7 +136,7 @@ public class SimulationProjectileMotion {
     private double projectileMotionX(double time, double currentPositionX, double velocityX) {
         //x position IS NOT affected by gravitational acceleration, it follows a velocity
         double derivedNextX = currentPositionX + time * velocityX;
-        System.out.println("position X update = " + derivedNextX);
+        //System.out.println("position X update = " + derivedNextX);
         return derivedNextX;
     }
 
@@ -143,7 +148,7 @@ public class SimulationProjectileMotion {
         double derivedNextY = posY;
         //Calculate next Y if its non-zero velocity in Y initially; if its zero
         if (this.initialVelocityY == 0) {
-            System.out.println("position Y update = " + derivedNextY);
+            //System.out.println("position Y update = " + derivedNextY);
             return derivedNextY;
         } else {
             //here im kinda trying to implement acceleration, just change rate.
@@ -154,27 +159,32 @@ public class SimulationProjectileMotion {
             this.velocityY -= gravitationalConstant;
         }
 
-        System.out.println("position Y update = " + derivedNextY);
+        //System.out.println("position Y update = " + derivedNextY);
         return derivedNextY;
     }
 
     public void displayCanvas() {
+        this.posX = this.initialPosX;
+        this.posY = this.initialPosY;
         draw(this.gc);
     }
 
     public void draw(GraphicsContext gc) {
+        
         this.gc.setFill(Color.RED);
-        System.out.println("nxtPositionY = " + nextPositionY);
+        //System.out.println("nxtPositionY = " + nextPositionY);
 
+        System.out.println("posX = " + this.posX);
+        System.out.println("posY = " + this.posY);
         gc.fillRect(this.posX, this.posY, this.rectHeight, this.rectWidth);
 
         //TODO: Check line drawing after the initial call
         this.vectorY = new Line(this.rectCenterX, this.rectCenterY, this.rectCenterX, getEndVectorY());
-        this.vectorY.setStrokeWidth(3);
+        this.vectorY.setStrokeWidth(4);
         this.vectorY.setStroke(Color.RED);
 
         this.vectorX = new Line(this.rectCenterX, this.rectCenterY, getEndVectorX(), this.rectCenterY);
-        this.vectorX.setStrokeWidth(3);
+        this.vectorX.setStrokeWidth(4);
         this.vectorX.setStroke(Color.GREEN);
 
         this.vectorSpeed = new Line(this.rectCenterX, this.rectCenterY, getEndVectorX(), getEndVectorY());
@@ -196,8 +206,8 @@ public class SimulationProjectileMotion {
         this.animation.stop();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         getOnTop().getChildren().clear();
-            posX = 0;
-            posY = 700;
+            posX = initialPosX;
+            posY = initialPosY;
             this.velocityX = velocityX(this.initialSpeed);
             this.velocityY = velocityY(this.initialSpeed);
             rectCenterX = posX + rectWidth / 2;
@@ -211,10 +221,12 @@ public class SimulationProjectileMotion {
     }
     public void update() {
         this.posX = projectileMotionX(this.time, this.posX, this.velocityX);
+        
         this.nextPositionX = this.posX;
         this.rectCenterX = this.posX + this.rectWidth / 2;
 
         this.posY = projectileMotionY(this.time, this.posY, this.velocityY);
+        
         //this.nextPositionY = this.initialPosY;
         this.rectCenterY = this.posY + this.rectHeight / 2;
     }
@@ -228,20 +240,21 @@ public class SimulationProjectileMotion {
                 System.out.println("Drawing");
                 update();
                 updateVector();
-                if (posY > 700) {
-                    posY = 700;
+                if (posY > this.canvas.getHeight()) {
+                    posY = initialPosY;
                     pauseAnimation();
                 }
                 if (posY < 0) {
                     posY = 0;
                 }
                 //TODO: figure out how to effectively stop this
-                if (posY > 700) {
-                    velocityX = 0;
-                    posX = 0;
-                }
-                if (posX > 1300 - rectWidth) {
-                    posX = 1300 - rectWidth;
+//                if (posY > this.canvas.getHeight()) {
+//                    velocityX = 0;
+//                    posX = 0;
+//                }
+                if (posX > this.canvas.getWidth() - rectWidth) {
+                    System.out.println("TRUEE !!! HERE");
+                    posX = this.canvas.getWidth() - rectWidth;
                 }
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 draw(gc);
@@ -258,6 +271,22 @@ public class SimulationProjectileMotion {
     
     public void setOnTop(Pane pane) {
         this.onTop=pane;
+    }
+
+    public double getInitialPosX() {
+        return this.initialPosX;
+    }
+
+    public void setInitialPosX(double initialPosX) {
+        this.initialPosX = initialPosX;
+    }
+
+    public double getInitialPosY() {
+        return this.initialPosY;
+    }
+
+    public void setInitialPosY(double initialPosY) {
+        this.initialPosY = initialPosY;
     }
 
     public double getPosX() {
@@ -332,9 +361,10 @@ public class SimulationProjectileMotion {
         this.rectWidth = rectWidth;
     }
     
-    public void setCanvas(Canvas canvas) {
+    private void setCanvas(Canvas canvas) {
         this.canvas = canvas;
     }
+    
     
     //=============================================
 }

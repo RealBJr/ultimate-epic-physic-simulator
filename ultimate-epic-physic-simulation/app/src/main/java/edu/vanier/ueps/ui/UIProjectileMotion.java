@@ -40,9 +40,10 @@ public class UIProjectileMotion extends Stage {
 
         Pane root = loader.load();
 
-        Scene sc = new Scene(root);
+        Scene sc = new Scene(root,900,600);
 
         this.setScene(sc);
+        this.setResizable(false);
 
         this.show();
     }

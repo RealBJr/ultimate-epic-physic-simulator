@@ -17,25 +17,28 @@ import javafx.scene.layout.Pane;
  * @author Mijan
  */
 public class ProjectileMotionController implements Initializable {
-    
     @FXML
     Canvas canvas;
     
     @FXML
-    Pane pane;
+    Pane paneContainer;
+   
+    @FXML
+    Pane paneAnimationArea;
+    
+    @FXML
+    Pane paneSettings;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
-        canvas.setLayoutX(1300);
-        canvas.setLayoutY(1300);
-        
+        //paneSettings.
         
         SimulationProjectileMotion pm = new SimulationProjectileMotion(4,0.5/*Math.PI/2*/,canvas);
-        pm.setOnTop(pane);
+        pm.setOnTop(paneAnimationArea);
         
         
-        pm.startAnimation();
+        pm.displayCanvas();
+        //pm.startAnimation();
     }
     
 }
