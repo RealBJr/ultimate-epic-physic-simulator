@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -50,13 +51,13 @@ public class Driver extends Application{
 //            });
             
 
-        SimulationProjectileMotion pm = new SimulationProjectileMotion(4,0.5/*Math.PI/2*/);
+        //SimulationProjectileMotion pm = new SimulationProjectileMotion(4,0.5/*Math.PI/2*/);
         Scene scene = new Scene(root, 300, 300);
-        root.getChildren().addAll(pm.getCanvas(),pm.getOnTop(),b1,b);
+        //root.getChildren().addAll(pm.getCanvas(),pm.getOnTop(),b1,b);
         
-        pm.displayCanvas();
+        //pm.displayCanvas();
         b1.setOnMousePressed((e)->{
-            pm.startAnimation();
+            //pm.startAnimation();
         });
         
         b.setOnMousePressed((e)->{
@@ -69,7 +70,7 @@ public class Driver extends Application{
             //pm = new SimulationProjectileMotion(3,Math.PI/4/*Math.PI/2*/);
 //            stage.show();
 //            root.getChildren().addAll();
-            pm.resetAnimation();
+            //pm.resetAnimation();
             
         });        
         stage.setScene(scene);

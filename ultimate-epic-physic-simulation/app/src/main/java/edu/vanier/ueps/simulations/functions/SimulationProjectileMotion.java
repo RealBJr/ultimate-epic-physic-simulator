@@ -10,10 +10,10 @@ import javafx.scene.shape.Line;
 public class SimulationProjectileMotion {
     
     //canvas
-    private final Canvas canvas = new Canvas(1300, 1300);
+    private Canvas canvas = new Canvas(1300, 1300);
 
     //kind of scene onTop the canvas (overlay) where i can add lines and stuff
-    private final Pane onTop = new Pane();
+    private  Pane onTop = new Pane();
 
     //initial position of rect/shape
     private double posX = 0;
@@ -65,9 +65,11 @@ public class SimulationProjectileMotion {
      *
      * @param speed
      * @param direction
+     * @param cv
      */
-    public SimulationProjectileMotion(double speed, double direction) {
+    public SimulationProjectileMotion(double speed, double direction, Canvas cv) {
         //by default best fps
+        this.canvas = cv;
         this.time = 1;
         this.initialSpeed = speed;
         this.direction = direction;
@@ -161,7 +163,7 @@ public class SimulationProjectileMotion {
     }
 
     public void draw(GraphicsContext gc) {
-        this.gc.setFill(Color.BLUE);
+        this.gc.setFill(Color.RED);
         System.out.println("nxtPositionY = " + nextPositionY);
 
         gc.fillRect(this.posX, this.posY, this.rectHeight, this.rectWidth);
@@ -253,6 +255,10 @@ public class SimulationProjectileMotion {
     public Pane getOnTop() {
         return this.onTop;
     }
+    
+    public void setOnTop(Pane pane) {
+        this.onTop=pane;
+    }
 
     public double getPosX() {
         return this.posX;
@@ -325,5 +331,10 @@ public class SimulationProjectileMotion {
     public void setRectWidth(double rectWidth) {
         this.rectWidth = rectWidth;
     }
+    
+    public void setCanvas(Canvas canvas) {
+        this.canvas = canvas;
+    }
+    
     //=============================================
 }

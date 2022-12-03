@@ -34,7 +34,7 @@
          <value>
             <Color />
          </value></ColorPicker>
-      <Button fx:id="playBtn" layoutX="79.0" layoutY="419.0" mnemonicParsing="false" text="Play" />
+      <Button fx:id="btnPlay" layoutX="79.0" layoutY="419.0" mnemonicParsing="false" text="Play" />
       <Button fx:id="pauseBtn" layoutX="183.0" layoutY="419.0" mnemonicParsing="false" text="Pause" />
       <Button fx:id="stopBtn" layoutX="298.0" layoutY="419.0" mnemonicParsing="false" text="Stop" />
    </children>

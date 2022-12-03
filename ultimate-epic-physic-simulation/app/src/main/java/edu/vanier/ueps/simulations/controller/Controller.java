@@ -2,6 +2,7 @@
 package edu.vanier.ueps.simulations.controller;
 
 import edu.vanier.ueps.ui.UIPendulum;
+import edu.vanier.ueps.ui.UIProjectileMotion;
 import edu.vanier.ueps.ui.UISHM;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,6 +24,10 @@ public class Controller implements Initializable{
        });
        pendulumbtn.setOnAction((e)->{
            UIPendulum shmStage = new UIPendulum();
+       });
+       
+       parachutebtn.setOnAction((e)->{
+           UIProjectileMotion shmStage = new UIProjectileMotion();
        });
     }
     

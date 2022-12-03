@@ -40,7 +40,7 @@ public class PendulumController implements Initializable {
     ColorPicker colorPicker;
 
     @FXML
-    Button pauseBtn, stopBtn;
+    Button btnPlay, pauseBtn, stopBtn;
 
     @FXML
     Slider lenghtSlider, massSlider, dampingSlider;
@@ -88,8 +88,7 @@ public class PendulumController implements Initializable {
         pathTransition.setCycleCount(Timeline.INDEFINITE);
         pathTransition.setAutoReverse(true);
 
-        secondTime.play();
-        pathTransition.play();
+        
 
         lenghtSlider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -102,6 +101,16 @@ public class PendulumController implements Initializable {
         pauseBtn.setOnAction((e) -> {
             secondTime.pause();
             pathTransition.pause();
+        });
+        
+         btnPlay.setOnAction((e) -> {
+            secondTime.play();
+            pathTransition.play();
+        });
+         
+          stopBtn.setOnAction((e) -> {
+            secondTime.stop();
+            pathTransition.stop();
         });
 
     }
