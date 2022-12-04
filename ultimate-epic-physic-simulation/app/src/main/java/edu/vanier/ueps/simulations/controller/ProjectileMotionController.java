@@ -17,7 +17,6 @@ import javafx.scene.layout.Pane;
  * @author Mijan
  */
 public class ProjectileMotionController implements Initializable {
-    @FXML
     Canvas canvas;
     
     @FXML
@@ -32,13 +31,22 @@ public class ProjectileMotionController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //paneSettings.
+        canvas = new Canvas(paneAnimationArea.getPrefWidth(), paneAnimationArea.getPrefHeight());
+        paneContainer.getChildren().add(canvas);
         
-        SimulationProjectileMotion pm = new SimulationProjectileMotion(4,0.5/*Math.PI/2*/,canvas);
+        //Put the lines (vectors in front of the canvas: think of pane as a glass into which is graved the vectors
+        //think of canvas as a paper that i want as a background
+        //if my paper is in front of my glass, it wont be seen, instead, when paper is in the back, it works just fine
+        
+        paneContainer.getChildren().get(0).toFront();
+        System.out.println("Height of canvas = "+canvas.getHeight() + ",width = " + canvas.getWidth());
+        SimulationProjectileMotion pm = new SimulationProjectileMotion(4,33/*Math.PI/2*/,canvas);
         pm.setOnTop(paneAnimationArea);
         
+        //pm.setInitialPosY(300);
         
         pm.displayCanvas();
-        //pm.startAnimation();
+        pm.startAnimation();
     }
     
 }

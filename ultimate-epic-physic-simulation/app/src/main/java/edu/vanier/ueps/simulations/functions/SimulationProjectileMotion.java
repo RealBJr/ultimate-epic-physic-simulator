@@ -8,7 +8,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 public class SimulationProjectileMotion {
-    
     //canvas
     private Canvas canvas = new Canvas(1300, 1300);
 
@@ -59,8 +58,8 @@ public class SimulationProjectileMotion {
     private double rectWidth = 150;
 
     //Center coordinates
-    private double rectCenterX = posX + rectWidth / 2;
-    private double rectCenterY = posY + rectHeight / 2;
+    private double rectCenterX;
+    private double rectCenterY;
 
     
     private AnimationTimer animation;
@@ -79,10 +78,13 @@ public class SimulationProjectileMotion {
         this.direction = direction;
         this.gc = this.canvas.getGraphicsContext2D();
         this.rate = speed;
+        
         this.velocityX = velocityX(this.initialSpeed);
         this.velocityY = velocityY(this.initialSpeed);
+        
         this.initialVelocityY = velocityY(this.initialSpeed);
-        this.initialPosY = this.canvas.getWidth() - 2*this.rectHeight;
+        
+        this.initialPosY = this.canvas.getHeight() - this.rectHeight;
 
         this.animation = new AnimationTimer() {
             @Override
@@ -166,12 +168,19 @@ public class SimulationProjectileMotion {
     public void displayCanvas() {
         this.posX = this.initialPosX;
         this.posY = this.initialPosY;
+        
+        rectCenterX = posX + rectWidth / 2;
+        rectCenterY = posY + rectHeight / 2;
+        
+        System.out.println("center of rect X" + rectCenterX);
+        System.out.println("center of rect Y" + rectCenterY);
+        
         draw(this.gc);
     }
 
     public void draw(GraphicsContext gc) {
         
-        this.gc.setFill(Color.RED);
+        this.gc.setFill(Color.BLUE);
         //System.out.println("nxtPositionY = " + nextPositionY);
 
         System.out.println("posX = " + this.posX);
@@ -240,8 +249,8 @@ public class SimulationProjectileMotion {
                 System.out.println("Drawing");
                 update();
                 updateVector();
-                if (posY > this.canvas.getHeight()) {
-                    posY = initialPosY;
+                if (posY > this.canvas.getHeight()-this.rectHeight) {
+                    //posY = initialPosY;
                     pauseAnimation();
                 }
                 if (posY < 0) {
@@ -364,7 +373,5 @@ public class SimulationProjectileMotion {
     private void setCanvas(Canvas canvas) {
         this.canvas = canvas;
     }
-    
-    
     //=============================================
 }

@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -33,6 +34,7 @@ public class Driver extends Application{
         double amplitude =0;
         Button b = new Button("reset");
         Button b1 = new Button("Play");
+        Canvas cv = new Canvas(900, 600);
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -51,13 +53,13 @@ public class Driver extends Application{
 //            });
             
 
-        //SimulationProjectileMotion pm = new SimulationProjectileMotion(4,0.5/*Math.PI/2*/);
+        SimulationProjectileMotion pm = new SimulationProjectileMotion(4,0.5/*Math.PI/2*/,cv);
         Scene scene = new Scene(root, 300, 300);
-        //root.getChildren().addAll(pm.getCanvas(),pm.getOnTop(),b1,b);
+        root.getChildren().addAll(cv,pm.getOnTop(),b1,b);
         
-        //pm.displayCanvas();
+        pm.displayCanvas();
         b1.setOnMousePressed((e)->{
-            //pm.startAnimation();
+            pm.startAnimation();
         });
         
         b.setOnMousePressed((e)->{
@@ -70,7 +72,7 @@ public class Driver extends Application{
             //pm = new SimulationProjectileMotion(3,Math.PI/4/*Math.PI/2*/);
 //            stage.show();
 //            root.getChildren().addAll();
-            //pm.resetAnimation();
+            pm.resetAnimation();
             
         });        
         stage.setScene(scene);
