@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Path?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="playBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="playBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Path fx:id="arcPath" fill="WHITE" layoutX="200.0" layoutY="200.0" rotate="315.0" scaleX="2.0" scaleY="2.0" scaleZ="0.0" stroke="BLACK" strokeType="INSIDE">
           <elements>
@@ -37,5 +37,6 @@
       <Button fx:id="btnPlay" layoutX="79.0" layoutY="419.0" mnemonicParsing="false" text="Play" />
       <Button fx:id="pauseBtn" layoutX="183.0" layoutY="419.0" mnemonicParsing="false" text="Pause" />
       <Button fx:id="stopBtn" layoutX="298.0" layoutY="419.0" mnemonicParsing="false" text="Stop" />
+      <Button fx:id="graphBtn" layoutX="570.0" layoutY="419.0" mnemonicParsing="false" text="Graph" />
    </children>
 </Pane>

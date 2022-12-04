@@ -1,5 +1,6 @@
 package edu.vanier.ueps.simulations.controller;
 
+import edu.vanier.ueps.graphs.controllers.GraphControllerPendulum;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.Interpolator;
@@ -40,7 +41,7 @@ public class PendulumController implements Initializable {
     ColorPicker colorPicker;
 
     @FXML
-    Button btnPlay, pauseBtn, stopBtn;
+    Button btnPlay, pauseBtn, stopBtn, graphBtn;
 
     @FXML
     Slider lenghtSlider, massSlider, dampingSlider;
@@ -111,6 +112,10 @@ public class PendulumController implements Initializable {
           stopBtn.setOnAction((e) -> {
             secondTime.stop();
             pathTransition.stop();
+        });
+          
+          graphBtn.setOnAction((e) -> {
+            GraphControllerPendulum graph = new GraphControllerPendulum(lenghtSlider.getValue());
         });
 
     }

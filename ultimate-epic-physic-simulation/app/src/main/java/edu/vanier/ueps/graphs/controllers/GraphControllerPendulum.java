@@ -1,72 +1,64 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package edu.vanier.ueps.graphs.controllers;
 
-import edu.vanier.ueps.simulations.controller.SimulationSHMController;
-import edu.vanier.ueps.simulations.functions.SimulationSHM;
-import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
-import static javafx.application.Application.launch;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
-public class GraphController{
-    
+/**
+ *
+ * @author 16162829
+ */
+public class GraphControllerPendulum {
     
     final int WINDOW_SIZE = 10;
     private ScheduledExecutorService scheduledExecutorService;
     
-    double amplitude;
-    double SpringStiffness;
-    double mass;
+    double length;
+    double gravity= 9.8;
+    double maxAngle = 180;
     double time;
-    
-    ArrayList values = new ArrayList();
-    double xPos;
-    
-    public GraphController(double amplitude,double SpringStiffness,double mass, double time){
+
+    public GraphControllerPendulum(double length) {
         initialize();
-        this.amplitude = amplitude;
-        this.SpringStiffness = SpringStiffness;
-        this.mass = mass; 
-        this.time = time;
+        this.length = length;
     }
-    
+    //? = ?????(?? + ?) 
+    public double takeComponents(double t){
+        double angularVelocity = Math.sqrt(gravity/this.length);
+        double angle = maxAngle*Math.cos(angularVelocity*t);
+        return angle;
+    }
     
     public void initialize() {
         Stage primaryStage = new Stage();
 
     
-    primaryStage.setTitle("SHM Graph");
+    primaryStage.setTitle("Pendulum Graph");
 
         //defining the axes
         final CategoryAxis xAxis = new CategoryAxis(); // we are gonna plot against time
         final NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Time(s)");
         xAxis.setAnimated(false); // axis animations are removed
-        yAxis.setLabel("X position");
+        yAxis.setLabel("Angle(rad)");
         yAxis.setAnimated(false); // axis animations are removed
 
         //creating the line chart with two axis created above
         final LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
-        lineChart.setTitle("SHM Graph");
+        lineChart.setTitle("Pendulum Graph");
         lineChart.setAnimated(false); // disable animations
 
         //defining a series to display data
@@ -100,7 +92,7 @@ public class GraphController{
             Platform.runLater(() -> {
                 // get current time
                 Date now = new Date();
-                // put random number with current time
+                // put test2 number with current time
                 series.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), test2));
 
                 if (series.getData().size() > WINDOW_SIZE)
@@ -108,26 +100,5 @@ public class GraphController{
             });
         }, 0, 1, TimeUnit.SECONDS);
     }
-
-    //SHM formula x=Acos(wt+phi)
-    public double takeComponents(double t){
-        //SimulationSHMController controller = new SimulationSHMController();
-        
-        //double Amplitude = controller.getAmplitudeSlider().getValue();
-        //double Period = controller.getPeriodSlider().getValue();
-        //double Phi = controller.getPhaseSlider().getValue();
-        //double k = controller.getSpringStiffnessSlider().getValue();
-        //double m = controller.getMass();
-        //double Angular = Math.sqrt(k/m);
-       // double Phi = controller.getPhaseSlider().getValue();
-        //Duration duration = controller.getTime();
-        //Double Time = (double)duration.toSeconds();
-        //double Angular = 2 * Math.PI / Period;
-        double angularVelocity = Math.sqrt(this.SpringStiffness/this.mass);
-        double xPosition = this.amplitude*Math.cos(angularVelocity*t);
-        return xPosition;
-    }
-            
-    }
-
-
+    
+}
