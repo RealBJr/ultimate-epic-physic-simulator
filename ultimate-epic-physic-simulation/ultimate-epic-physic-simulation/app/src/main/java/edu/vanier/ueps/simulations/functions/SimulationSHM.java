@@ -5,10 +5,16 @@ import java.io.File;
 import java.util.ArrayList;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
+import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.animation.Transition;
+import javafx.scene.Node;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.HLineTo;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.MoveTo;
@@ -18,7 +24,6 @@ import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
 public class SimulationSHM {
-
     private Animation shm;
     
     public SimulationSHM(Rectangle targetedShape, double amplitude, double mass, double damping, double springStiffness) {
@@ -35,7 +40,9 @@ public class SimulationSHM {
      * @return Timeline
      */
     private Animation shm(Rectangle targetedShape, double amplitude, double mass, double damping, double springStiffness) {
-        System.out.println(amplitude);
+        amplitude = amplitude *50;
+        mass = mass * 0.1;
+        
         double period =  2 * Math.PI*Math.sqrt((mass/springStiffness));
         Duration cycleTime = Duration.seconds(period/4);
         
@@ -72,6 +79,7 @@ public class SimulationSHM {
         
         SequentialTransition seqT = new SequentialTransition(pathTransition1,pathTransition2);       
         seqT.setCycleCount(Animation.INDEFINITE);
+                
         shm = seqT;
         return shm;
     
@@ -97,8 +105,9 @@ public class SimulationSHM {
         return shm;
     }
 
-    public void setShm(PathTransition shm) {
+    public void setShm(Animation shm) {
         this.shm = shm;
     }
 }
+
 

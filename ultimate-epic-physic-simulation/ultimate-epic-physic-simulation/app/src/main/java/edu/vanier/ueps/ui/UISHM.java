@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -28,6 +29,7 @@ public class UISHM extends Stage{
         } catch (Exception ex) {
             System.out.println(ex);
             System.out.println("Problem with makecomponents");
+            ex.printStackTrace();
         }
         this.setResizable(false);
     }
@@ -38,10 +40,10 @@ public class UISHM extends Stage{
        
        loader.setController(new SimulationSHMController());
        
-       Pane root = loader.load();
-       System.out.println("makecomponents works");
+       BorderPane root = loader.load();
        
-       Scene sc = new Scene(root);
+       
+       Scene sc = new Scene(root,900,650);
        
        this.setScene(sc);
        
