@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
 /**
@@ -27,6 +28,9 @@ public class ProjectileMotionController implements Initializable {
     
     @FXML
     Pane paneSettings;
+    
+    @FXML
+    Button playBtn , restartBtn;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -46,7 +50,17 @@ public class ProjectileMotionController implements Initializable {
         //pm.setInitialPosY(300);
         
         pm.displayCanvas();
-        pm.startAnimation();
+        
+        
+        playBtn.setOnMousePressed((e)->{
+            pm.startAnimation();
+        });
+        
+        restartBtn.setOnMousePressed((e)->{
+
+            pm.resetAnimation();
+            
+        }); 
     }
     
 }

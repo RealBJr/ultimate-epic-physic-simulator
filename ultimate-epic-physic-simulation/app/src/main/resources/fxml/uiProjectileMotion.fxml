@@ -2,20 +2,23 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="paneContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="paneContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane fx:id="paneAnimationArea" layoutX="-3.0" layoutY="1.0" prefHeight="600.0" prefWidth="720.0" />
       <Pane fx:id="paneSettings" layoutX="722.0" prefHeight="600.0" prefWidth="180.0">
          <children>
             <Text layoutX="69.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Settings" />
-            <Button layoutX="14.0" layoutY="550.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="14.0" layoutY="493.0" mnemonicParsing="false" text="Button" />
+            <Button fx:id="restartBtn" layoutX="14.0" layoutY="550.0" mnemonicParsing="false" text="Restart" />
+            <Button fx:id="playBtn" layoutX="14.0" layoutY="493.0" mnemonicParsing="false" text="Play" />
             <Button layoutX="112.0" layoutY="493.0" mnemonicParsing="false" text="Button" />
             <Button layoutX="112.0" layoutY="550.0" mnemonicParsing="false" text="Button" />
             <Separator layoutX="-5.0" layoutY="-77.0" orientation="VERTICAL" prefHeight="678.0" prefWidth="0.0" />
+            <Text layoutX="6.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gravitanional Constant" />
+            <Slider fx:id="gravitySlider" blockIncrement="1.0" layoutX="14.0" layoutY="78.0" max="15.0" minorTickCount="15" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
          </children>
       </Pane>
    </children>
