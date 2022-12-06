@@ -29,7 +29,9 @@ public class GraphControllerPendulum {
     double length;
     double gravity= 9.8;
     double maxAngle = 180;
-    double time;
+    
+     Timer timer = new Timer();
+        double currentTime = 0;
 
     public GraphControllerPendulum(double length) {
         initialize();
@@ -37,16 +39,15 @@ public class GraphControllerPendulum {
     }
     //? = ?????(?? + ?) 
     public double takeComponents(){
-        Timer timer = new Timer();
-        timer.startTimer();
-        double t = timer.getTime();
         double angularVelocity = Math.sqrt(gravity/this.length);
-        double angle = maxAngle*Math.cos(angularVelocity*t);
+        currentTime = timer.getTime();
+        double angle = maxAngle*Math.cos(angularVelocity*currentTime);
         return angle;
     }
     
     public void initialize() {
         Stage primaryStage = new Stage();
+        timer.startTimer();
 
     
     primaryStage.setTitle("Pendulum Graph");
@@ -86,11 +87,13 @@ public class GraphControllerPendulum {
 
         // put dummy data onto graph per second
         scheduledExecutorService.scheduleAtFixedRate(() -> {
-            double test2 = takeComponents();
+            
             
 
             // Update the chart
             Platform.runLater(() -> {
+                double test2 = takeComponents();
+                System.out.println("current time with timer = " + currentTime);
                 // get current time
                 Date now = new Date();
                 // put test2 number with current time
