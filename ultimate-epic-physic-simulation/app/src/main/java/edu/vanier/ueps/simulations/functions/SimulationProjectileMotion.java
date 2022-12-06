@@ -30,7 +30,7 @@ public class SimulationProjectileMotion {
     private final double time;
 
     //norm of the initial velocity vector; more like initialSpeed
-    private final double initialSpeed;
+    private  double initialSpeed;
 
     //Velocity in y direction is a variable; it will change
     private double velocityY;
@@ -372,6 +372,14 @@ public class SimulationProjectileMotion {
     
     private void setCanvas(Canvas canvas) {
         this.canvas = canvas;
+    }
+    
+    public void setSpeed(double speed) {
+        this.initialSpeed = speed;
+    }
+    
+    public double getSpeed() {
+        return this.initialSpeed;
     }
     //=============================================
 }
