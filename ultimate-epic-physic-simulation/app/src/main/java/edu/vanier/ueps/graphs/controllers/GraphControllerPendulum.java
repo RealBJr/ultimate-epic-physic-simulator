@@ -28,7 +28,7 @@ public class GraphControllerPendulum {
     
     double length;
     double gravity= 9.8;
-    double maxAngle = 180;
+    double maxAngle = 90;
     
     Timer timer = new Timer();
     String timeInS;
@@ -45,7 +45,7 @@ public class GraphControllerPendulum {
         initialize();
         this.length = length;
     }
-    //? = ?????(?? + ?) 
+    //angle = angleMax*cos(wt) 
     public double takeComponents(){
         double angularVelocity = Math.sqrt(gravity/this.length);
         currentTime = timer.getTime();

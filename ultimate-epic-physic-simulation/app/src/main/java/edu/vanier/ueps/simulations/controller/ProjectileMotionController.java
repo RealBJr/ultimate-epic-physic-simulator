@@ -4,6 +4,7 @@
  */
 package edu.vanier.ueps.simulations.controller;
 
+import edu.vanier.ueps.graphs.controllers.GraphControllerProjectileMotion;
 import edu.vanier.ueps.simulations.functions.SimulationProjectileMotion;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,7 +35,7 @@ public class ProjectileMotionController implements Initializable {
     Pane paneSettings;
 
     @FXML
-    Button playBtn, restartBtn, saveBtn, pauseBtn;
+    Button playBtn, restartBtn, saveBtn, pauseBtn, graphBtn;
 
     @FXML
     Slider velocitySlider, angleSlider, gravitationalSlider;
@@ -130,6 +131,11 @@ angleSlider.valueProperty().addListener(new ChangeListener<Number>() {
             pm.pauseAnimation();
 
             disableButtons(false, false, false, true);
+            
+        });
+        
+        graphBtn.setOnMousePressed((e) -> {
+            GraphControllerProjectileMotion graph = new GraphControllerProjectileMotion(pm.getGravitationalConstant(),pm.getSpeed(),pm.getDirection());
             
         });
     }
