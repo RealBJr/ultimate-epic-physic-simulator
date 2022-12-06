@@ -30,8 +30,16 @@ public class GraphControllerPendulum {
     double gravity= 9.8;
     double maxAngle = 180;
     
-     Timer timer = new Timer();
-        double currentTime = 0;
+    Timer timer = new Timer();
+    String timeInS;
+    double currentTime = 0;
+/**
+ * It will help to stop timer when window is closed
+ * @return timer animation
+ */
+    public Timer getTimer() {
+        return timer;
+    }
 
     public GraphControllerPendulum(double length) {
         initialize();
@@ -79,9 +87,6 @@ public class GraphControllerPendulum {
         // show the stage
         primaryStage.show();
 
-        // this is used to display time in HH:mm:ss format
-        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-
         // setup a scheduled executor to periodically put data into the chart
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
@@ -93,11 +98,13 @@ public class GraphControllerPendulum {
             // Update the chart
             Platform.runLater(() -> {
                 double test2 = takeComponents();
+                
                 System.out.println("current time with timer = " + currentTime);
+                
                 // get current time
-                Date now = new Date();
+                timeInS = ""+this.currentTime;
                 // put test2 number with current time
-                series.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), test2));
+                series.getData().add(new XYChart.Data<>(timeInS, test2));
 
                 if (series.getData().size() > WINDOW_SIZE)
                     series.getData().remove(0);
