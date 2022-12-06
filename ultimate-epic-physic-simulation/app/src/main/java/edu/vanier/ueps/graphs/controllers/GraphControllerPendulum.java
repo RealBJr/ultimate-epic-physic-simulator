@@ -36,7 +36,10 @@ public class GraphControllerPendulum {
         this.length = length;
     }
     //? = ?????(?? + ?) 
-    public double takeComponents(double t){
+    public double takeComponents(){
+        Timer timer = new Timer();
+        timer.startTimer();
+        double t = timer.getTime();
         double angularVelocity = Math.sqrt(gravity/this.length);
         double angle = maxAngle*Math.cos(angularVelocity*t);
         return angle;
@@ -83,9 +86,7 @@ public class GraphControllerPendulum {
 
         // put dummy data onto graph per second
         scheduledExecutorService.scheduleAtFixedRate(() -> {
-            double timer = 0;
-            timer++;
-            double test2 = takeComponents(timer);
+            double test2 = takeComponents();
             
 
             // Update the chart

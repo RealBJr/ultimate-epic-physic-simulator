@@ -89,7 +89,7 @@ public class GraphController{
         // setup a scheduled executor to periodically put data into the chart
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
-        // put dummy data onto graph per second
+        // put data onto graph per second
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             double timer = 0;
             timer++;
@@ -100,7 +100,7 @@ public class GraphController{
             Platform.runLater(() -> {
                 // get current time
                 Date now = new Date();
-                // put random number with current time
+                // put test2 number with current time
                 series.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), test2));
 
                 if (series.getData().size() > WINDOW_SIZE)
@@ -111,18 +111,6 @@ public class GraphController{
 
     //SHM formula x=Acos(wt+phi)
     public double takeComponents(double t){
-        //SimulationSHMController controller = new SimulationSHMController();
-        
-        //double Amplitude = controller.getAmplitudeSlider().getValue();
-        //double Period = controller.getPeriodSlider().getValue();
-        //double Phi = controller.getPhaseSlider().getValue();
-        //double k = controller.getSpringStiffnessSlider().getValue();
-        //double m = controller.getMass();
-        //double Angular = Math.sqrt(k/m);
-       // double Phi = controller.getPhaseSlider().getValue();
-        //Duration duration = controller.getTime();
-        //Double Time = (double)duration.toSeconds();
-        //double Angular = 2 * Math.PI / Period;
         double angularVelocity = Math.sqrt(this.SpringStiffness/this.mass);
         double xPosition = this.amplitude*Math.cos(angularVelocity*t);
         return xPosition;
