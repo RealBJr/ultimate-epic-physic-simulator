@@ -25,8 +25,10 @@ public class SimulationSHM {
 
     private Animation shm;
     
-    public SimulationSHM(Rectangle targetedShape, double amplitude, double mass, double damping, double springStiffness, ImageView spring) {
-        shm(targetedShape, amplitude, mass, damping, springStiffness, spring);
+    public SimulationSHM(){}
+    
+    public SimulationSHM(Rectangle targetedShape, double amplitude, double mass, double damping, double springStiffness) {
+        shm(targetedShape, amplitude, mass, damping, springStiffness);
     }
     /**
      * Animation of SHM, from the function x(t) = Acos(wt+phi), a final position
@@ -38,7 +40,7 @@ public class SimulationSHM {
      * @param phaseShift
      * @return Timeline
      */
-    private Animation shm(Rectangle targetedShape, double amplitude, double mass, double damping, double springStiffness, ImageView spring) {
+    private Animation shm(Rectangle targetedShape, double amplitude, double mass, double damping, double springStiffness) {
         amplitude = amplitude *50;
         mass = mass * 0.1;
         
@@ -78,24 +80,49 @@ public class SimulationSHM {
         
         SequentialTransition seqT = new SequentialTransition(pathTransition1,pathTransition2);       
         seqT.setCycleCount(Animation.INDEFINITE);
-        
-        Duration cycleTimeSpring = Duration.seconds(period/2);
-        
-        ScaleTransition st = new ScaleTransition(cycleTimeSpring,spring);
-        st.setByX(1+(amplitude/spring.getFitWidth()));
-        st.setAutoReverse(true);
-        st.setCycleCount(Animation.INDEFINITE);
-        
-        //ParallelTransition pt = new ParallelTransition(seqT,st);
                 
         shm = seqT;
         return shm;
     
     }
+    
+    public Animation bringToCenter(Rectangle targetedShape, double amplitude, double mass, double damping, double springStiffness, double initialX){
+        amplitude = amplitude *50;
+        mass = mass * 0.1;
+        
+        double period =  2 * Math.PI*Math.sqrt((mass/springStiffness));
+        Duration cycleTime = Duration.seconds(period/4);
+        
+        
+        if(amplitude < 0){
+            Line path = new Line(); 
+            path.setStartX(targetedShape.getLayoutX());
+            path.setEndX(path.getStartX() + Math.abs(amplitude));
+            path.setLayoutX(targetedShape.getWidth()/2);
+            path.setLayoutY(targetedShape.getHeight()/2);
+            PathTransition pathTransition = new PathTransition();
+            pathTransition.setDuration(cycleTime);
+            pathTransition.setPath(path);
+            pathTransition.setNode(targetedShape);
+            pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+            pathTransition.setCycleCount(1);
+            pathTransition.setAutoReverse(true);
+            pathTransition.setInterpolator(Interpolator.EASE_IN);
+            
+            //SequentialTransition seqT = new SequentialTransition(pathTransition,shm(targetedShape, Math.abs(amplitude) , mass, damping, springStiffness));       
+            //seqT.setCycleCount(Animation.INDEFINITE);
+            
+            return pathTransition;
+        }else{
+            
+        }
+       
+        return shm(targetedShape, amplitude, mass, damping, springStiffness);
+    }
+    
     public Timeline damping(){
         
         return null;
-        
     }
     public ArrayList<Shape> collisionDetect(Shape targetedShape, ArrayList<Shape> shapes) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
