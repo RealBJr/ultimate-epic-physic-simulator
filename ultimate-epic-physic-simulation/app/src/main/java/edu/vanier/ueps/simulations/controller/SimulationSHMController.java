@@ -19,6 +19,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
@@ -38,7 +39,7 @@ public class SimulationSHMController implements Initializable {
     Pane animationContainer;
 
     @FXML
-    Button playbtn, stopbtn, pausebtn, graphbtn, savebtn;
+    Button playbtn, stopbtn, pausebtn, graphbtn, savebtn, resetbtn;
 
     @FXML
     Slider dampingSlider, AmplitudeSlider, SpringStiffnessSlider,MassSlider ;
@@ -52,34 +53,44 @@ public class SimulationSHMController implements Initializable {
     @FXML
     Rectangle rect;
     
-     GraphicsContext gc;
+    GraphicsContext gc;
+    
+    Line centralLine = new Line(0,0,0,50);
      
-     EventHandler<MouseEvent> eventMousePressed = new EventHandler<MouseEvent>() {
+    private final EventHandler<MouseEvent> eventMousePressed = new EventHandler<MouseEvent>() {
 
         @Override
         public void handle(MouseEvent event) {
             rect.setCursor(Cursor.CLOSED_HAND);
-            rect.setLayoutX(amplitude);
-
+            //rect.setLayoutX(amplitude);
+            //rect.setLayoutX(rect.translateXProperty().getValue());
+            //rect.setTranslateX(rect.translateXProperty().getValue());
         }
     };
-    EventHandler<MouseEvent> eventMouseDragged = new EventHandler<MouseEvent>() {
+    
+    private final EventHandler<MouseEvent> eventMouseDragged = new EventHandler<MouseEvent>() {
 
         @Override
         public void handle(MouseEvent event) {
-            amplitude = event.getSceneX() - rect.getWidth() / 2;
-                rect.setLayoutX(amplitude);
-
+            rect.setLayoutX(event.getSceneX() - rect.getWidth() / 2);
+            /*
+            drawMovingSpring(0);
+            System.out.println(rect.getLayoutX());
+            amplitude = (rect.getLayoutX() - centralLine.getLayoutX())/50;
+            SimulationSHM shm = new SimulationSHM();
+            Animation shmHandled = shm.bringToCenter(rect, amplitude, mass, damping, springStiffness, centralLine.getLayoutX());
+            animate(shmHandled);*/
         }
     };
-    EventHandler<MouseEvent> eventMouseReleased = new EventHandler<MouseEvent>() {
+    
+    private final EventHandler<MouseEvent> eventMouseReleased = new EventHandler<MouseEvent>() {
 
         @Override
         public void handle(MouseEvent event) {
            rect.setCursor(Cursor.OPEN_HAND);
         }
     };
-    EventHandler<MouseEvent> eventMouseEnteredTarget = new EventHandler<MouseEvent>() {
+    private final EventHandler<MouseEvent> eventMouseEnteredTarget = new EventHandler<MouseEvent>() {
 
         @Override
         public void handle(MouseEvent event) {
@@ -98,33 +109,39 @@ public class SimulationSHMController implements Initializable {
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+       
+        centralLine.setLayoutX(rect.getLayoutX()  + rect.getWidth()/2);
+        
+        /**
+         * Setting up the graphics context for the canvas and drawing the initial spring
+         */
         canvas.setHeight(animationContainer.getPrefHeight());
         canvas.setWidth(animationContainer.getPrefWidth());
         gc = canvas.getGraphicsContext2D();
         drawMovingSpring(0);
-        //TODO: The spring extends on both sides, it should be only extending on the right hand side, to fix
-        /*playbtn.setDisable(false);
+       
+        playbtn.setDisable(false);
         pausebtn.setDisable(true);
-        stopbtn.setDisable(true);*/
+        stopbtn.setDisable(true);
+        
+        /**
+         * Allow user to click on the rectangle and place it where ever he wants on the x axis by dragging it
+         */
+        
+        clickAndDrag();
         
         shm = new SimulationSHM(rect,amplitude, mass, damping, springStiffness);
-       // initializeBtns(shm);
         animate(shm.getShm());
         
+        /*
+        *save the settings
+        */
         savebtn.setOnAction((e)->{
         SimulationSHM shm = new SimulationSHM(rect, AmplitudeSlider.getValue(), MassSlider.getValue(), dampingSlider.getValue(), SpringStiffnessSlider.getValue());
-        //initializeBtns(shm);
         animate(shm.getShm());
         });
         
         
-        rect.translateXProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                drawMovingSpring(rect.getTranslateX());
-            }
-            
-        });
         
         /**
          * Change color of rectangle
@@ -133,6 +150,27 @@ public class SimulationSHMController implements Initializable {
             Color newColor = colorPicker.getValue();
             rect.setFill(newColor);
         });
+        
+        /**
+         * During animation the spring has to be adapted to the position of the rectangle, therefore we have added a listener to the rectangle's 
+         * translateXProperty to draw the spring every time it changes position
+         */
+        rect.translateXProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                drawMovingSpring(rect.getTranslateX());
+            }
+        });
+        
+        rect.layoutXProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                drawMovingSpring(0);
+                System.out.println(rect.getLayoutX());
+                amplitude = (rect.getLayoutX() - centralLine.getLayoutX())/50;
+            }
+        });
+       
     }
     
     
@@ -143,14 +181,15 @@ public class SimulationSHMController implements Initializable {
                 
                 animation.playFrom(Duration.ONE);
                 pausebtn.setDisable(false);
-                Duration duration = animation.getCurrentTime();
-                Double time = (Double) duration.toSeconds()/60;
-                //rect.setVisible(true);
+                disableSliders(true);
             } else {
                 animation.play();
                 
             }
             pausebtn.setDisable(false);
+            stopbtn.setDisable(false);
+            disableClickAndDrag();
+            disableSliders(true);
             //enabling(true,false,false);
         });
 
@@ -162,105 +201,40 @@ public class SimulationSHMController implements Initializable {
         stopbtn.setOnAction((e) -> {
             animation.stop();
             pausebtn.setDisable(true);
+            disableSliders(false);
             //enabling(false,false,true);
-        });
-    }
-    private void enabling(boolean playbtnisClicked, boolean pausebtnisClicked, boolean stopbtnClicked){
-           if(playbtnisClicked){
-            playbtn.setDisable(true);
-            pausebtn.setDisable(false);
-            stopbtn.setDisable(false);
-            savebtn.setDisable(true);
-            dampingSlider.setDisable(true);
-            AmplitudeSlider.setDisable(true);
-            SpringStiffnessSlider.setDisable(true);
-            MassSlider.setDisable(true);
-           }else if(pausebtnisClicked){
-            playbtn.setDisable(false);
-            pausebtn.setDisable(true);
-            stopbtn.setDisable(false);
-           }else if(stopbtnClicked){
-            playbtn.setDisable(false);
-            pausebtn.setDisable(true);
-            stopbtn.setDisable(true);
-            savebtn.setDisable(false);
-            dampingSlider.setDisable(false);
-            AmplitudeSlider.setDisable(false);
-            SpringStiffnessSlider.setDisable(false);
-            MassSlider.setDisable(false);
-           }
-
-    }
-    private void initializeBtns(final SimulationSHM shm){
-         /**
-         * Play btn action, when u play, click and drag should not be available
-         */
-        playbtn.setOnAction((e) -> {
-           //System.out.println(amplitude);
-            if (pausebtn.isDisable() == true) {
-                shm.getShm().playFrom(Duration.ONE);
-                pausebtn.setDisable(false);
-            } else {
-                shm.getShm().play();
-            }
-            playbtn.setDisable(true);
-            pausebtn.setDisable(false);
-            stopbtn.setDisable(false);
-            savebtn.setDisable(true);
-            dampingSlider.setDisable(true);
-            AmplitudeSlider.setDisable(true);
-            SpringStiffnessSlider.setDisable(true);
-            MassSlider.setDisable(true);
-            
-            rect.cursorProperty().set(Cursor.DEFAULT);
-            rect.removeEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, eventMouseEnteredTarget);
-            rect.removeEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
-            rect.removeEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
-            rect.removeEventHandler(MouseEvent.MOUSE_RELEASED, eventMouseReleased);
-
-        });
-
-        /**
-         * Pause btn action
-         */
-        pausebtn.setOnAction((e) -> {
-            shm.getShm().pause();
-            playbtn.setDisable(false);
-            pausebtn.setDisable(true);
-            stopbtn.setDisable(false);
-        });
-
-        /**
-         * Stop btn action
-         */
-        stopbtn.setOnAction((e) -> {
-            shm.getShm().stop();
-            playbtn.setDisable(false);
-            pausebtn.setDisable(true);
-            stopbtn.setDisable(true);
-            savebtn.setDisable(false);
-            dampingSlider.setDisable(false);
-            AmplitudeSlider.setDisable(false);
-            SpringStiffnessSlider.setDisable(false);
-            MassSlider.setDisable(false);
-            //System.out.println("When stop is clicked playbtn is " + playbtn.isDisable() + " pausebtn is " + pausebtn.isDisable() + " stopbtn is " + stopbtn.isDisable());
             clickAndDrag();
         });
-
-        /**
-         * Graph btn action
-         */
+        
         graphbtn.setOnAction((e) -> {
             GraphController graph = new GraphController(AmplitudeSlider.getValue(),SpringStiffnessSlider.getValue(),MassSlider.getValue(), getTime().toSeconds());
         });
         
-
-        /**
-         * Graph btn action
-         */
-        /*graphbtn.setOnAction((e) -> {
-            GraphController graph = new GraphController(AmplitudeSlider.getValue(),SpringStiffnessSlider.getValue(),MassSlider.getValue(), getTime().toSeconds());
-        });*/
+        resetbtn.setOnAction((e)->{
+            AmplitudeSlider.setValue(5);
+            MassSlider.setValue(6);
+            dampingSlider.setValue(0);
+            SpringStiffnessSlider.setValue(6);
+            
+            playbtn.setDisable(false);
+            pausebtn.setDisable(true);
+            
+            animation.stop();
+            
+            rect.setTranslateX(0);
+            drawMovingSpring(0);
+            
+            SimulationSHM shm = new SimulationSHM(rect, AmplitudeSlider.getValue(), MassSlider.getValue(), dampingSlider.getValue(), SpringStiffnessSlider.getValue());
+            animate(shm.getShm());
+            
+        });
+    }
+    
+    public void disableSliders(boolean disable){
+        dampingSlider.setDisable(disable);
+        AmplitudeSlider.setDisable(disable);
+        SpringStiffnessSlider.setDisable(disable);
+        MassSlider.setDisable(disable);
     }
     
     public void drawMovingSpring(double transitionX){
@@ -309,9 +283,15 @@ public class SimulationSHMController implements Initializable {
             rect.addEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
             
             //Animate the position of the rectangle to the position of the mouse when released
-            rect.addEventHandler(MouseEvent.MOUSE_RELEASED, eventMouseReleased);
-            
-            
+            rect.addEventHandler(MouseEvent.MOUSE_RELEASED, eventMouseReleased);       
+    }
+    
+    private void disableClickAndDrag() {
+        rect.cursorProperty().set(Cursor.DEFAULT);
+        rect.removeEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, eventMouseEnteredTarget);
+        rect.removeEventHandler(MouseEvent.MOUSE_PRESSED, eventMousePressed);
+        rect.removeEventHandler(MouseEvent.MOUSE_DRAGGED, eventMouseDragged);
+        rect.removeEventHandler(MouseEvent.MOUSE_RELEASED, eventMouseReleased);   
     }
 
     public Duration getTime() {
@@ -438,4 +418,5 @@ public class SimulationSHMController implements Initializable {
     public void setDamping(double damping) {
         this.damping = damping;
     }  
+    
 } 

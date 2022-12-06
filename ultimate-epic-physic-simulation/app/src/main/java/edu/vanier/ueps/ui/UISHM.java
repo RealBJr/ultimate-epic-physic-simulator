@@ -28,6 +28,7 @@ public class UISHM extends Stage{
         } catch (Exception ex) {
             System.out.println(ex);
             System.out.println("Problem with makecomponents");
+            ex.printStackTrace();
         }
         this.setResizable(false);
     }
@@ -40,7 +41,7 @@ public class UISHM extends Stage{
        
        Pane root = loader.load();
        
-       Scene sc = new Scene(root,900,650);
+       Scene sc = new Scene(root,1200,800);
        
        this.setScene(sc);
        
