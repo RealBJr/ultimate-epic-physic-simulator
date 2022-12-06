@@ -90,7 +90,7 @@ public class GraphControllerPendulum {
         // setup a scheduled executor to periodically put data into the chart
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
-        // put dummy data onto graph per second
+        // put data onto graph per second
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             
             

@@ -59,11 +59,17 @@ public class GraphController{
         this.mass = mass; 
         this.time = time;
     }
-    
+    //SHM formula x=Acos(wt+phi)
+    public double takeComponents(){
+        double angularVelocity = Math.sqrt(this.SpringStiffness/this.mass);
+        currentTime = timer.getTime();
+        double xPosition = this.amplitude*Math.cos(angularVelocity*currentTime);
+        return xPosition;
+    }
     
     public void initialize() {
         Stage primaryStage = new Stage();
-
+        timer.startTimer();
     
     primaryStage.setTitle("SHM Graph");
 
@@ -94,9 +100,6 @@ public class GraphController{
         // show the stage
         primaryStage.show();
 
-        // this is used to display time in HH:mm:ss format
-        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-
         // setup a scheduled executor to periodically put data into the chart
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
@@ -112,7 +115,7 @@ public class GraphController{
                 // get current time
                 timeInS = ""+this.currentTime;
                 // put test2 number with current time
-                series.getData().add(new XYChart.Data<>(simpleDateFormat.format(timeInS), test2));
+                series.getData().add(new XYChart.Data<>(timeInS, test2));
 
                 if (series.getData().size() > WINDOW_SIZE)
                     series.getData().remove(0);
@@ -120,13 +123,7 @@ public class GraphController{
         }, 0, 1, TimeUnit.SECONDS);
     }
 
-    //SHM formula x=Acos(wt+phi)
-    public double takeComponents(){
-        double angularVelocity = Math.sqrt(this.SpringStiffness/this.mass);
-        currentTime = timer.getTime();
-        double xPosition = this.amplitude*Math.cos(angularVelocity*currentTime);
-        return xPosition;
-    }
+    
             
     }
 
