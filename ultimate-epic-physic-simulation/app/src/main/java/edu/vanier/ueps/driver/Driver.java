@@ -5,6 +5,7 @@
  */
 package edu.vanier.ueps.driver;
 
+import edu.vanier.ueps.graphs.controllers.Timer;
 import edu.vanier.ueps.simulations.functions.SimulationProjectileMotion;
 import edu.vanier.ueps.simulations.functions.SimulationSHM;
 import javafx.animation.Animation;
@@ -39,6 +40,7 @@ public class Driver extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         Pane root = new Pane();
+        Timer timer = new Timer();
 
         b.setLayoutX(220);
         b.setLayoutY(220);
@@ -60,6 +62,7 @@ public class Driver extends Application{
         pm.displayCanvas();
         b1.setOnMousePressed((e)->{
             pm.startAnimation();
+            timer.startTimer();
         });
         
         b.setOnMousePressed((e)->{
@@ -72,6 +75,8 @@ public class Driver extends Application{
             //pm = new SimulationProjectileMotion(3,Math.PI/4/*Math.PI/2*/);
 //            stage.show();
 //            root.getChildren().addAll();
+            System.out.println("timer = " + timer.getTime());
+            timer.stopTimer();
             pm.resetAnimation();
             
         });        
