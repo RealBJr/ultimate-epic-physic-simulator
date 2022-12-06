@@ -41,6 +41,17 @@ public class GraphController{
     ArrayList values = new ArrayList();
     double xPos;
     
+    Timer timer = new Timer();
+    String timeInS;
+    double currentTime = 0;
+/**
+ * It will help to stop timer when window is closed
+ * @return timer animation
+ */
+    public Timer getTimer() {
+        return timer;
+    }
+    
     public GraphController(double amplitude,double SpringStiffness,double mass, double time){
         initialize();
         this.amplitude = amplitude;
@@ -91,17 +102,17 @@ public class GraphController{
 
         // put data onto graph per second
         scheduledExecutorService.scheduleAtFixedRate(() -> {
-            double timer = 0;
-            timer++;
-            double test2 = takeComponents(timer);
+           
             
 
             // Update the chart
             Platform.runLater(() -> {
+                double test2 = takeComponents();
+                System.out.println("current time with timer = " + currentTime);
                 // get current time
-                Date now = new Date();
+                timeInS = ""+this.currentTime;
                 // put test2 number with current time
-                series.getData().add(new XYChart.Data<>(simpleDateFormat.format(now), test2));
+                series.getData().add(new XYChart.Data<>(simpleDateFormat.format(timeInS), test2));
 
                 if (series.getData().size() > WINDOW_SIZE)
                     series.getData().remove(0);
@@ -110,9 +121,10 @@ public class GraphController{
     }
 
     //SHM formula x=Acos(wt+phi)
-    public double takeComponents(double t){
+    public double takeComponents(){
         double angularVelocity = Math.sqrt(this.SpringStiffness/this.mass);
-        double xPosition = this.amplitude*Math.cos(angularVelocity*t);
+        currentTime = timer.getTime();
+        double xPosition = this.amplitude*Math.cos(angularVelocity*currentTime);
         return xPosition;
     }
             
