@@ -34,17 +34,16 @@ public class ProjectileMotionController implements Initializable {
     Pane paneSettings;
 
     @FXML
-    Button playBtn, restartBtn, resetBtn, testBtn;
+    Button playBtn, restartBtn, saveBtn, pauseBtn;
 
     @FXML
-    Slider velocitySlider, angleSlider;
+    Slider velocitySlider, angleSlider, gravitationalSlider;
 
     double gravity, velocity, angle, radianAngle;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        angleSlider.valueProperty().addListener(new ChangeListener<Number>() {
+angleSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldNumber, Number newNumber) {
@@ -65,6 +64,17 @@ public class ProjectileMotionController implements Initializable {
 
             }
         });
+        
+        gravitationalSlider.valueProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldNumber, Number newNumber) {
+                //rendering the gravity to the limit of the animation
+                gravity = velocitySlider.getValue()/(10*10);
+
+            }
+        });
+        
         //paneSettings.
         velocity = velocitySlider.getValue();
         angle = angleSlider.getValue();
@@ -79,47 +89,55 @@ public class ProjectileMotionController implements Initializable {
         //if my paper is in front of my glass, it wont be seen, instead, when paper is in the back, it works just fine
         paneContainer.getChildren().get(0).toFront();
         System.out.println("Height of canvas = " + canvas.getHeight() + ",width = " + canvas.getWidth());
-        SimulationProjectileMotion pm = new SimulationProjectileMotion(4, Math.PI / 2, canvas);
+        SimulationProjectileMotion pm = new SimulationProjectileMotion(4, Math.PI / 4, canvas);
 
         pm.setOnTop(paneAnimationArea);
 
-        //pm.setInitialPosY(300);
+        //here we display the canvas before the animation
         pm.displayCanvas();
         angle = angleSlider.getValue();
         velocity = velocitySlider.getValue();
+        
         playBtn.setOnMousePressed((e) -> {
 
             pm.startAnimation();
-
+            disableButtons(true, false, false, false);
         });
 
         restartBtn.setOnMousePressed((e) -> {
-
             pm.resetAnimation();
-
+            pm.startAnimation();
+            
+            disableButtons(true, false, false, false);
         });
 
-        resetBtn.setOnMousePressed((e) -> {
-            pm.setGravitationalConstant(0.01);
-            pm.setDirection((Math.PI) / 2);
-            pm.setSpeed(4);
+        saveBtn.setOnMousePressed((e) -> {
+            pm.setGravitationalConstant(gravity);
+            pm.setDirection(radianAngle);
+            pm.setSpeed(velocity);
 
             System.out.println(pm.getGravitationalConstant());
             System.out.println(pm.getDirection());
             System.out.println(pm.getSpeed());
 
+            disableButtons(false, true, false, true);
+                     
             pm.resetAnimation();
 
         });
 
-        testBtn.setOnMousePressed((e) -> {
-            pm.setDirection(radianAngle);
-            pm.setSpeed(velocity);
-            
-            System.out.println(pm.getDirection());
-            System.out.println(pm.getSpeed());
+        pauseBtn.setOnMousePressed((e) -> {
+            pm.pauseAnimation();
 
+            disableButtons(false, false, false, true);
+            
         });
     }
 
+    private void disableButtons(boolean playBtn, boolean restartButton, boolean saveButton, boolean pauseBtn){
+        this.playBtn.setDisable(playBtn);
+            this.restartBtn.setDisable(restartButton);
+            this.saveBtn.setDisable(saveButton);
+            this.pauseBtn.setDisable(pauseBtn);
+    }
 }
