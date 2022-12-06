@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="paneContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="paneContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane fx:id="paneAnimationArea" layoutX="-3.0" layoutY="1.0" prefHeight="600.0" prefWidth="720.0" />
       <Pane fx:id="paneSettings" layoutX="722.0" prefHeight="600.0" prefWidth="180.0">
@@ -23,6 +23,7 @@
             <Button fx:id="pauseBtn" layoutX="59.0" layoutY="547.0" mnemonicParsing="false" text="Pause" />
             <Slider fx:id="gravitationalSlider" blockIncrement="25.0" layoutX="20.0" layoutY="95.0" majorTickUnit="5.0" max="15.0" minorTickCount="25" showTickLabels="true" showTickMarks="true" value="4.0" />
             <Text layoutX="8.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gravitational Constant (m/s^2)" />
+            <Button fx:id="graphBtn" layoutX="57.0" layoutY="445.0" mnemonicParsing="false" text="Graph" />
          </children>
       </Pane>
    </children>
