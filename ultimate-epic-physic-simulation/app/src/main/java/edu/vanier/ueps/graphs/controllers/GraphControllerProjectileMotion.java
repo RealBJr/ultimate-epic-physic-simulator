@@ -26,7 +26,7 @@ public class GraphControllerProjectileMotion {
     Timer timer = new Timer();
     String timeInS;
     double currentTime = 0;
-    double gravitational, speed, angle;
+    double gravitational, velocityY, angle;
 /**
  * It will help to stop timer when window is closed
  * @return timer animation
@@ -35,17 +35,16 @@ public class GraphControllerProjectileMotion {
         return timer;
     }
 
-    public GraphControllerProjectileMotion(double gravitational, double speed, Double angle) {
-        initialize();
+    public GraphControllerProjectileMotion(double gravitational, double velocityY, Double angle) {
         this.angle = angle;
         this.gravitational = gravitational;
-        this.speed = speed;
-        
+        this.velocityY = velocityY;
+        initialize();
     }
      // posY = initialY + initialV*t*sin(teta) - 1/2*g*t^2
     public double takeComponents(){
         currentTime = timer.getTime();
-        double positionY = speed * currentTime * Math.sin(angle) - (0.5 * gravitational * (currentTime * currentTime));
+        double positionY = velocityY * currentTime - (0.5 * gravitational * (currentTime * currentTime));
         return positionY;
     }
     

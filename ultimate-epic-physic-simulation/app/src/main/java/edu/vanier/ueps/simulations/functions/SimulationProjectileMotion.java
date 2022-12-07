@@ -126,7 +126,7 @@ public class SimulationProjectileMotion {
         return this.velocityX;
     }
 
-    private double velocityY(double speed) {
+    public double velocityY(double speed) {
         //use the fact that sin(direction) = y/v -> y = v*sin(direction) in pixel/ms
         this.velocityY = speed * Math.sin(this.direction);
         //System.out.println("velocity Y = " + velocityY);

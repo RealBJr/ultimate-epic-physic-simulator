@@ -39,7 +39,7 @@ public class SimulationSHMController implements Initializable {
     Pane animationContainer;
 
     @FXML
-    Button playbtn, stopbtn, pausebtn, graphbtn, savebtn, resetbtn;
+    Button playbtn, pausebtn, graphbtn, savebtn, resetbtn;
 
     @FXML
     Slider dampingSlider, AmplitudeSlider, SpringStiffnessSlider,MassSlider ;
@@ -122,7 +122,6 @@ public class SimulationSHMController implements Initializable {
        
         playbtn.setDisable(false);
         pausebtn.setDisable(true);
-        stopbtn.setDisable(true);
         
         /**
          * Allow user to click on the rectangle and place it where ever he wants on the x axis by dragging it
@@ -140,8 +139,6 @@ public class SimulationSHMController implements Initializable {
         SimulationSHM shm = new SimulationSHM(rect, AmplitudeSlider.getValue(), MassSlider.getValue(), dampingSlider.getValue(), SpringStiffnessSlider.getValue());
         animate(shm.getShm());
         });
-        
-        
         
         /**
          * Change color of rectangle
@@ -187,7 +184,6 @@ public class SimulationSHMController implements Initializable {
                 
             }
             pausebtn.setDisable(false);
-            stopbtn.setDisable(false);
             disableClickAndDrag();
             disableSliders(true);
             //enabling(true,false,false);
@@ -198,13 +194,6 @@ public class SimulationSHMController implements Initializable {
             //enabling(false,true,false);
         });
 
-        stopbtn.setOnAction((e) -> {
-            animation.stop();
-            pausebtn.setDisable(true);
-            disableSliders(false);
-            //enabling(false,false,true);
-            clickAndDrag();
-        });
         
         graphbtn.setOnAction((e) -> {
             GraphController graph = new GraphController(AmplitudeSlider.getValue(),SpringStiffnessSlider.getValue(),MassSlider.getValue(), getTime().toSeconds());
@@ -221,12 +210,14 @@ public class SimulationSHMController implements Initializable {
             
             animation.stop();
             
+            //setting it back to its original value and then changing translateX to 0
+            rect.setLayoutX(460);
             rect.setTranslateX(0);
             drawMovingSpring(0);
             
-            SimulationSHM shm = new SimulationSHM(rect, AmplitudeSlider.getValue(), MassSlider.getValue(), dampingSlider.getValue(), SpringStiffnessSlider.getValue());
+            SimulationSHM shm = new SimulationSHM(rect, 5, 6, 0, 6);
             animate(shm.getShm());
-            
+            clickAndDrag();
         });
     }
     
@@ -316,13 +307,6 @@ public class SimulationSHMController implements Initializable {
         this.playbtn = playbtn;
     }
 
-    public Button getStopbtn() {
-        return stopbtn;
-    }
-
-    public void setStopbtn(Button stopbtn) {
-        this.stopbtn = stopbtn;
-    }
 
     public Button getPausebtn() {
         return pausebtn;

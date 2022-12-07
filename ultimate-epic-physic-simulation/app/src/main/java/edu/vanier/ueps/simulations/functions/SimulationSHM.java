@@ -24,7 +24,7 @@ import javafx.util.Duration;
 public class SimulationSHM {
 
     private Animation shm;
-    
+
     public SimulationSHM(){}
     
     public SimulationSHM(Rectangle targetedShape, double amplitude, double mass, double damping, double springStiffness) {
@@ -116,26 +116,9 @@ public class SimulationSHM {
         }else{
             
         }
-       
         return shm(targetedShape, amplitude, mass, damping, springStiffness);
     }
     
-    public Timeline damping(){
-        
-        return null;
-    }
-    public ArrayList<Shape> collisionDetect(Shape targetedShape, ArrayList<Shape> shapes) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public void collisionReaction(Shape collidingShape) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public File saveSim(Controller simController) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
     public Animation getShm() {
         return shm;
     }

@@ -40,11 +40,11 @@ public class ProjectileMotionController implements Initializable {
     @FXML
     Slider velocitySlider, angleSlider, gravitationalSlider;
 
-    double gravity, velocity, angle, radianAngle;
-
+    double gravity, speed, angle, radianAngle, velocityY;
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-angleSlider.valueProperty().addListener(new ChangeListener<Number>() {
+    angleSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldNumber, Number newNumber) {
@@ -61,7 +61,7 @@ angleSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldNumber, Number newNumber) {
 
-                velocity = velocitySlider.getValue();
+                speed = velocitySlider.getValue();
 
             }
         });
@@ -77,7 +77,7 @@ angleSlider.valueProperty().addListener(new ChangeListener<Number>() {
         });
         
         //paneSettings.
-        velocity = velocitySlider.getValue();
+        speed = velocitySlider.getValue();
         angle = angleSlider.getValue();
 
         radianAngle = Math.toRadians(angle);
@@ -97,7 +97,7 @@ angleSlider.valueProperty().addListener(new ChangeListener<Number>() {
         //here we display the canvas before the animation
         pm.displayCanvas();
         angle = angleSlider.getValue();
-        velocity = velocitySlider.getValue();
+        speed = velocitySlider.getValue();
         
         playBtn.setOnMousePressed((e) -> {
 
@@ -115,7 +115,7 @@ angleSlider.valueProperty().addListener(new ChangeListener<Number>() {
         saveBtn.setOnMousePressed((e) -> {
             pm.setGravitationalConstant(gravity);
             pm.setDirection(radianAngle);
-            pm.setSpeed(velocity);
+            pm.setSpeed(speed);
 
             System.out.println(pm.getGravitationalConstant());
             System.out.println(pm.getDirection());
@@ -135,7 +135,12 @@ angleSlider.valueProperty().addListener(new ChangeListener<Number>() {
         });
         
         graphBtn.setOnMousePressed((e) -> {
-            GraphControllerProjectileMotion graph = new GraphControllerProjectileMotion(pm.getGravitationalConstant(),pm.getSpeed(),pm.getDirection());
+            //Making sure the value nedded are gotten
+            gravity = pm.getGravitationalConstant();
+            velocityY = pm.velocityY(speed);
+            radianAngle = pm.getDirection();
+            
+            GraphControllerProjectileMotion graph = new GraphControllerProjectileMotion(gravity*10*10, velocityY, radianAngle);
             
         });
     }

@@ -57,10 +57,6 @@
                <HBox.margin>
                   <Insets left="50.0" top="10.0" />
                </HBox.margin></Button>
-            <Button fx:id="stopbtn" mnemonicParsing="false" text="Stop">
-               <HBox.margin>
-                  <Insets left="50.0" top="10.0" />
-               </HBox.margin></Button>
             <Button fx:id="graphbtn" mnemonicParsing="false" text="Graph">
                <HBox.margin>
                   <Insets left="50.0" top="10.0" />
