@@ -159,7 +159,7 @@ public class PendulumController implements Initializable {
             gc.setFill(newColor);
         });
         graphbtn.setOnAction((e) -> {
-            GraphControllerPendulum graph = new GraphControllerPendulum(getLength());
+            GraphControllerPendulum graph = new GraphControllerPendulum(getLength()); //a
         });
     }
 
