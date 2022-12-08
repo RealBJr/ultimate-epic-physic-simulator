@@ -166,7 +166,6 @@ public class SimulationSHMController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 drawMovingSpring(0);
-                System.out.println(rect.getLayoutX());
                 amplitude = (rect.getLayoutX() - centralLine.getLayoutX())/50;
             }
         });

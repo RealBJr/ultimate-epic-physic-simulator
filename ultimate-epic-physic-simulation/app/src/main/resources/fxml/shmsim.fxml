@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
@@ -75,8 +74,6 @@
             <Pane fx:id="animationContainer" prefHeight="699.0" prefWidth="1040.0">
                <children>
                   <Rectangle fx:id="rect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="460.0" layoutY="250.0" stroke="BLACK" strokeType="INSIDE" width="120.0" />
-                  <Line endX="100.0" layoutX="420.0" layoutY="344.0" startX="100.0" startY="-89.39999389648438" />
-                  <Line endX="100.0" layoutX="170.0" layoutY="345.0" startX="100.0" startY="-91.39999389648438" />
                </children>
             </Pane>
          </children>
