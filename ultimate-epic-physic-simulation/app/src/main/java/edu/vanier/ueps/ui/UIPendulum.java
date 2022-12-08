@@ -38,9 +38,11 @@ public class UIPendulum extends Stage {
 
         Pane root = loader.load();
 
-        Scene sc = new Scene(root);
+        Scene sc = new Scene(root,1000,800);
 
         this.setScene(sc);
+        
+        this.setResizable(false);
 
         this.show();
     }

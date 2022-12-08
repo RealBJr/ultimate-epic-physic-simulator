@@ -1,42 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
-<?import javafx.scene.shape.ArcTo?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.shape.MoveTo?>
-<?import javafx.scene.shape.Path?>
-<?import javafx.scene.text.Text?>
 
-<Pane fx:id="playBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Path fx:id="arcPath" fill="WHITE" layoutX="200.0" layoutY="200.0" rotate="315.0" scaleX="2.0" scaleY="2.0" scaleZ="0.0" stroke="BLACK" strokeType="INSIDE">
-          <elements>
-              <MoveTo x="100.0" />
-              <ArcTo radiusX="50.0" radiusY="50.0" x="200.0" y="100.0" />
-          </elements>
-      </Path>
-      <Circle fx:id="circle" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
-      <Line fx:id="string" endY="140.0" layoutX="340.0" layoutY="230.0" />
-      <Text layoutX="682.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Settings" />
-      <Text layoutX="645.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mass" />
-      <Text layoutX="645.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Damping" />
-      <Text layoutX="645.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lenght" />
-      <Text layoutX="645.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color" />
-      <Slider fx:id="massSlider" blockIncrement="5.0" layoutX="645.0" layoutY="90.0" majorTickUnit="1.0" max="20.0" min="1.0" minorTickCount="25" showTickLabels="true" showTickMarks="true" />
-      <Slider fx:id="dampingSlider" layoutX="645.0" layoutY="154.0" max="10.0" minorTickCount="25" showTickLabels="true" showTickMarks="true" />
-      <Slider fx:id="lenghtSlider" layoutX="645.0" layoutY="230.0" majorTickUnit="5.0" max="200.0" min="140.0" minorTickCount="25" showTickLabels="true" showTickMarks="true" />
-      <ColorPicker fx:id="colorPicker" layoutX="645.0" layoutY="300.0">
-         <value>
-            <Color />
-         </value></ColorPicker>
-      <Button fx:id="btnPlay" layoutX="79.0" layoutY="419.0" mnemonicParsing="false" text="Play" />
-      <Button fx:id="pauseBtn" layoutX="183.0" layoutY="419.0" mnemonicParsing="false" text="Pause" />
-      <Button fx:id="stopBtn" layoutX="298.0" layoutY="419.0" mnemonicParsing="false" text="Stop" />
-      <Button fx:id="graphBtn" layoutX="570.0" layoutY="419.0" mnemonicParsing="false" text="Graph" />
-   </children>
-</Pane>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <right>
+      <VBox prefHeight="300.0" prefWidth="175.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="322.0" prefWidth="174.0">
+               <children>
+                  <Slider fx:id="lenghtSlider" blockIncrement="20.0" layoutX="17.0" layoutY="53.0" majorTickUnit="40.0" max="220.0" min="140.0" showTickLabels="true" value="140.0" />
+                  <Slider fx:id="dampingsSider" layoutX="17.0" layoutY="128.0" majorTickUnit="1.0" max="10.0" showTickLabels="true" />
+                  <ColorPicker fx:id="colorPicker" layoutX="25.0" layoutY="199.0">
+                     <value>
+                        <Color />
+                     </value>
+                  </ColorPicker>
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+   </right>
+   <bottom>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="playbtn" mnemonicParsing="false" text="Play">
+               <HBox.margin>
+                  <Insets left="100.0" top="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="pausebtn" mnemonicParsing="false" text="Pause">
+               <HBox.margin>
+                  <Insets left="50.0" top="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="stopbtn" mnemonicParsing="false" text="Stop">
+               <HBox.margin>
+                  <Insets left="50.0" top="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="graphbtn" mnemonicParsing="false" text="Graph">
+               <HBox.margin>
+                  <Insets left="50.0" top="20.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
+   <left>
+      <Pane prefHeight="700.0" prefWidth="780.0" BorderPane.alignment="CENTER">
+         <children>
+            <Canvas fx:id="canvas" height="699.0" width="779.0" />
+         </children>
+      </Pane>
+   </left>
+</BorderPane>
