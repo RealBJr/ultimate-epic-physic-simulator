@@ -158,6 +158,9 @@ public class PendulumController implements Initializable {
             Color newColor = colorPicker.getValue();
             gc.setFill(newColor);
         });
+        graphbtn.setOnAction((e) -> {
+            GraphControllerPendulum graph = new GraphControllerPendulum(getLength());
+        });
     }
 
     public GraphicsContext getGc() {
