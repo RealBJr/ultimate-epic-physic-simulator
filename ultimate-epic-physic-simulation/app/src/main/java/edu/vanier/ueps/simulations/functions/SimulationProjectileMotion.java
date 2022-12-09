@@ -5,6 +5,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import static javafx.scene.paint.Color.BLUE;
 import javafx.scene.shape.Line;
 
 public class SimulationProjectileMotion {
@@ -60,6 +61,8 @@ public class SimulationProjectileMotion {
     //Center coordinates
     private double rectCenterX;
     private double rectCenterY;
+    
+    private Color color = BLUE;
 
     
     private AnimationTimer animation;
@@ -180,7 +183,7 @@ public class SimulationProjectileMotion {
 
     public void draw(GraphicsContext gc) {
         
-        this.gc.setFill(Color.BLUE);
+        this.gc.setFill(color);
         //System.out.println("nxtPositionY = " + nextPositionY);
 
         System.out.println("posX = " + this.posX);
@@ -380,6 +383,10 @@ public class SimulationProjectileMotion {
     
     public double getSpeed() {
         return this.initialSpeed;
+    }
+    
+    public void setColor(Color newColor){
+        this.color = newColor;
     }
     //=============================================
 }

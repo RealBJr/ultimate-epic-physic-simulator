@@ -14,8 +14,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -40,11 +42,21 @@ public class ProjectileMotionController implements Initializable {
     @FXML
     Slider velocitySlider, angleSlider, gravitationalSlider;
 
-    double gravity, speed, angle, radianAngle, velocityY;
+    @FXML
+    ColorPicker colorPicker;
     
+    Color newColor;
+
+    double gravity, speed, angle, radianAngle, velocityY;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    angleSlider.valueProperty().addListener(new ChangeListener<Number>() {
+        
+        colorPicker.setOnAction((e) -> {
+             newColor = colorPicker.getValue();
+            
+        });
+        angleSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldNumber, Number newNumber) {
@@ -65,17 +77,17 @@ public class ProjectileMotionController implements Initializable {
 
             }
         });
-        
+
         gravitationalSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldNumber, Number newNumber) {
                 //rendering the gravity to the limit of the animation
-                gravity = velocitySlider.getValue()/(10*10);
+                gravity = velocitySlider.getValue() / (10 * 10);
 
             }
         });
-        
+
         //paneSettings.
         speed = velocitySlider.getValue();
         angle = angleSlider.getValue();
@@ -98,7 +110,7 @@ public class ProjectileMotionController implements Initializable {
         pm.displayCanvas();
         angle = angleSlider.getValue();
         speed = velocitySlider.getValue();
-        
+
         playBtn.setOnMousePressed((e) -> {
 
             pm.startAnimation();
@@ -108,8 +120,41 @@ public class ProjectileMotionController implements Initializable {
         restartBtn.setOnMousePressed((e) -> {
             pm.resetAnimation();
             pm.startAnimation();
-            
+
             disableButtons(true, false, false, false);
+        });
+
+        graphBtn.setOnMousePressed((e) -> {
+            //Making sure the value nedded are gotten
+            gravity = pm.getGravitationalConstant();
+            velocityY = pm.velocityY(speed);
+            radianAngle = pm.getDirection();
+
+            GraphControllerProjectileMotion graph = new GraphControllerProjectileMotion(gravity * 10 * 10, velocityY, radianAngle);
+
+        });
+
+        pauseBtn.setOnMousePressed((e) -> {
+            pm.pauseAnimation();
+
+            disableButtons(false, false, false, true);
+
+        });
+
+        saveBtn.setOnMousePressed((e) -> {
+            pm.setGravitationalConstant(gravity);
+            pm.setDirection(radianAngle);
+            pm.setSpeed(speed);
+            pm.setColor(newColor);
+
+            System.out.println(pm.getGravitationalConstant());
+            System.out.println(pm.getDirection());
+            System.out.println(pm.getSpeed());
+
+            disableButtons(false, true, false, true);
+
+            pm.resetAnimation();
+
         });
 
         saveBtn.setOnMousePressed((e) -> {
@@ -122,33 +167,31 @@ public class ProjectileMotionController implements Initializable {
             System.out.println(pm.getSpeed());
 
             disableButtons(false, true, false, true);
-                     
+
             pm.resetAnimation();
 
         });
 
-        pauseBtn.setOnMousePressed((e) -> {
-            pm.pauseAnimation();
+        saveBtn.setOnMousePressed((e) -> {
+            pm.setGravitationalConstant(gravity);
+            pm.setDirection(radianAngle);
+            pm.setSpeed(speed);
 
-            disableButtons(false, false, false, true);
-            
-        });
-        
-        graphBtn.setOnMousePressed((e) -> {
-            //Making sure the value nedded are gotten
-            gravity = pm.getGravitationalConstant();
-            velocityY = pm.velocityY(speed);
-            radianAngle = pm.getDirection();
-            
-            GraphControllerProjectileMotion graph = new GraphControllerProjectileMotion(gravity*10*10, velocityY, radianAngle);
-            
+            System.out.println(pm.getGravitationalConstant());
+            System.out.println(pm.getDirection());
+            System.out.println(pm.getSpeed());
+
+            disableButtons(false, true, false, true);
+
+            pm.resetAnimation();
+
         });
     }
 
-    private void disableButtons(boolean playBtn, boolean restartButton, boolean saveButton, boolean pauseBtn){
+    private void disableButtons(boolean playBtn, boolean restartButton, boolean saveButton, boolean pauseBtn) {
         this.playBtn.setDisable(playBtn);
-            this.restartBtn.setDisable(restartButton);
-            this.saveBtn.setDisable(saveButton);
-            this.pauseBtn.setDisable(pauseBtn);
+        this.restartBtn.setDisable(restartButton);
+        this.saveBtn.setDisable(saveButton);
+        this.pauseBtn.setDisable(pauseBtn);
     }
 }
