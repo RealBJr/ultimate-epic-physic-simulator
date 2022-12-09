@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -42,6 +43,10 @@ public class UISHM extends Stage{
        Pane root = loader.load();
        
        Scene sc = new Scene(root,1200,800);
+       
+       Image img = new Image("/image/logo.jpg");
+        
+       this.getIcons().add(img);
        
        this.setScene(sc);
        

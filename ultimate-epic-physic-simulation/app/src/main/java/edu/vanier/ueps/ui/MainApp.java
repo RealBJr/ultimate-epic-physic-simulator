@@ -4,9 +4,11 @@
 package edu.vanier.ueps.ui;
 
 import edu.vanier.ueps.simulations.controller.Controller;
+import java.net.URL;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -21,7 +23,9 @@ public class MainApp extends Application {
         Pane root = loader.load();
         
         Scene scene = new Scene(root);
+        Image img = new Image("/image/logo.jpg");
         
+        primaryStage.getIcons().add(img);
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
         primaryStage.setResizable(false);

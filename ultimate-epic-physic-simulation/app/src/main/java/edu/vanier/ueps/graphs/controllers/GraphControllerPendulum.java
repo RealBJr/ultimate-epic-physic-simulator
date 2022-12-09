@@ -15,6 +15,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -59,6 +60,10 @@ public class GraphControllerPendulum {
 
     
     primaryStage.setTitle("Pendulum Graph");
+    
+      Image img = new Image("/image/logo.jpg");
+        
+        primaryStage.getIcons().add(img);
 
         //defining the axes
         final CategoryAxis xAxis = new CategoryAxis(); // we are gonna plot against time

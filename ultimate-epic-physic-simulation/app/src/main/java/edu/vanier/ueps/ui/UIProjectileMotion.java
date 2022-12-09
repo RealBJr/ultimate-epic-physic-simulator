@@ -9,6 +9,7 @@ import edu.vanier.ueps.simulations.controller.SimulationSHMController;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -41,6 +42,10 @@ public class UIProjectileMotion extends Stage {
         Pane root = loader.load();
 
         Scene sc = new Scene(root,900,600);
+        
+        Image img = new Image("/image/logo.jpg");
+        
+        this.getIcons().add(img);
 
         this.setScene(sc);
         this.setResizable(false);

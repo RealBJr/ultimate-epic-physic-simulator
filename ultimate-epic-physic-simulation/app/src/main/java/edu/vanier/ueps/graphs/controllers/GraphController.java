@@ -22,6 +22,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.image.Image;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -72,6 +73,10 @@ public class GraphController{
         timer.startTimer();
     
     primaryStage.setTitle("SHM Graph");
+    
+    Image img = new Image("/image/logo.jpg");
+        
+        primaryStage.getIcons().add(img);
 
         //defining the axes
         final CategoryAxis xAxis = new CategoryAxis(); // we are gonna plot against time
