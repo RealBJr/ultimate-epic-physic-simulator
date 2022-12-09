@@ -13,12 +13,12 @@ public class SimulationProjectileMotion {
     private Canvas canvas = new Canvas(1300, 1300);
 
     //kind of scene onTop the canvas (overlay) where i can add lines and stuff
-    private  Pane onTop = new Pane();
+    private Pane onTop = new Pane();
 
     //initial position of rect/shape
     private double initialPosX = 0;
     private double initialPosY;
-    
+
     //progressive position of rectangle
     private double posX;
     private double posY;
@@ -31,7 +31,7 @@ public class SimulationProjectileMotion {
     private final double time;
 
     //norm of the initial velocity vector; more like initialSpeed
-    private  double initialSpeed;
+    private double initialSpeed;
 
     //Velocity in y direction is a variable; it will change
     private double velocityY;
@@ -54,6 +54,7 @@ public class SimulationProjectileMotion {
     private double gravitationalConstant = 0.01;
 
     private GraphicsContext gc;
+    
     //Height and Width
     private double rectHeight = 150;
     private double rectWidth = 150;
@@ -61,14 +62,14 @@ public class SimulationProjectileMotion {
     //Center coordinates
     private double rectCenterX;
     private double rectCenterY;
-    
+
     private Color color = BLUE;
 
-    
     private AnimationTimer animation;
 
     /**
-     *
+     * Constructor of the said animation: it creates the animation with the given
+     * parameters.
      * @param speed
      * @param direction
      * @param cv
@@ -81,12 +82,12 @@ public class SimulationProjectileMotion {
         this.direction = direction;
         this.gc = this.canvas.getGraphicsContext2D();
         this.rate = speed;
-        
+
         this.velocityX = velocityX(this.initialSpeed);
         this.velocityY = velocityY(this.initialSpeed);
-        
+
         this.initialVelocityY = velocityY(this.initialSpeed);
-        
+
         this.initialPosY = this.canvas.getHeight() - this.rectHeight;
 
         this.animation = new AnimationTimer() {
@@ -97,6 +98,10 @@ public class SimulationProjectileMotion {
         };
     }
 
+    /**
+     * Calculate the end of the vector (Line) in X direction
+     * @return
+     */
     private double getEndVectorX() {
         //Changes the time to make the vector be more visible; it displays the next position that is/will be as tall as the rate vector
         this.nextPositionX = projectileMotionX(rate * time, rectCenterX, velocityX);
@@ -105,9 +110,7 @@ public class SimulationProjectileMotion {
     }
 
     /**
-     * TODO: Check logic here, Every time we create a new vector, we change the
-     * velocity of y how to draw line now
-     *
+     * Calculate the end of the vector (Line) in Y direction
      * @return
      */
     private double getEndVectorY() {
@@ -122,6 +125,12 @@ public class SimulationProjectileMotion {
         return endY;
     }
 
+    /**
+     * Mathematic to calculate the velocity X of projectile Motion: it is constant
+     * as it moves in X vector
+     * @param speed
+     * @return
+     */
     private double velocityX(double speed) {
         //use the fact that cos(direction) = x/v -> x = cos(direction)*v) in pixel/ms
         this.velocityX = speed * Math.cos(this.direction);
@@ -129,6 +138,12 @@ public class SimulationProjectileMotion {
         return this.velocityX;
     }
 
+    /**
+     * Mathematic to calculate the velocityY of projectile Motion: it accelerates
+     * down as it goes up.
+     * @param speed
+     * @return
+     */
     public double velocityY(double speed) {
         //use the fact that sin(direction) = y/v -> y = v*sin(direction) in pixel/ms
         this.velocityY = speed * Math.sin(this.direction);
@@ -138,6 +153,13 @@ public class SimulationProjectileMotion {
         return this.velocityY;
     }
 
+    /**
+     * Mathematic to calculate the position X of projectile Motion
+     * @param time
+     * @param currentPositionX
+     * @param velocityX
+     * @return
+     */
     private double projectileMotionX(double time, double currentPositionX, double velocityX) {
         //x position IS NOT affected by gravitational acceleration, it follows a velocity
         double derivedNextX = currentPositionX + time * velocityX;
@@ -145,6 +167,13 @@ public class SimulationProjectileMotion {
         return derivedNextX;
     }
 
+    /**
+     * Mathematic to calculate the position Y of projectile Motion
+     * @param time
+     * @param currentPositionY
+     * @param velocityY
+     * @return
+     */
     private double projectileMotionY(double time, double currentPositionY, double velocityY) {
         //y position IS affected by gravitational constant 
         //yo + voy t ? 4.9 t^2
@@ -168,21 +197,29 @@ public class SimulationProjectileMotion {
         return derivedNextY;
     }
 
+    /**
+     * Shows the initial state of the canvas, usually before animation starts
+     */
     public void displayCanvas() {
         this.posX = this.initialPosX;
         this.posY = this.initialPosY;
-        
+
         rectCenterX = posX + rectWidth / 2;
         rectCenterY = posY + rectHeight / 2;
-        
+
         System.out.println("center of rect X" + rectCenterX);
         System.out.println("center of rect Y" + rectCenterY);
-        
+
         draw(this.gc);
     }
 
+    /**
+     * Draw the rectangle at the correct position, this function is repeated 
+     * forever to make the illusion of animation
+     * @param gc
+     */
     public void draw(GraphicsContext gc) {
-        
+
         this.gc.setFill(color);
         //System.out.println("nxtPositionY = " + nextPositionY);
 
@@ -206,73 +243,90 @@ public class SimulationProjectileMotion {
         this.onTop.getChildren().addAll(this.vectorY, this.vectorX, this.vectorSpeed);
     }
 
-//    private AnimationTimer getAnimation() {
-//        return this.animation;
-//    }
-
-    public void pauseAnimation(){
+    /**
+     *Pauses the animation in other classes
+     */
+    public void pauseAnimation() {
         this.animation.stop();
     }
-    
-    public void resetAnimation(){
+
+    /**
+     * Replace the animation at its initial position in other classes
+     */
+    public void resetAnimation() {
         this.animation.stop();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         getOnTop().getChildren().clear();
-            posX = initialPosX;
-            posY = initialPosY;
-            this.velocityX = velocityX(this.initialSpeed);
-            this.velocityY = velocityY(this.initialSpeed);
-            rectCenterX = posX + rectWidth / 2;
-            rectCenterY = posY + rectHeight / 2;
+        posX = initialPosX;
+        posY = initialPosY;
+        this.velocityX = velocityX(this.initialSpeed);
+        this.velocityY = velocityY(this.initialSpeed);
+        rectCenterX = posX + rectWidth / 2;
+        rectCenterY = posY + rectHeight / 2;
         draw(gc);
         System.out.println("I got to the end here");
     }
-    
-    public void startAnimation(){
+
+    /**
+     * Starts the animation at its initial position in other classes
+     */
+    public void startAnimation() {
         this.animation.start();
     }
+
+    /**
+     * Here I use the mathematic formula to update the position X and position Y
+     * of the rect
+     */
     public void update() {
         this.posX = projectileMotionX(this.time, this.posX, this.velocityX);
-        
+
         this.nextPositionX = this.posX;
         this.rectCenterX = this.posX + this.rectWidth / 2;
 
         this.posY = projectileMotionY(this.time, this.posY, this.velocityY);
-        
+
         //this.nextPositionY = this.initialPosY;
         this.rectCenterY = this.posY + this.rectHeight / 2;
     }
 
+    /**
+     * The vectors need to be cleared otherwise they stack on the pane and 
+     * there is too much of it created and it doesn't make the illusion of animation
+     */
     private void updateVector() {
         this.onTop.getChildren().remove(0, 3);
     }
-    
-    
-    public void handleAnimation(){
-                System.out.println("Drawing");
-                update();
-                updateVector();
-                if (posY > this.canvas.getHeight()-this.rectHeight) {
-                    //posY = initialPosY;
-                    pauseAnimation();
-                }
-                if (posY < 0) {
-                    posY = 0;
-                }
-                //TODO: figure out how to effectively stop this
+
+    /**
+     * The "onFinished" that is replayed indefinitely: it is here that I clear
+     * the page and "redraw" to make the illusion of animation with canvas
+     */
+    public void handleAnimation() {
+        System.out.println("Drawing");
+        update();
+        updateVector();
+        if (posY > this.canvas.getHeight() - this.rectHeight) {
+            //posY = initialPosY;
+            pauseAnimation();
+        }
+        if (posY < 0) {
+            posY = 0;
+        }
+        //TODO: figure out how to effectively stop this
 //                if (posY > this.canvas.getHeight()) {
 //                    velocityX = 0;
 //                    posX = 0;
 //                }
-                if (posX > this.canvas.getWidth() - rectWidth) {
-                    System.out.println("TRUEE !!! HERE");
-                    posX = this.canvas.getWidth() - rectWidth;
-                }
-                gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                draw(gc);
+        if (posX > this.canvas.getWidth() - rectWidth) {
+            System.out.println("TRUEE !!! HERE");
+            posX = this.canvas.getWidth() - rectWidth;
+        }
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        draw(gc);
     }
-    
-    //======GETTERS AND SETTERS=========
+
+    //=======GETTERS AND SETTERS=========
     public Canvas getCanvas() {
         return this.canvas;
     }
@@ -280,9 +334,9 @@ public class SimulationProjectileMotion {
     public Pane getOnTop() {
         return this.onTop;
     }
-    
+
     public void setOnTop(Pane pane) {
-        this.onTop=pane;
+        this.onTop = pane;
     }
 
     public double getInitialPosX() {
@@ -372,20 +426,20 @@ public class SimulationProjectileMotion {
     public void setRectWidth(double rectWidth) {
         this.rectWidth = rectWidth;
     }
-    
+
     private void setCanvas(Canvas canvas) {
         this.canvas = canvas;
     }
-    
+
     public void setSpeed(double speed) {
         this.initialSpeed = speed;
     }
-    
+
     public double getSpeed() {
         return this.initialSpeed;
     }
-    
-    public void setColor(Color newColor){
+
+    public void setColor(Color newColor) {
         this.color = newColor;
     }
     //=============================================

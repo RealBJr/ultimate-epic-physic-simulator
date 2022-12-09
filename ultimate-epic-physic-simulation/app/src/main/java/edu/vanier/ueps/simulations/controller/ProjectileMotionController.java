@@ -44,18 +44,18 @@ public class ProjectileMotionController implements Initializable {
 
     @FXML
     ColorPicker colorPicker;
-    
+
     Color newColor;
 
     double gravity, speed, angle, radianAngle, velocityY;
 
+    /**
+     * Initialize the scene
+     * @param location
+     * @param resources 
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
-        colorPicker.setOnAction((e) -> {
-             newColor = colorPicker.getValue();
-            
-        });
         angleSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
             @Override
@@ -67,7 +67,6 @@ public class ProjectileMotionController implements Initializable {
 
             }
         });
-
         velocitySlider.valueProperty().addListener(new ChangeListener<Number>() {
 
             @Override
@@ -77,23 +76,22 @@ public class ProjectileMotionController implements Initializable {
 
             }
         });
-
         gravitationalSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldNumber, Number newNumber) {
                 //rendering the gravity to the limit of the animation
-                gravity = velocitySlider.getValue() / (10 * 10);
+                gravity = gravitationalSlider.getValue() / (10 * 10);
 
             }
         });
 
-        //paneSettings.
+        //Getting the values after they are changed
         speed = velocitySlider.getValue();
         angle = angleSlider.getValue();
-
         radianAngle = Math.toRadians(angle);
-
+       
+        //paneSettings.
         canvas = new Canvas(paneAnimationArea.getPrefWidth(), paneAnimationArea.getPrefHeight());
         paneContainer.getChildren().add(canvas);
 
@@ -101,27 +99,32 @@ public class ProjectileMotionController implements Initializable {
         //think of canvas as a paper that i want as a background
         //if my paper is in front of my glass, it wont be seen, instead, when paper is in the back, it works just fine
         paneContainer.getChildren().get(0).toFront();
-        System.out.println("Height of canvas = " + canvas.getHeight() + ",width = " + canvas.getWidth());
+        //System.out.println("Height of canvas = " + canvas.getHeight() + ",width = " + canvas.getWidth());
         SimulationProjectileMotion pm = new SimulationProjectileMotion(4, Math.PI / 4, canvas);
 
         pm.setOnTop(paneAnimationArea);
 
-        //here we display the canvas before the animation
+        //here we display the canvas before the animation, and geet all the initial values
         pm.displayCanvas();
         angle = angleSlider.getValue();
         speed = velocitySlider.getValue();
-
+        
+        //Buttons, and sliders action upon interaction
+        colorPicker.setOnAction((e) -> {
+            newColor = colorPicker.getValue();
+        });
+        
         playBtn.setOnMousePressed((e) -> {
-
             pm.startAnimation();
             disableButtons(true, false, false, false);
+            disableSliders(true);
         });
 
         restartBtn.setOnMousePressed((e) -> {
             pm.resetAnimation();
             pm.startAnimation();
-
             disableButtons(true, false, false, false);
+            disableSliders(false);
         });
 
         graphBtn.setOnMousePressed((e) -> {
@@ -129,69 +132,54 @@ public class ProjectileMotionController implements Initializable {
             gravity = pm.getGravitationalConstant();
             velocityY = pm.velocityY(speed);
             radianAngle = pm.getDirection();
-
             GraphControllerProjectileMotion graph = new GraphControllerProjectileMotion(gravity * 10 * 10, velocityY, radianAngle);
-
         });
 
         pauseBtn.setOnMousePressed((e) -> {
             pm.pauseAnimation();
-
             disableButtons(false, false, false, true);
-
+            disableSliders(true);
         });
 
         saveBtn.setOnMousePressed((e) -> {
-            pm.setGravitationalConstant(gravity);
+            pm.setGravitationalConstant(gravitationalSlider.getValue() / (10 * 10));
             pm.setDirection(radianAngle);
             pm.setSpeed(speed);
             pm.setColor(newColor);
-
-            System.out.println(pm.getGravitationalConstant());
-            System.out.println(pm.getDirection());
-            System.out.println(pm.getSpeed());
-
+            
+            //troubleshooting
+//            System.out.println(pm.getGravitationalConstant());
+//            System.out.println(pm.getDirection());
+//            System.out.println(pm.getSpeed());
             disableButtons(false, true, false, true);
 
             pm.resetAnimation();
-
-        });
-
-        saveBtn.setOnMousePressed((e) -> {
-            pm.setGravitationalConstant(gravity);
-            pm.setDirection(radianAngle);
-            pm.setSpeed(speed);
-
-            System.out.println(pm.getGravitationalConstant());
-            System.out.println(pm.getDirection());
-            System.out.println(pm.getSpeed());
-
-            disableButtons(false, true, false, true);
-
-            pm.resetAnimation();
-
-        });
-
-        saveBtn.setOnMousePressed((e) -> {
-            pm.setGravitationalConstant(gravity);
-            pm.setDirection(radianAngle);
-            pm.setSpeed(speed);
-
-            System.out.println(pm.getGravitationalConstant());
-            System.out.println(pm.getDirection());
-            System.out.println(pm.getSpeed());
-
-            disableButtons(false, true, false, true);
-
-            pm.resetAnimation();
-
+            
+            disableSliders(false);
         });
     }
 
+    /**
+     * Disable or enable buttons depending on what is happening
+     * @param playBtn
+     * @param restartButton
+     * @param saveButton
+     * @param pauseBtn 
+     */
     private void disableButtons(boolean playBtn, boolean restartButton, boolean saveButton, boolean pauseBtn) {
         this.playBtn.setDisable(playBtn);
         this.restartBtn.setDisable(restartButton);
         this.saveBtn.setDisable(saveButton);
         this.pauseBtn.setDisable(pauseBtn);
+    }
+
+    /**
+     * Disabling sliders?
+     * @param boolean disable = true, enable = false
+     */
+    public void disableSliders(boolean disable) {
+        this.angleSlider.setDisable(disable);
+        this.gravitationalSlider.setDisable(disable);
+        this.velocitySlider.setDisable(disable);
     }
 }

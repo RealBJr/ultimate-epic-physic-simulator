@@ -109,15 +109,14 @@ public class SimulationSHMController implements Initializable {
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-       
         centralLine.setLayoutX(rect.getLayoutX()  + rect.getWidth()/2);
-        
         /**
          * Setting up the graphics context for the canvas and drawing the initial spring
          */
         canvas.setHeight(animationContainer.getPrefHeight());
         canvas.setWidth(animationContainer.getPrefWidth());
         gc = canvas.getGraphicsContext2D();
+        
         drawMovingSpring(0);
        
         playbtn.setDisable(false);
@@ -126,7 +125,6 @@ public class SimulationSHMController implements Initializable {
         /**
          * Allow user to click on the rectangle and place it where ever he wants on the x axis by dragging it
          */
-        
         clickAndDrag();
         
         shm = new SimulationSHM(rect,amplitude, mass, damping, springStiffness);
@@ -166,10 +164,12 @@ public class SimulationSHMController implements Initializable {
                 amplitude = (rect.getLayoutX() - centralLine.getLayoutX())/50;
             }
         });
-       
     }
     
-    
+    /**
+     * Animation of spring and mass
+     * @param animation 
+     */
     public void animate(Animation animation){
         playbtn.setOnAction((e) -> {
            //rect.setVisible(true);
@@ -191,11 +191,13 @@ public class SimulationSHMController implements Initializable {
         pausebtn.setOnAction((e) -> {
             animation.pause();
             //enabling(false,true,false);
+            disableSliders(true);
         });
 
         
         graphbtn.setOnAction((e) -> {
             GraphController graph = new GraphController(AmplitudeSlider.getValue(),SpringStiffnessSlider.getValue(),MassSlider.getValue(), getTime().toSeconds());
+            
         });
         
         resetbtn.setOnAction((e)->{
@@ -217,9 +219,14 @@ public class SimulationSHMController implements Initializable {
             SimulationSHM shm = new SimulationSHM(rect, 5, 6, 0, 6);
             animate(shm.getShm());
             clickAndDrag();
+            disableSliders(false);
         });
     }
     
+    /**
+     * Disable or enable sliders
+     * @param disable 
+     */
     public void disableSliders(boolean disable){
         dampingSlider.setDisable(disable);
         AmplitudeSlider.setDisable(disable);
@@ -227,6 +234,10 @@ public class SimulationSHMController implements Initializable {
         MassSlider.setDisable(disable);
     }
     
+    /**
+     * Animation for spring
+     * @param transitionX 
+     */
     public void drawMovingSpring(double transitionX){
         
         double x = rect.getLayoutX() + transitionX;
@@ -262,8 +273,10 @@ public class SimulationSHMController implements Initializable {
         }
     }
     
+    /**
+     * Enabling click and Drag
+     */
     private void clickAndDrag() {
-            
             rect.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, eventMouseEnteredTarget);
             
             //When its closed and pressed make it drags
@@ -276,6 +289,9 @@ public class SimulationSHMController implements Initializable {
             rect.addEventHandler(MouseEvent.MOUSE_RELEASED, eventMouseReleased);       
     }
     
+    /**
+     * Disabling click and drag
+     */
     private void disableClickAndDrag() {
         rect.cursorProperty().set(Cursor.DEFAULT);
         rect.removeEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, eventMouseEnteredTarget);
@@ -284,12 +300,17 @@ public class SimulationSHMController implements Initializable {
         rect.removeEventHandler(MouseEvent.MOUSE_RELEASED, eventMouseReleased);   
     }
 
+    /**
+     * 
+     * @return time: time passed since beginning of animation, to graph
+     */
     public Duration getTime() {
         SimulationSHM simulation = new SimulationSHM(rect, amplitude, mass, damping, springStiffness);
         Duration Time = simulation.getShm().getCurrentTime();
         return Time;
     }
     
+    //Getters and setters
     public Canvas getCanvas() {
         return canvas;
     }
@@ -305,7 +326,6 @@ public class SimulationSHMController implements Initializable {
     public void setPlaybtn(Button playbtn) {
         this.playbtn = playbtn;
     }
-
 
     public Button getPausebtn() {
         return pausebtn;
